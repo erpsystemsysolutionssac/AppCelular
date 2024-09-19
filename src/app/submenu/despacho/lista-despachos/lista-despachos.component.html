@@ -1,0 +1,132 @@
+<!-- <ion-grid> -->
+<ion-row class="ion-justify-content-center">
+    <ion-col class="title text-center">MIS ORDENES DE DESPACHOS</ion-col>
+</ion-row>
+<ion-row class="ion-justify-content-center row-busqueda">
+    <ion-col>
+        <ion-datetime-button datetime="date" class="mx-auto" size="small" ></ion-datetime-button>
+    </ion-col>
+    <ion-col>
+        <ion-button fill="solid" class="mx-auto btn-ver-despachos" size="small" (click)="listaDespachos()">
+            <ion-icon slot="start" name="search"></ion-icon>
+            Ver Despachos
+        </ion-button>
+    </ion-col>
+</ion-row>
+<!-- </ion-grid> -->
+
+<ion-row class="ion-justify-content-center row-busqueda">
+    <ion-col size="2" class="py-0">
+        <ion-toggle [enableOnOffLabels]="true" (ionChange)="ocultarAtendidos($event)"></ion-toggle>
+    </ion-col>
+    <ion-col size="10" class="py-0" style="display: flex; align-items: center;">
+        Ocultar Atendidos
+    </ion-col>
+</ion-row>
+
+<ion-modal [keepContentsMounted]="true">
+    <ng-template>
+        <ion-datetime id="date" presentation="date" [(ngModel)]="fecha" (ionChange)="setDate()"></ion-datetime>
+    </ng-template>
+</ion-modal>
+
+<ion-content>
+    <ion-card *ngFor="let despacho of arrDespachos">
+        <ion-card-header class="pt-0">
+            <ion-card-title class="mt-1 text-center title">-- DESPACHO {{despacho.despacho_numero}} --</ion-card-title>
+        </ion-card-header>
+        
+        <ion-card-content class="py-0">
+            <ion-row class="ion-justify-content-center">
+                <ion-col size="5" class="py-0 text-center">
+                    <ion-button fill="solid" expand="block" color="danger" class="mx-auto btn-footer" (click)="finalizarDespacho(despacho)">
+                        <ion-icon slot="start" name="search"></ion-icon>
+                        Finalizar Despacho
+                    </ion-button>
+                </ion-col>
+                <ion-col size="2" class="py-0 text-center">
+                </ion-col>
+                <ion-col size="5" class=" py-0 text-center">
+                    <ion-button fill="solid" expand="block" color="warning" class="mx-auto btn-footer">
+                        <ion-icon slot="start" name="globe-outline"></ion-icon>
+                        Ruta sugerida
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+        
+        <ion-card-content class="pt-0">
+            <ion-card *ngFor="let documento of despacho.documentos_despacho; let i = index" color="light" class="mx-0">
+                <ion-card-header class="pt-0 px-1 pb-1 title-card">
+                    <ion-row class="ion-justify-content-between">
+                        <ion-col class="text-left txt-fecha-card">{{documento.documento_fecha_doc | date: 'dd/MM/yyyy'}}</ion-col>
+                        <ion-col class="text-end txt-monto-card">{{documento.documento_moneda}} {{documento.documento_importe | number: '1.2'}}</ion-col>
+                    </ion-row>
+                </ion-card-header>
+
+                <ion-card-content class="px-1 pb-0">
+                    <ion-row class="ion-justify-content-start">
+                        <ion-col size="4" class="content-despacho text-left">{{documento.documento_nombre}}</ion-col>
+                        <ion-col size="8" class="content-despacho">: {{documento.documento_numero}}</ion-col>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-start">
+                        <ion-col size="4" class="content-despacho text-left">Nro. Doc.</ion-col>
+                        <ion-col size="8" class="content-despacho">: {{documento.documento_cod_cliente}}</ion-col>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-start">
+                        <ion-col size="4" class="content-despacho text-left">Vendedor</ion-col>
+                        <ion-col size="8" class="content-despacho">: {{documento.documento_codigo_vendedor}}</ion-col>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-start">
+                        <ion-col size="12" class="content-despacho">{{documento.documento_nom_cliente}}</ion-col>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-start">
+                        <ion-col size="12" class="py-0">{{documento.documento_punto_llegada}}</ion-col>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-start">
+                        <ion-col size="4" class="content-despacho text-left">Estado</ion-col>
+                        <ion-col size="8" class="content-despacho">: ACTIVO</ion-col>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-start">
+                        <ion-col size="4" class="content-despacho text-left">Despacho</ion-col>
+                        <ion-col size="8" class="content-despacho"
+                        [ngClass]="{
+                            'red': documento.documento_despacho == 'PENDIENTE',
+                            'blue': documento.documento_despacho == 'PROCESO',
+                            'gren': documento.documento_despacho == 'ATENDIDO'
+                        }"
+                        >: {{documento.documento_despacho}}</ion-col>
+                    </ion-row>
+
+                </ion-card-content>
+                    
+                <ion-card-content class="pt-1 px-1 pb-0">
+                    <ion-row class="ion-justify-content-center">
+                        <ion-col size="4" class="text-center">
+                            <ion-button fill="solid" expand="block" class="mx-auto btn-footer btn-ver-pedido" (click)="eventoAbrirModal(documento)">
+                                <ion-icon slot="start" name="search"></ion-icon>
+                                Ver Pedido
+                            </ion-button>
+                        </ion-col>
+                        <ion-col size="4" class="text-center">
+                            <ion-button fill="solid" expand="block" color="success" class="mx-auto btn-footer btn-numero">
+                                <ion-icon slot="start" name="call-outline"></ion-icon>
+                                946245518
+                            </ion-button>
+                        </ion-col>
+                        <ion-col size="4" class="text-center">
+                            <ion-button fill="solid" expand="block" color="warning" class="mx-auto btn-footer btn-ruta">
+                                <ion-icon slot="start" name="map-outline"></ion-icon>
+                                Ruta
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-card-content>
+
+    </ion-card>
+</ion-content>
+
+<!-- <app-modal-pedido [isModalOpen]="_isOpen" ></app-modal-pedido> -->
+<!-- <app-modal-pedido ></app-modal-pedido> -->

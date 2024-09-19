@@ -1,0 +1,354 @@
+
+
+<ion-content scroll-y="false" class="mt-0 ">
+  
+  <ion-refresher slot="fixed"   [disabled]="refreshDisabled" 
+  (ionRefresh)="refresherArticulos($event)">
+    <ion-refresher-content   
+    ></ion-refresher-content>
+  </ion-refresher>
+  
+  <form [formGroup]="buscarForm" (ngSubmit)="buscarArticulos(buscarForm)" class="sticky-top">
+
+  <ion-grid fixed class="p-0">
+    <ion-row class="">
+      <ion-col size="" class="p-0 px-1 col-bg d-flex align-items-center">
+        <ion-item class="input-col w-100">
+          <!-- <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar" (keyup)="buscarArticulosKey($event)"></ion-input> -->
+          <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar"></ion-input>  <!-- CAMBIO PARA LUBRICANTES -->
+          <ion-button type="button" expand="block" (click)="buscarArticulos(buscarForm)" class="btn-buscar p-0" >
+            <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+      <ion-col size="auto" class="p-0 px-1 col-bg">  
+        <ion-button (click)="cambiarFiltro()"  shape="round" class="btn-filtrar textos">
+          <ion-icon name="options-outline"></ion-icon>
+          Filtros
+        </ion-button>
+        <ion-select #filtroSelect class="d-none"  formControlName="filtro" >
+          <ion-select-option value="Articulos">Productos</ion-select-option>
+          <ion-select-option value="Familias">Familias</ion-select-option>
+          <ion-select-option value="SubFamilias">SubFamilia</ion-select-option>
+          <ion-select-option value="Concepto1">Concepto 1</ion-select-option>
+          <ion-select-option value="Concepto2">Concepto 2</ion-select-option>
+          <ion-select-option value="Concepto3">Concepto 3</ion-select-option>
+          <ion-select-option value="Concepto4">Concepto 4</ion-select-option>
+          <ion-select-option value="Concepto5">Concepto 5</ion-select-option>
+          <ion-select-option value="Concepto6">Concepto 6</ion-select-option>
+          <ion-select-option value="Concepto7">Concepto 7</ion-select-option>
+        </ion-select>
+
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="3" class="p-0 px-1 col-bg d-flex ">
+        <ion-button (click)="mostrarModalDocumentosPendientes()"   shape="round" class="btn-filtrar textos w-100">
+          <ion-icon name="clipboard"></ion-icon>
+          Pedido
+        </ion-button>
+      </ion-col>
+      <ion-col size="9" class="p-0 px-1 col-bg d-flex ">  
+        <ion-button (click)="cambiarListaPrecio()"   shape="round" class="btn-filtrar textos w-100">
+          <ion-icon name="options-outline"></ion-icon>
+          Lista de Precios
+        </ion-button>
+        <ion-select #listapreciosSelect class="d-none"  formControlName="listaprecios" (ionChange)="actualizarListaPrecio()">
+          <ion-select-option value="lista_precios_lima">Lima</ion-select-option>
+          <ion-select-option value="lista_precios_provincia">Provincia</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  </form>
+  <!-- *ngIf="arrArticulos.length>0"  -->
+  <cdk-virtual-scroll-viewport #elscroll itemSize="10"  class="ion-content-scroll-host" (scroll)="onWindowScroll($event)"> 
+  
+    <ion-list class="mb-3">
+      <ion-card *ngFor="let articulo of arrArticulos; let j = index; " class="mb-4 ps-2 pe-4 pt-2 carta ">
+        <div class="row" style="margin-bottom: -6px;">
+          <div class="col">
+            <p class="mb-0 px-0 fw-bolder text-dark titulos">{{articulo.nombre}}</p>
+          </div>
+        </div>
+        <div class="row mb-auto ">
+          <div class="col">
+            <p class="mb-1 px-0" style="font-size: 11px; color: gray;">{{articulo.codigo}}</p>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-6">
+            <ion-img [src]="articulo.imagen_1 | imagen:'articulos'" class="img-thumbnail rounded " (click)="abrirImagenesModal(articulo)" ></ion-img>
+            <div class="row mt-0 titulos d-flex align-items-center">
+              <div class="col-auto color-azul pe-0">Stock:</div>
+              <div class="col-auto color-azul pe-1">
+                <!-- {{articulo.Stock | number: '1.0-2'}} -->
+                <select class="form-select  moneda border-0 color-azul " [value]="articulo.cunidad" >
+                  <option  
+                  *ngFor="let lista of articulo.listaPrecios  " [value]="articulo.cunidad">
+                    <!-- {{lista.value[0].factor}} -->
+                    {{articulo.Stock/lista.factor| number: '1.0-2'}} {{lista.unidad}}
+                  </option>
+                </select>
+              </div>
+              <!-- <p class="mt-0 color-azul "> </p> -->
+            </div>
+          </div>
+          <div class="col-6 d-flex flex-column">
+            <div class="row align-self-end d-flex">
+              <div class="col-auto align-self-end d-flex">
+                <div class="row align-self-end d-flex align-items-center">
+                  <div class="col-auto">
+                    <ion-label class="py-0 my-0  ms-auto">Cantidad</ion-label>
+                  </div>
+                  <div class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center" style="width: 90px; ">
+                    <ion-button type="button" (click)="restarCantidad(articulo.codigo)" size="small"  class="custom-button iconos-pequeño" >
+                      <ion-icon  name="remove-outline"></ion-icon>                
+                    </ion-button>
+                    <ion-input #listaCantidad  type="number" inputmode="numeric" [value]="articulo.cantidad" class=" custom-input text-dark textos-pequeño" [id]="articulo.codigo" (ionChange)="valorInput($event,articulo.codigo)" style="width: 30px; "></ion-input>
+                    <ion-button type="button" (click)="sumarCantidad(articulo.codigo)" size="small"   class="custom-button iconos-pequeño">
+                      <ion-icon  name="add-outline"></ion-icon>                
+                    </ion-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row d-flex  mt-2 align-self-end" >
+              <div class="col-auto align-self-end d-flex">
+                <div class="row align-self-end d-flex align-items-center">
+                  <div class="col-auto">
+                    <div *ngIf="articulo.descuento_monto_porcentaje == 'P'">
+                      <ion-label class="py-0 my-0 color_descuento">Dscto %</ion-label>
+                    </div>
+                    <div *ngIf="articulo.descuento_monto_porcentaje == 'M'">
+                      <ion-label class="py-0 my-0 color_descuento">Dscto</ion-label>
+                    </div>
+                  </div>
+                  <div class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center " style="width: 90px; text-align-last:right">
+                    <ion-input #listaDescuento  [value]="articulo.descuento" class="color_descuento custom-input textos-pequeño text-right" [id]="articulo.codigo" (ionChange)="valorDescuento($event,articulo.codigo)" ></ion-input>
+                  </div>
+                </div>
+              </div>
+            </div>
+           
+            <div class="row mt-2">
+              <div class="col-auto ms-auto p-0 d-flex flex-column">
+                <select class="form-select  moneda border-0 color-azul" [value]="articulo.moneda" >
+                  <option value="S/">S/</option>
+                  <option value="$">$</option>
+                </select>
+              </div>
+              <div class="col-auto pe-0 table-responsive">
+                <table class="table table-bordered table-fs mb-0 " >
+                  <tbody>
+                    <tr>
+                      <td class="align-middle p-custom text-center " style="font-size: 12px;" *ngFor="let lista of articulo.listaPrecios ">
+                        {{lista.unidad}}
+                      </td>
+                    </tr>     
+                    <tr>
+                      <td class="align-middle text-center p-0 " style="font-size: 12px;" *ngFor="let lista of articulo.listaPrecios" >
+                        ({{lista.factor |number:'1.1-2'}})
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="p-custom align-middle text-center " *ngFor="let lista of articulo.listaPrecios ; let i = index;"> 
+                        <ion-button type="button" color="" (click)="agregarCarrito(articulo,i)" class="btnPrecio ">
+                          {{lista.monto |number:'1.2-2'}}
+                        </ion-button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col pe-0" >
+                <ion-item class="ion-no-padding m-0 p-0" style="--min-height: 25px;">
+                  <ion-label  class="text-black my-0 py-0" style="font-size: 13px; padding-left: 5px;">Bonificación</ion-label>
+                  <ion-checkbox justify="end" class="checkbox-sm my-0 py-0" (ionChange)="valorPromocion($event, j)"></ion-checkbox>
+                </ion-item>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col pe-0" >
+                <!-- <button id="open-modal{{articulo.codigo}}" type="button" class="btn btn-link p-0 ms-auto text-end mb-0 color-azul btn-ver-lista  d-flex align-items-center">
+                  Listas de Descuentos 
+                  <ion-icon name="menu"></ion-icon>
+                </button> -->
+                <button type="button" class="btn btn-link p-0 ms-auto text-end mb-0 color-azul btn-ver-lista  d-flex align-items-center" (click)="mostrarModalPromociones(articulo)">
+                  Promociones 
+                  <ion-icon name="menu"></ion-icon>
+                </button>
+              </div>
+            </div>
+
+            <ion-modal trigger="open-modal{{articulo.codigo}}" #modal>
+                <ng-template>
+                  <ion-header>
+                    <ion-toolbar>
+                      <ion-buttons slot="start">
+                        <ion-button (click)="modal.dismiss()" color="danger" >
+                          <ion-icon name="close-circle-outline"></ion-icon>
+                        </ion-button>
+                      </ion-buttons>
+                      <ion-buttons slot="end">
+                      </ion-buttons>
+                      <ion-title>Promociones</ion-title>
+                    </ion-toolbar>
+                  </ion-header>
+                  <ion-content class="ion-padding">
+                    <div class="col-auto ">
+                      <div class="row text-center modal_descuentos_titulos">
+                        <div class="col-4 border">Producto</div>
+                        <div class="col-2 border">Unid</div>
+                        <div class="col-2 border">Min</div>
+                        <div class="col-2 border">Max</div>
+                        <div class="col-2 border">Dsc%</div>
+                      </div>
+                      <div class="row modal_descuentos_body"  *ngFor="let lista of articulo.listaDescuentos">
+                        <div class="col-4 border">{{articulo.nombre}}</div>
+                        <div class="col-2 border text-center">{{lista.unidad}}</div>
+                        <div class="col-2 border text-end">{{lista.minimo | number:'1.2-2'}}</div>
+                        <div class="col-2 border text-end">{{lista.maximo | number:'1.2-2'}}</div>
+                        <div class="col-2 border text-end">{{lista.descuento | number:'1.2-2'}}</div>
+                      </div>
+                    </div>
+                  </ion-content>
+
+                  <ion-footer>
+                    <ion-toolbar >
+                    </ion-toolbar>
+                  </ion-footer>
+
+                </ng-template>
+
+
+            </ion-modal>
+
+          </div>
+        </div>
+      </ion-card>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="estadoRecargar"  (ionInfinite)="recargarArticulos($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <div class="mt-4 pt-4"></div>
+    <div class="mt-4 pt-4"></div>
+  </cdk-virtual-scroll-viewport>
+
+
+  <ion-modal [isOpen]="imagenesOpen"  (ionModalDidDismiss)="modalImgSeCerro()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cerrarImagenesModal()" color="danger" >
+              <ion-icon name="close-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            
+            <ion-button class="accion-icon" (click)="borrarImagen()" >
+              <ion-icon  color="danger" name="trash-outline" class="modal-icon"></ion-icon>
+            </ion-button>
+            <ion-button class="accion-icon" (click)="cambiarGaleria()">
+              <ion-icon  color="warning" name="create-outline" class="modal-icon"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>Imagenes</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+
+        <div class="h-100 d-flex align-items-center" >
+          <swiper [config]="config" (swiper)="onSwiper($event)"
+          (slideChange)="onSlideChange($event)">
+            <ng-template swiperSlide *ngFor="let img of sliederArr" class="w-100 d-flex justify-content-center" >
+              <div class="swiper-zoom-container">
+                <img [src]="img.src | imagen:'articulos'" class="w-auto"/>
+              </div>
+            </ng-template>
+          </swiper>
+
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar >
+            <ion-grid class="border-top border-dark ">
+              <ion-row>
+                <ion-col size="6" class="mx-auto">
+                  <ion-button expand="block" shape="round" class=""  (click)="guardarImagen()">
+                    Guardar
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          
+        </ion-toolbar>
+      </ion-footer>
+
+    </ng-template>
+
+
+  </ion-modal>
+
+
+  <ion-modal #cropperModal trigger="open-modal">
+    <ng-template>
+    
+      <ion-content class="ion-padding " color="dark">
+
+        <div class="h-100 d-flex justify-content-center align-items-center bg-dark">
+          <div class="spinner-border bg-transparent" role="status"[hidden]="!cropperLoading">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <image-cropper [hidden]="cropperLoading" #cropper
+            [maintainAspectRatio]="true"
+            [aspectRatio]="1/1"
+            format="jpeg"
+            [imageQuality]=90
+            [onlyScaleDown]=true
+            [hideResizeSquares]="true"
+            [imageURL] = 'imgCropear'
+            (imageLoaded) ='imageLoaded()'
+            (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+          <!-- <img [src]="imgCropear" alt="" class="img-cropper"> -->
+        </div>
+      </ion-content>
+
+      <ion-footer class="border-top border-dark" >
+        <ion-toolbar color="dark" >
+          <ion-buttons slot="start">
+            <ion-button fill="outline" color="danger" (click)="cancel()" style="text-transform: none;">
+              <ion-icon slot="start" name="close-sharp"></ion-icon>
+              Cancelar
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button fill="outline" color="success" (click)="generarCropper()" style="text-transform: none;">
+              <ion-icon slot="start" name="checkmark-sharp"></ion-icon>
+              Listo
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+
+    </ng-template>
+  </ion-modal>
+
+
+</ion-content>
+
+
+
+
+

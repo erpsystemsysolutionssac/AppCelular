@@ -1,0 +1,110 @@
+
+
+
+
+<ion-card class="my-auto py-1" >
+  <ion-card-header>
+     
+    <div class="row">
+      <div class="col-4 mx-auto">
+        <img src="../../assets/icon_empresa.png" class="img-fluid rounded">
+      </div>
+    </div>
+    <ion-card-title class="ion-text-center title mt-4"  >Login</ion-card-title>
+  </ion-card-header>
+  
+    <ion-card-content *ngIf="!rucInicioValido">
+      <ion-item>
+        <ion-label position="floating">RUC</ion-label>
+        <ion-input placeholder="Ingrese su Ruc" type="number" max="13" #rucInicio value=""></ion-input>
+
+      </ion-item>
+      <ion-button expand="block"  shape="round" class="my-3" (click)="verificarRuc()"  >
+          Iniciar Sesion
+      </ion-button>
+
+    </ion-card-content>
+    <ion-card-content *ngIf="rucInicioValido">
+
+
+        <form [formGroup]="loginForm" (ngSubmit)="logear(loginForm)">
+          <ion-list>
+            <ion-item>
+              <ion-select placeholder="Empresas" 
+              formControlName="codigo_empresa" 
+              cancelText="Cancelar"
+              okText="Aceptar"
+              interface="popover"
+              (ionChange)="empresaSelect($event)" 
+              >
+                <ion-select-option 
+                [value]="empresa.ccod_empresa" 
+                *ngFor="let empresa of listaEmpresa; let i =index;"
+               
+                 >
+                  {{empresa.cnum_ruc}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-select placeholder="Punto de Venta" formControlName="ptoVenta" cancelText="Cancelar" okText="Aceptar"  interface="popover">
+                <ion-select-option 
+                [value]="punto.ccod_almacen" 
+                *ngFor="let punto of listaPtoVenta; let i =index;"
+                 >
+                  {{punto.cnom_almacen}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-select placeholder="Unidad de Negocio" formControlName="undNegocio" cancelText="Cancelar" okText="Aceptar" interface="popover" >
+                <ion-select-option 
+                [value]="und.erp_codune" 
+                *ngFor="let und of listaUndNegocio; let i =index;"
+                 >
+                  {{und.erp_nomune}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              
+
+              <ion-select placeholder="Centros de Costos" formControlName="ctrCostos" cancelText="Cancelar" okText="Aceptar" interface="popover" >
+                <ion-select-option 
+                [value]="centro.ccod_cencos" 
+                *ngFor="let centro of listaCtroCostos; let i =index;"
+                 >
+                  {{centro.cnom_cencos}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        
+          <ion-item>
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input formControlName="usuario" placeholder="Ingrese su Usuario" type="text"></ion-input>
+            <ion-note *ngIf="usuario.invalid && (usuario.dirty || usuario.touched || submited) " color="danger">Ingrese un usuario</ion-note>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input  formControlName="password" placeholder="Ingrese su Contraseña" type="password"></ion-input>
+            <ion-note *ngIf="password.invalid &&  (password.dirty || password.touched || submited) " color="danger">Ingrese una contraseña</ion-note>
+          </ion-item>
+          
+          <ion-button type="submit" expand="block"  shape="round" class="my-3" >
+              Iniciar Sesion
+          </ion-button>
+          
+        </form>
+
+      </ion-card-content>
+
+</ion-card>
+
+
+
+
+
+
+

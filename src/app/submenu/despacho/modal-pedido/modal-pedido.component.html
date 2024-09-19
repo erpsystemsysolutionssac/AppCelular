@@ -1,0 +1,80 @@
+<!-- <ion-modal  [isOpen]="isModalOpen" [canDismiss]="canDismiss" id="example-modal" #modal trigger="open-custom-dialog"> -->
+    <!-- <ion-modal  id="example-modal" #modal trigger="open-custom-dialog"> -->
+    <!-- <ng-template> -->
+      <div class="wrapper">
+        <ion-row class="ion-justify-content-between px-2 py-2 border-bottom title-documento">
+            <ion-col>{{documento.documento_nombre | uppercase}} <span class="numero-documento" >{{documento.documento_numero}}</span></ion-col>
+            <ion-col class="text-end" (click)="close()"><ion-icon name="close-outline"></ion-icon></ion-col>
+        </ion-row>
+
+        <div class="pt-2 header-documento">
+            <ion-row class="ion-justify-content-start px-2">
+                <ion-col size="4" class="content-documento text-left">FECHA</ion-col>
+                <ion-col size="8" class="content-documento font-weight-bold">: {{documento.documento_fecha_doc | date: 'dd/MM/yyyy'}}</ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-start px-2">
+                <ion-col size="4" class="content-documento text-left">RUC/DNI/Otros</ion-col>
+                <ion-col size="8" class="content-documento">: {{documento.documento_cod_cliente}}</ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-start px-2">
+                <ion-col size="12" class="content-documento font-weight-bold">{{documento.documento_nom_cliente}}</ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-start px-2">
+                <ion-col size="12" class="py-0">{{documento.documento_punto_llegada}}</ion-col>
+            </ion-row>
+        </div>
+        <!-- [disabled]="true" -->
+        <ion-card *ngFor="let dato of arrDetalleDocumentos; let i = index" color="light" class="" [disabled]="(dato.detalle_cantidad_atendida == dato.detalle_cantidad_articulo? true : false)" >
+            <ion-card-content class="px-1 py-1 content-detalle_documento" (click)="seleccionarCard(arrDetalleDocumentos ,i)" >
+                <ion-row class="ion-justify-content-between">
+                    <ion-col class="text-left font-weight-bold" style="height: 25px;">Articulo</ion-col>
+                    <ion-col class="text-end" style="height: 25px;"><ion-checkbox [(ngModel)]="dato.detalle_selected"></ion-checkbox></ion-col>
+                </ion-row>
+                <ion-row class="ion-justify-content-start">
+                    <ion-col size="12" class="text-left py-0">{{dato.detalle_nombre_articulo}}</ion-col>
+                </ion-row>
+                <ion-row class="ion-justify-content-start">
+                    <ion-col size="2" class="text-left font-weight-bold pe-1">Cantidad:</ion-col>
+                    <ion-col size="2" class="">{{dato.detalle_cantidad_articulo}}</ion-col>
+                    <ion-col size="2" class="font-weight-bold">Precio:</ion-col>
+                    <ion-col size="2" class="">{{dato.detalle_importe | number: '1.2'}}</ion-col>
+                    <ion-col size="2" class="font-weight-bold">S. Total:</ion-col>
+                    <ion-col size="2" class="">{{dato.detalle_importe | number: '1.2'}}</ion-col>
+                </ion-row>
+
+            </ion-card-content>
+                
+        </ion-card>
+
+        <div class="header-documento">
+            <ion-row class="ion-justify-content-start px-2">
+                <ion-col size="10" class="content-documento text-end font-weight-bold">Total a cobrar {{documento.documento_moneda}}:</ion-col>
+                <ion-col size="2" class="content-documento text-end">{{documento.documento_importe | number: '1.2'}}</ion-col>
+            </ion-row>
+        </div>
+
+        <ion-row class="px-2 pt-0 border-top ion-justify-content-between">
+            <ion-col *ngIf="documento.documento_despacho != 'ATENDIDO'">
+                <ion-button fill="solid" color="primary" class="mx-auto btn-footer" (click)="entregarPedido()">
+                    <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+                    Entregar
+                </ion-button>
+            </ion-col>
+            <ion-col *ngIf="documento.documento_despacho == 'ATENDIDO'">
+                <ion-button fill="solid" color="success" class="mx-auto btn-footer">
+                    <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+                    DESPACHADO
+                </ion-button>
+            </ion-col>
+            <!-- <ion-col></ion-col> -->
+            <ion-col class="text-end">
+                <ion-button fill="solid" color="danger" class="mx-auto btn-footer" (click)="close()">
+                    <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+                    Cerrar
+                </ion-button>
+            </ion-col>
+        </ion-row>
+
+      </div>
+    <!-- </ng-template> -->
+  <!-- </ion-modal> -->

@@ -1,0 +1,7 @@
+{
+    "/api/*":{
+        "target":"http://erp-solutionsperu.com",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

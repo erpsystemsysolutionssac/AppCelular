@@ -1,0 +1,75 @@
+
+<!-- <ion-menu side="start" menuId="tomadorPedidos" contentId="tomadorPedidos">
+    <ion-header>
+      <ion-toolbar class="border-bottom border-color">
+        <ion-title class="erp-color titulos-medianos ">Tomador de Pedidos</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle >
+          <ion-item  routerLink="/tomadorPedidos/vendedor" class="textos"  >
+            <ion-label>Vendedor</ion-label>
+            <ion-icon slot="start" name="cash" class="erp-color" ></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item  routerLink="/tomadorPedidos/pedidos" class="textos " >
+            Pedidos
+            <ion-icon slot="start" name="receipt"  class="erp-color"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item   class="textos" >
+            Ruta
+            <ion-icon slot="start" src="../../../assets/iconos/truck-solid.svg" class="erp-color"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+   -->
+  
+  
+  <ion-content >
+  </ion-content>
+  
+  <ion-tabs id="tomadorPedidos">
+    <ion-tab-bar slot="top" class="tab-bar-custom d-flex justify-content-between align-items-center" >
+      <ion-tab-button style="max-width: 30px;"  class="erp-sidebar " >
+        <ion-menu-toggle  menu="tomadorPedidos">
+          <ion-button class="button-erp "  class="icon-color-erp2">
+            <ion-icon slot="" name="menu" class="icon-custom "></ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="despachos" class="menu text-custom col-auto" >
+        <ion-label class="textos" >Despachos</ion-label>
+        <!-- <ion-icon name="clipboard" ></ion-icon> -->
+      </ion-tab-button>
+  
+      <ion-tab-button tab="caja" class="menu text-custom col-auto" >
+        <ion-label class="textos" >Caja</ion-label>
+        <!-- <ion-icon name="gift-outline"></ion-icon> -->
+      </ion-tab-button>
+  
+      <ion-tab-button tab="clientes"  class="menu text-custom col-auto"  >
+        <ion-label class="textos" >Clientes</ion-label>
+        <!-- <ion-icon name="people"></ion-icon> -->
+      </ion-tab-button>
+
+      <ion-tab-button style="max-width: 30px;"  class="erp-sidebar " >
+      </ion-tab-button>
+      
+      <!-- <ion-tab-button tab="carrito" class="menu icon-color-erp pe-1" style="max-width: 45px;"  >
+       
+        <ion-badge class="fs-badge" color="tertiary"></ion-badge>
+        <ion-icon name="cart" class="icon-custom"></ion-icon>
+        
+      </ion-tab-button> -->
+    </ion-tab-bar>
+  </ion-tabs>
+  
+  
+  

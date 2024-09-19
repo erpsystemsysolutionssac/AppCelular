@@ -1,0 +1,57 @@
+.title{
+    font-size: 15px !important;
+    font-weight: bolder;
+}
+
+.title-card{
+    font-weight: 500;
+}
+
+.txt-fecha-card{
+    color: var(--ion-color-primary, #3880ff);
+}
+
+.txt-monto-card{
+    color: var(--ion-color-danger, #eb445a)!important;
+}
+
+.row-busqueda{
+    font-size: 13px;
+    height: 35px;
+}
+
+.btn-ver-despachos{
+    font-size: 11px!important;
+}
+
+ion-card-content {
+    line-height: initial;
+    font-size: 12px;
+}
+
+ion-col.content-despacho {
+    height: 18px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.content-despacho.red{
+    color: red;
+}
+
+.content-despacho.blue{
+    color: blue;
+}
+
+.content-despacho.gren{
+    color: green;
+}
+
+ion-col.content-despacho.text-left {
+    font-weight: bold;
+}
+
+.btn-footer{
+    font-size: 10px;
+    height: 28px;
+}

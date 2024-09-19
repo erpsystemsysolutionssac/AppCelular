@@ -1,0 +1,224 @@
+<ion-content scroll-y="false" class="mt-0 ">
+  
+  <ion-refresher slot="fixed"   [disabled]="refreshDisabled" (ionRefresh)="refresherArticulos($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <form [formGroup]="buscarForm" (ngSubmit)="buscarArticulos(buscarForm)" class="sticky-top">
+    <ion-grid fixed class="p-0">
+      <ion-row class="">
+        <ion-col size="" class="p-0 px-1 col-bg d-flex align-items-center">
+          <ion-item class="input-col w-100">
+            <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar"></ion-input>  <!-- CAMBIO PARA LUBRICANTES -->
+            <ion-button type="button" expand="block" (click)="buscarArticulos(buscarForm)" class="btn-buscar p-0" >
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+        <ion-col size="auto" class="p-0 px-1 col-bg">  
+          <ion-button (click)="cambiarFiltro()"  shape="round" class="btn-filtrar textos">
+            <ion-icon name="options-outline"></ion-icon>
+            Filtros
+          </ion-button>
+          <ion-select #filtroSelect class="d-none"  formControlName="filtro" >
+            <ion-select-option value="Articulos">Productos</ion-select-option>
+            <ion-select-option value="Familias">Familias</ion-select-option>
+            <ion-select-option value="SubFamilias">SubFamilia</ion-select-option>
+            <ion-select-option value="Concepto1">Concepto 1</ion-select-option>
+            <ion-select-option value="Concepto2">Concepto 2</ion-select-option>
+            <ion-select-option value="Concepto3">Concepto 3</ion-select-option>
+            <ion-select-option value="Concepto4">Concepto 4</ion-select-option>
+            <ion-select-option value="Concepto5">Concepto 5</ion-select-option>
+            <ion-select-option value="Concepto6">Concepto 6</ion-select-option>
+            <ion-select-option value="Concepto7">Concepto 7</ion-select-option>
+          </ion-select>
+  
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <cdk-virtual-scroll-viewport #elscroll  itemSize="10"  class="ion-content-scroll-host" (scroll)="onWindowScroll($event)"> 
+  
+    <ion-list class="mb-3">
+      <div *ngIf="(arrArticulos.length) === 0">
+        <ion-card *ngFor="let prueba of [1,1,1,1]; let j = index; " class="mb-3 carta " >
+          <ion-card-content class="p-2">
+            <div class="row mx-0">
+              <div class="col-6 ps-0">
+                <ion-skeleton-text [animated]="true" style="width: 100%; height: 145px;"></ion-skeleton-text>
+                <div class="row mt-0 titulos d-flex align-items-center">
+                  <div class="col-auto color-azul pe-0">
+                    <ion-skeleton-text [animated]="true" style="width: 50px; height: 18px;"></ion-skeleton-text>
+                  </div>
+                  <div class="col-auto color-azul pe-1">
+                    <ion-skeleton-text [animated]="true" style="width: 70px; height: 18px;"></ion-skeleton-text>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 ps-0 d-flex flex-column">
+                <div class="row mx-0" style="margin-bottom: -1px;">
+                  <div class="col px-0">
+                    <ion-skeleton-text [animated]="true" style="width: 100%; height: 18px;"></ion-skeleton-text>
+                  </div>
+                </div>
+                <div class="row mb-auto mx-0">
+                  <div class="col px-0">
+                    <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+                  </div>
+                </div>
+                <div class="row align-self-end d-flex">
+                  <div class="col-auto align-self-end d-flex">
+                    <div class="row align-self-end d-flex align-items-center">
+                      <div class="col-auto">
+                        <ion-skeleton-text [animated]="true" style="width: 80px;height: 16px;"></ion-skeleton-text>
+                      </div>
+                      <div class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center" style="width: 90px; ">
+                        <ion-skeleton-text [animated]="true" style="width: 100%; height: 17px;"></ion-skeleton-text>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="row mt-2">
+                  <div class="col-auto ms-auto p-0 d-flex flex-column">
+                    <ion-skeleton-text [animated]="true" style="width: 40px; height: 20px;"></ion-skeleton-text>
+                  </div>
+                  <div class="col-auto pe-0 table-responsive">
+                    <ion-skeleton-text [animated]="true" style="width: 80px; height: 35px;"></ion-skeleton-text>
+                  </div>
+                </div>
+                <div class="row mt-2"></div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <ion-card *ngFor="let articulo of arrArticulos; let j = index; " class="mb-3 carta ">
+        <!-- <ion-card-header class="pt-2 ps-2 pe-2 pb-0 border-bottom">
+          <div class="row mx-0" style="margin-bottom: -6px;">
+            <div class="col px-0">
+              <p class="mb-0 px-0 fw-bolder text-dark titulos">{{articulo.nombre}}</p>
+            </div>
+          </div>
+          <div class="row mb-auto mx-0">
+            <div class="col px-0">
+              <p class="mb-1 px-0" style="font-size: 11px; color: gray;">{{articulo.codigo}}</p>
+            </div>
+          </div>
+        </ion-card-header> -->
+
+        <ion-card-content class="p-2">
+          <div class="row mx-0">
+            <div class="col-6 ps-0">
+              <ion-img [src]="articulo.imagen_1 | imagen:'articulos'" class="img-thumbnail rounded " (click)="abrirImagenesModal(articulo)" ></ion-img>
+              <div class="row mt-0 titulos d-flex align-items-center">
+                <div class="col-auto color-azul pe-0">Stock:</div>
+                <div class="col-auto color-azul pe-1">
+
+                  <select class="form-select  moneda border-0 color-azul " [value]="articulo.cunidad" >
+                    <option  
+                    *ngFor="let lista of articulo.listaPrecios  " [value]="articulo.cunidad">
+                      {{articulo.Stock/lista.factor| number: '1.0-2'}} {{lista.unidad}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 ps-0 d-flex flex-column">
+
+              <div class="row mx-0" style="margin-bottom: -1px;">
+                <div class="col px-0">
+                  <p class="mb-0 px-0 fw-bolder text-dark titulos" style="line-height: 0.9;">{{articulo.nombre}}</p>
+                </div>
+              </div>
+              <div class="row mb-auto mx-0">
+                <div class="col px-0">
+                  <p class="mb-1 px-0" style="font-size: 11px; color: gray;">{{articulo.codigo}}</p>
+                </div>
+              </div>
+
+              <div class="row align-self-end d-flex">
+                <div class="col-auto align-self-end d-flex">
+                  <div class="row align-self-end d-flex align-items-center">
+                    <div class="col-auto">
+                      <ion-label class="py-0 my-0  ms-auto">Cantidad</ion-label>
+                    </div>
+                    <div class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center" style="width: 90px; ">
+                      <ion-button type="button" (click)="restarCantidad(articulo.codigo)" size="small"  class="custom-button iconos-pequeño" >
+                        <ion-icon  name="remove-outline"></ion-icon>                
+                      </ion-button>
+                      <ion-input #listaCantidad  type="number" inputmode="numeric" [value]="articulo.cantidad" class=" custom-input text-dark textos-pequeño" [id]="articulo.codigo" style="width: 30px; "></ion-input>
+                      <ion-button type="button" (click)="sumarCantidad(articulo.codigo)" size="small"   class="custom-button iconos-pequeño">
+                        <ion-icon  name="add-outline"></ion-icon>                
+                      </ion-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+              <div class="row mt-2">
+                <div class="col-auto ms-auto p-0 d-flex flex-column">
+                  <select class="form-select  moneda border-0 color-azul" [value]="articulo.moneda" >
+                    <option value="S/">S/</option>
+                    <option value="$">$</option>
+                  </select>
+                </div>
+                <div class="col-auto pe-0 table-responsive">
+                  <table class="table table-bordered table-fs mb-0">
+                    <thead>
+                      <tr>
+                        <th class="align-middle p-custom text-center " style="font-size: 12px;" *ngFor="let lista of articulo.listaPrecios; let i = index; ">
+                          <ion-button type="button" color=""  class="btnPrecio " (click)="agregarProducto(articulo, lista.unidad, lista.factor )"> 
+                            {{lista.unidad}}
+                          </ion-button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- <tr>
+                        <td class="align-middle p-custom text-center " style="font-size: 12px;" *ngFor="let lista of articulo.listaPrecios ">
+                          {{lista.unidad}}
+                        </td>
+                      </tr>-->
+                      <tr>
+                        <td class="align-middle text-center p-0 " style="font-size: 12px;" *ngFor="let lista of articulo.listaPrecios" >
+                          ({{lista.factor |number:'1.1-2'}})
+                        </td>
+                      </tr>
+                      <!-- <tr>
+                        <td class="p-custom align-middle text-center " *ngFor="let lista of articulo.listaPrecios ; let i = index;"> 
+                          <ion-button type="button" color=""  class="btnPrecio "> 
+                            
+                            {{lista.monto |number:'1.2-2'}}
+                          </ion-button>
+                        </td>
+                      </tr> -->
+                      <!-- (click)="agregarCarrito(articulo,i)" -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row mt-2">
+                
+              </div>
+
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="estadoRecargar"  (ionInfinite)="recargarArticulos($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <div class="mt-4 pt-4"></div>
+    <div class="mt-4 pt-4"></div>
+  </cdk-virtual-scroll-viewport>
+
+</ion-content>

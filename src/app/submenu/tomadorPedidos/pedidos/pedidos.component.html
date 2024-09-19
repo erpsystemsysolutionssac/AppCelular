@@ -1,0 +1,130 @@
+<ion-content scrollX="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="ionRefrescar($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <p class="titulos-grande text-center my-1">Pedidos</p>
+
+  <form [formGroup]="buscarForm" class="sticky-top" (ngSubmit)="filtrarPedido()">
+    <ion-grid fixed class="p-0">
+      <ion-row class="">
+        <ion-col size="" class="p-0 pe-0 ps-1 col-bg d-flex align-items-center ">
+
+          <ion-item *ngIf="fechasOn" class="input-col w-100 textos-pequeño text-white"
+            style="--ion-item-background:transparent; --padding-start:2px;">
+            Del:
+            <ion-button type="button" expand="block" (click)="mostrarMdDel()" class="btn-fecha">
+              {{fechaDel.value.toString()| date:'dd/MM/yy'}}
+            </ion-button>
+            Hasta:
+            <ion-button type="button" expand="block" (click)="mostrarMdHasta()" class="btn-fecha">
+              {{fechaHasta.value.toString()| date:'dd/MM/yy'}}
+            </ion-button>
+            <ion-button type="button" shape="round" expand="block" class="btn-buscar ms-auto p-0"
+              (click)="filtrarPedido()" style="--background:white;">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <ion-item *ngIf="!fechasOn" class="input-col w-100">
+            <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar "></ion-input>
+            <ion-button type="button" expand="block" class="btn-buscar p-0" (click)="filtrarPedido()">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+        </ion-col>
+        <ion-col size="auto" class="p-0 pe-1 ps-0 col-bg">
+          <ion-button shape="round" class="btn-filtrar textos" (click)="cambiarFiltro()">
+            <ion-icon name="options-outline"></ion-icon>
+            Filtros
+          </ion-button>
+          <ion-select #filtroSelect class="d-none" (ionChange)="selectCambio()" formControlName="filtro">
+            <ion-select-option value="NroPedido">Nro Pedido</ion-select-option>
+            <ion-select-option value="Aprobado">Aprobado</ion-select-option>
+            <ion-select-option value="Atencion">Atencion</ion-select-option>
+            <ion-select-option value="Cliente">Cliente</ion-select-option>
+            <ion-select-option value="Fecha">Fecha Creacion</ion-select-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let pedido of arrPedidosC; let i = index;" (click)="clickRow(i,pedido.cnum_doc)">
+    <!-- <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let pedido of arrPedidosC;let i = index " [routerLink]="pedido.cnum_doc"> -->
+
+    <div class="textos d-flex justify-content-between mb-1">
+      <p class="mb-0  "><span class="badge bg-primary textos-pequeño">{{pedido.cnum_doc}}</span> </p>
+      <p class="mb-0 text-danger fw-bold">{{pedido.cmoneda}} {{pedido.erp_Dtotal | number:'1.0-2'}} </p>
+    </div>
+
+    <div class="text-dark textos">
+
+      <div class="row">
+        <div class="col-5">F.Creacion</div>
+        <div class="col ">: {{pedido.dfecha_doc | date:'dd/MM/yyyy'}} </div>
+      </div>
+      <div class="row ">
+        <div class="col-5">Entregar el </div>
+        <div class="col">: {{pedido.dfecha_entr | date:'dd/MM/yyyy'}}</div>
+      </div>
+      <div class="row">
+        <div class="col-5">Nro Doc. </div>
+        <div class="col">: {{pedido.ccod_cliente}}</div>
+      </div>
+      <div class="row">
+        <div class="col-5"> Cliente </div>
+        <div class="col">: </div>
+      </div>
+      <div class="row">
+        <div class="col fw-semibold"> {{pedido.cnom_cliente}}</div>
+      </div>
+      <div class="row">
+        <div class="col-5"> Direccion </div>
+        <div class="col">: </div>
+      </div>
+      <div class="row">
+        <div class="col fw-semibold">{{pedido.lugar_entrega}}</div>
+      </div>
+      <div class="row">
+        <div class="col-5 ">Aprobado</div>
+        <div class="col">:
+          <span
+            [ngClass]="pedido.aprobado == 'Aprobado' ?'bg-success' : pedido.aprobado == 'Desaprobado' ? 'bg-secondary' : 'bg-primary' "
+            class="badge textos-pequeño">{{pedido.aprobado}}</span>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-5">Atencion </div>
+        <div class="col">:
+          <span
+            [ngClass]="pedido.estado == 'Ingresado' ?'bg-success' : pedido.estado == 'Modificado' ? 'bg-warning' : 'bg-danger' "
+            class="badge textos-pequeño">{{pedido.estado}}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </ion-card>
+</ion-content>
+
+<ion-modal id="example-modal" #modalDel trigger="open-custom-dialog" [keepContentsMounted]="true">
+  <ng-template>
+    <div class="wrapper">
+      <h1 class="titulos-medianos">Escoja Del:</h1>
+      <ion-datetime #fechaDel locale="es-ES" presentation="date"></ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<ion-modal id="example-modal" #modalHasta trigger="open-custom-dialog" [keepContentsMounted]="true">
+  <ng-template>
+    <div class="wrapper">
+      <h1 class="titulos-medianos">Escoja Hasta:</h1>
+      <ion-datetime #fechaHasta locale="es-ES" doneText="All set" presentation="date" cancelText="Never mind">
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

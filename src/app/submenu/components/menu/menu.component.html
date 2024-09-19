@@ -1,0 +1,52 @@
+<ion-menu side="start" contentId="main-content">
+  <ion-header>
+    <ion-toolbar class="border-bottom border-color">
+      <ion-title class="erp-color titulos-medianos ">{{nombreTitulo}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle *ngIf="isVendedor">
+        <ion-item routerLink="/tomadorPedidos/vendedor" class="textos">
+          <ion-label>Vendedor</ion-label>
+          <ion-icon slot="start" name="cash" class="erp-color"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle *ngIf="isPedidos">
+        <ion-item routerLink="/tomadorPedidos/pedidos" class="textos ">
+          Pedidos
+          <ion-icon slot="start" name="receipt" class="erp-color"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle *ngIf="isGuias">
+        <ion-item routerLink="/guiaRemision/guias" class="textos ">
+          Guias Remision
+          <ion-icon slot="start" name="receipt" class="erp-color"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle *ngIf="isRequermientos">
+        <ion-item routerLink="/requerimiento/listaRequerimientos" class="textos ">
+        Lista Requermientos
+          <ion-icon slot="start" name="receipt" class="erp-color"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle *ngIf="isRuta" (click)="irRuta()">
+        <ion-item class="textos">
+          Ruta
+          <ion-icon slot="start" name="location-outline" class="erp-color"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle *ngIf="isAgenciaTransporte">
+        <ion-item routerLink="/tomadorPedidos/agenciasTransportes" class="textos">
+          <ion-label>Agencias de Transporte</ion-label>
+          <ion-icon slot="start" src="../../../assets/iconos/truck-solid.svg" class="erp-color"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>

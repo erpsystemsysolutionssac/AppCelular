@@ -1,0 +1,135 @@
+<ion-row class="ion-justify-content-between px-2 py-2 border-bottom title-documento">
+  <ion-col>{{tituloVentana}}</ion-col>
+  <ion-col class="text-end" (click)="close()">
+    <ion-icon name="close-outline"></ion-icon>
+  </ion-col>
+</ion-row>
+
+<ion-content>
+  <ion-refresher slot="fixed" [disabled]="refreshDisabled" (ionRefresh)="ionRefrescar($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <form [formGroup]="buscarForm" class="sticky-top" (ngSubmit)="filtraDocumentosPendientes()">
+    <ion-grid fixed class="p-0">
+      <ion-row class="">
+        <ion-col size="" class="p-0 pe-0 ps-1 col-bg d-flex align-items-center ">
+          <ion-item *ngIf="fechasOn" class="input-col w-100 textos-pequeño text-white" style="--ion-item-background:transparent; --padding-start:2px;">
+            Del:
+            <ion-button type="button" expand="block" (click)="mostrarMdDel()" class="btn-fecha">
+              {{fechaDel.value.toString()| date:'dd/MM/yy'}}
+            </ion-button>
+            Hasta:
+            <ion-button type="button" expand="block" (click)="mostrarMdHasta()" class="btn-fecha">
+              {{fechaHasta.value.toString()| date:'dd/MM/yy'}}
+            </ion-button>
+            <ion-button type="button" shape="round" expand="block" class="btn-buscar ms-auto p-0" (click)="filtraDocumentosPendientes()" style="--background:white;">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <ion-item *ngIf="!fechasOn" class="input-col w-100">
+            <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar "></ion-input>
+            <ion-button type="button" expand="block" class="btn-buscar p-0" (click)="filtraDocumentosPendientes()">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="auto" class="p-0 pe-1 ps-0 col-bg">
+          <ion-button shape="round" class="btn-filtrar textos" (click)="cambiarFiltro()">
+            <ion-icon name="options-outline"></ion-icon>
+            Filtros
+          </ion-button>
+          <ion-select #filtroSelect class="d-none" (ionChange)="selectCambio()" formControlName="filtro">
+            <ion-select-option value="nroPedido">Nro Pedido</ion-select-option>
+            <ion-select-option value="cliente">Cliente</ion-select-option>
+            <ion-select-option value="rango_fechas">Fecha</ion-select-option>
+          </ion-select>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <cdk-virtual-scroll-viewport #elscroll  itemSize="10"  class="ion-content-scroll-host" (scroll)="onWindowScroll($event)">
+    <ion-list class="mb-3 pt-0">
+      <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let documento of arrDocumentosPendientes; let i = index;" (click)="clickRow(documento)">
+
+        <div class="textos d-flex justify-content-between mb-1">
+          <p class="mb-0  "><span class="badge bg-primary textos-pequeño">{{documento.Numero}}</span> </p>
+          <!-- <p class="mb-0 text-danger fw-bold">{{documento.cmoneda}} {{documento.erp_Dtotal | number:'1.0-2'}} </p> -->
+        </div>
+
+        <div class="text-dark textos">
+
+          <div class="row">
+            <div class="col-5">F.Creacion</div>
+            <div class="col ">: {{documento.Fecha}} </div>
+          </div>
+          <div class="row ">
+            <div class="col-5">Entregar el </div>
+            <div class="col">: {{documento.Fecha_Entrega}}</div>
+          </div>
+          <div class="row">
+            <div class="col-5">Nro Doc. </div>
+            <div class="col">: {{documento.Codigo_Cliente}}</div>
+          </div>
+          <div class="row">
+            <div class="col-5"> Cliente </div>
+            <div class="col">: </div>
+          </div>
+          <div class="row">
+            <div class="col fw-semibold"> {{documento.Nombre_Cliente}}</div>
+          </div>
+          <div class="row">
+            <div class="col-5"> Direccion </div>
+            <div class="col">: </div>
+          </div>
+          <div class="row">
+            <div class="col fw-semibold">{{documento.Cliente_Direccion}}</div>
+          </div>
+          <!-- <div class="row mt-1">
+            <div class="col-5">Atencion </div>
+            <div class="col">:
+              <span
+                [ngClass]="documento.estado == 'Ingresado' ?'bg-success' : documento.estado == 'Modificado' ? 'bg-warning' : 'bg-danger' "
+                class="badge textos-pequeño">{{documento.estado}}</span>
+            </div>
+          </div> -->
+
+        </div>
+      </ion-card>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="estadoRecargar"  (ionInfinite)="recargarDocumentosPendientes($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <div class="mt-4 pt-4"></div>
+    <div class="mt-4 pt-4"></div>
+  </cdk-virtual-scroll-viewport>
+
+</ion-content>
+
+<ion-modal id="example-modal" #modalDel trigger="open-custom-dialog" [keepContentsMounted]="true">
+  <ng-template>
+    <div class="wrapper">
+      <h1 class="titulos-medianos">Escoja Del:</h1>
+      <ion-datetime #fechaDel locale="es-ES" presentation="date"></ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<ion-modal id="example-modal" #modalHasta trigger="open-custom-dialog" [keepContentsMounted]="true">
+  <ng-template>
+    <div class="wrapper">
+      <h1 class="titulos-medianos">Escoja Hasta:</h1>
+      <ion-datetime #fechaHasta locale="es-ES" doneText="All set" presentation="date" cancelText="Never mind">
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

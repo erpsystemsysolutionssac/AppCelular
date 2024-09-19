@@ -1,0 +1,14 @@
+{
+  "name": "Erp Soft",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "club/movil",
+      "proxyUrl": "https://erp-solutionsperu.com"
+    }
+  ]
+}

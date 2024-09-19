@@ -1,0 +1,47 @@
+
+<ion-content>
+    <ion-card-header class="p-2" [hidden]=ishidden>
+        <form [formGroup]="formGeoLoc" >
+            <ion-card-content class="custom-border-top border-success my-0 py-2">
+                <ion-card-title class="titulos-grande">Opciones</ion-card-title>
+            </ion-card-content>
+            
+            <div class="col-12 mx-3 px-3" >
+                <ion-button color="primary" class="btn-borrar"  size="small" fill="clear" (click)="showFingerprintAuth()">
+                    Marcar Asistencia
+                </ion-button>
+                <ion-button color="danger" class="btn-borrar"  size="small" fill="clear" (click)="buscarAsistencia()">
+                    Marcar Asistencia (Sin huella)
+                </ion-button>
+                <ion-item class="custom-item">
+                    <ion-label class="ws"  label="Default input" >{{geoloc_marcar}}</ion-label>
+                </ion-item>
+            </div>
+
+            <div class="col-12 mx-3 px-3" >
+                <ion-button type="button" class="custom-button iconos"  size="small" fill="clear" (click)="showPosUsuario()">
+                    Ver Ubicación actual
+                </ion-button>
+                <ion-item class="custom-item" [hidden]=PosActual_hidden>
+                    <ion-label class="py-0 my-0 ws ms-auto" >{{geoloc_posicion}}</ion-label>
+                </ion-item>
+            </div>
+            <div class="col-12 mx-3 px-3" >
+                <ion-button type="button" class="custom-button iconos"  size="small" fill="clear" (click)="showPosCencos()">
+                    Ver Datos del Centro de Costos
+                </ion-button>
+                
+                <ion-item class="custom-item" [hidden]=PosCencos_hidden>
+                    <ion-label class="ws" label="Default input" >{{geoloc_cencos}}</ion-label >
+                </ion-item>
+            </div>
+        </form>        
+    </ion-card-header>
+    <ion-card-header class="p-2" [hidden]=!ishidden>
+        <form [formGroup]="formGeoLoc" >
+            <ion-card-content class="custom-border-top border-success my-0 py-2">
+                <ion-card-title class="titulos-grande">Este módulo esta en desarrollo</ion-card-title>
+            </ion-card-content>
+        </form>        
+    </ion-card-header>
+</ion-content>

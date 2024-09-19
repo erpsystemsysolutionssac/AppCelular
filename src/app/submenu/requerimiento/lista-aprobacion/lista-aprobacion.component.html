@@ -1,0 +1,171 @@
+<ion-content scroll-y="false" >
+  <ion-refresher slot="fixed" [disabled]="refreshDisabled" (ionRefresh)="ionRefrescar($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <p class="titulos-grande text-center my-1">Aprobacion Requerimientos</p>
+
+  <form [formGroup]="buscarForm" class="sticky-top" (ngSubmit)="filtrarRequerimiento()">
+    <ion-grid fixed class="p-0">
+      <ion-row class="">
+        <ion-col size="" class="p-0 pe-0 ps-1 col-bg d-flex align-items-center ">
+          <ion-item *ngIf="fechasOn" class="input-col w-100 textos-pequeño text-white" style="--ion-item-background:transparent; --padding-start:2px;">
+            Del:
+            <ion-button type="button" expand="block" (click)="mostrarMdDel()" class="btn-fecha">
+              {{fechaDel.value.toString()| date:'dd/MM/yy'}}
+            </ion-button>
+            Hasta:
+            <ion-button type="button" expand="block" (click)="mostrarMdHasta()" class="btn-fecha">
+              {{fechaHasta.value.toString()| date:'dd/MM/yy'}}
+            </ion-button>
+            <ion-button type="button" shape="round" expand="block" class="btn-buscar ms-auto p-0" (click)="filtrarRequerimiento()" style="--background:white;">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <ion-item *ngIf="!fechasOn" class="input-col w-100">
+            <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar "></ion-input>
+            <ion-button type="button" expand="block" class="btn-buscar p-0" (click)="filtrarRequerimiento()">
+              <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="auto" class="p-0 pe-1 ps-0 col-bg">
+          <ion-button shape="round" class="btn-filtrar textos" (click)="cambiarFiltro()">
+            <ion-icon name="options-outline"></ion-icon>
+            Filtros
+          </ion-button>
+          <ion-select #filtroSelect class="d-none" (ionChange)="selectCambio()" formControlName="filtro">
+            <ion-select-option value="nroRequerimiento">Nro Requerimiento</ion-select-option>
+            <ion-select-option value="rango_fechas">Fecha</ion-select-option>
+          </ion-select>
+        </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col class="p-0">
+          <ion-accordion-group>
+            <ion-accordion value="first">
+              <ion-item slot="header" color="light" style="--min-height: 30px; border-top: 1px solid #fd821aad;">
+                <ion-label style="margin: 0px; color: white; font-size: small;">Mas Filtros</ion-label>
+              </ion-item>
+              <div class="p-1" slot="content" style="border-bottom: 1px solid #00000024;">
+                <ion-row>
+                  <ion-col class="px-1 py-0">
+                    <ion-item class="border rounded" style="--min-height: 32px; font-size: 14px; --border-width: 0 0 0 0;">
+                      <!-- <ion-label class="d-none" >Estado</ion-label> -->
+                      <ion-select placeholder="Estado" class="p-0" formControlName="estado">
+                        <ion-select-option value="Sin Aprobacion">Sin Aprobacion</ion-select-option>
+                        <ion-select-option value="Aprobado">Aprobado</ion-select-option>
+                        <ion-select-option value="Desaprobado">Desaprobado</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col class="p-0">
+                    <ion-item class="border rounded" style="--min-height: 32px; font-size: 14px; --border-width: 0 0 0 0;">
+                      <ion-select placeholder="Prioridad" class="p-0" formControlName="prioridad">
+                        <ion-select-option value="">Todos</ion-select-option>
+                        <ion-select-option value="A">Alta</ion-select-option>
+                        <ion-select-option value="M">Media</ion-select-option>
+                        <ion-select-option value="B">Baja</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-col>
+      </ion-row>
+    
+    </ion-grid>
+  </form>
+
+  <ion-row class="text-end justify-content-between">
+    <ion-col size="5" class="px-1 py-0">
+      <ion-item class="border rounded" style="--min-height: 32px; font-size: 13px; --border-width: 0 0 0 0; margin: 5px;">
+        <ion-select placeholder="Responsable" class="p-0" [(ngModel)]="responsableSeleccionado">
+          <ion-select-option *ngFor="let responsable of arrResponsable;" value="{{responsable.Codigo}}">{{responsable.Nombre}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col size="7" class="py-0 px-2">
+      <ion-button *ngIf="estado == 'Sin Aprobacion'" (click)="actualizarAprobacion('Aprobado')" style="font-size: 12px;" >Aprobar</ion-button>
+      <ion-button *ngIf="estado != 'Desaprobado'" color="danger" (click)="actualizarAprobacion('Desaprobado')" style="font-size: 12px;" >Desaprobar</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <cdk-virtual-scroll-viewport #elscroll  itemSize="10"  class="ion-content-scroll-host" (scroll)="onWindowScroll($event)"> 
+    <ion-list class="mb-3 pt-0">
+      <ion-card class="py-3 px-3 carta mb-3 mt-0 card" *ngFor="let requerimiento of arrRequerimiento; let i = index;" [class.fadeOut]="requerimiento.removing" >
+        <ion-card-content class="p-0" (click)="seleccionarCard(arrRequerimiento ,i)">
+          <div class="textos d-flex justify-content-between mb-1">
+            <p class="mb-0"><span [ngClass]="requerimiento.Prioridad == 'A' ?'bg-alta' : requerimiento.Prioridad == 'M' ? 'bg-media' : 'bg-baja' "
+              class="badge textos-pequeño">{{requerimiento.Numero}}</span> </p>
+            <!-- <p class="mb-0 text-danger fw-bold">{{requerimiento.Moneda}} {{requerimiento.Total | number:'1.0-2'}} </p> -->
+            <p class="mb-0"> <ion-checkbox  [(ngModel)]="requerimiento.isSelect"></ion-checkbox> </p>
+          </div>
+
+          <div class="text-dark textos">
+
+            <div class="row">
+              <div class="col-3 pe-0 fw-bold">F. Creacion</div>
+              <div class="col-3 px-0">: {{requerimiento.Fecha}} </div>
+              <div class="col-3 pe-0 fw-bold">F. Limite</div>
+              <div class="col-3 px-0">: {{requerimiento.Fecha_Entrega}}</div>
+            </div>
+            <div class="row ">
+              <div class="col-3 fw-bold">Cencos </div>
+              <div class="col px-0">: {{requerimiento.Centro_Costo}}</div>
+            </div>
+            <div class="row">
+              <div class="col-3 fw-bold">Aprobado</div>
+              <div class="col px-0">:
+                <span [ngClass]="requerimiento.Aprobado == 'Aprobado' ?'bg-success' : requerimiento.Aprobado == 'Desaprobado' ? 'bg-secondary' : 'bg-primary' "
+                  class="badge textos-pequeño">{{requerimiento.Aprobado}}</span>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-3 fw-bold">Atencion </div>
+              <div class="col px-0">:
+                <span [ngClass]="requerimiento.Estado == 'Ingresado' ?'bg-success' : requerimiento.Estado == 'Modificado' ? 'bg-warning' : 'bg-danger' "
+                  class="badge textos-pequeño">{{requerimiento.Estado}}</span>
+              </div>
+            </div>
+
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="estadoRecargar"  (ionInfinite)="recargarRequerimientos($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <div class="mt-4 pt-4"></div>
+    <div class="mt-4 pt-4"></div>
+  </cdk-virtual-scroll-viewport>
+</ion-content>
+
+<ion-modal id="example-modal" #modalDel trigger="open-custom-dialog" [keepContentsMounted]="true">
+  <ng-template>
+    <div class="wrapper">
+      <h1 class="titulos-medianos">Escoja Del:</h1>
+      <ion-datetime #fechaDel locale="es-ES" presentation="date"></ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<ion-modal id="example-modal" #modalHasta trigger="open-custom-dialog" [keepContentsMounted]="true">
+  <ng-template>
+    <div class="wrapper">
+      <h1 class="titulos-medianos">Escoja Hasta:</h1>
+      <ion-datetime #fechaHasta locale="es-ES" doneText="All set" presentation="date" cancelText="Never mind">
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

@@ -1,0 +1,19 @@
+<ion-header *ngIf="this.loginService.logeado" >
+ 
+   <ion-toolbar>
+
+  
+    <ion-buttons slot="start">
+      <ion-button  routerLink="">
+          <img  src="../../../assets/iconoerp.png" class="icono-erp">
+      </ion-button>
+    </ion-buttons> 
+
+    <ion-buttons slot="end" >
+      <ion-button class="cerrar-sesion" (click)="cerrarSesion()" >
+        <ion-icon name="log-out-outline"></ion-icon>       
+         Cerrar Sesion
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

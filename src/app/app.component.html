@@ -1,0 +1,49 @@
+<ion-app>
+  <app-header></app-header>
+  <ion-content>
+    <ion-router-outlet></ion-router-outlet>
+    
+  </ion-content>
+  
+</ion-app>
+
+
+<!-- EL SIDEBAR -->
+
+<!-- 
+<ion-split-pane contentId="main-content">
+  <ion-menu *ngIf="usuario.activo"
+  contentId="main-content" type="overlay">
+    <ion-content>
+      <ion-list id="inbox-list">
+    
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="../assets/iconoerp.png"  />            </ion-avatar>
+            <ion-list-header >{{usuario.nombre_usuario}}</ion-list-header>
+        </ion-item>
+        <ion-note>{{usuario.correo_empresa}}</ion-note>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item *ngFor="let pagina of paginas" routerDirection="root" [routerLink]="pagina.url" lines="none" detail="false" routerLinkActive="selected">
+            <ion-label>{{pagina.title}}</ion-label>
+          </ion-item>
+          <ion-item  lines="none" detail="false" (click)="cerrarSesion()">
+            <ion-label>Cerrar Sesion</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+
+      <ion-list id="labels-list">
+        <ion-list-header>Labels</ion-list-header>
+
+        <ion-item *ngFor="let label of labels" lines="none">
+          <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
+          <ion-label>{{ label }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+ 
+
+</ion-split-pane> -->

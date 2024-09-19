@@ -1,0 +1,24 @@
+ionic serve - para abrir el servidor de prueba
+ionic build - para crear el build
+ionic build --prod  - para crear el build con estado de produccion
+npx cap copy  - para pasar la build en js a el archivo android
+npx cap sync  - para cuando se use un componente nuevo de capacitorjs
+npx cap open android  - para abrir el android studio con el archivo android de esta carpeta
+npx cap sync
+---------------------------------------
+Códigos para ejecutar ionic desde CMD
+
+ionic -serve
+ionic -build
+
+Códigos para crear el proyecto Android con Capacitor
+npx cap add android
+npx cap open android
+
+Finalmente en android studio crear el apk 
+
+
+
+ionic build
+npx cap add android
+npx cap open android

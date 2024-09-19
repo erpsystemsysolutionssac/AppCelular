@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar class="header-requerimiento" >
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/requerimiento/listaRequerimientos" style="height:10px;"></ion-back-button>
+    </ion-buttons>
+    <ion-item class="">
+      <ion-card-title class="titulos-medianos">Requerimiento</ion-card-title>
+      <ion-badge slot="end" class=""> {{numeroDoc}} </ion-badge>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="py-3 carta" *ngIf="requerimiento.length > 0" >
+    <ion-card-content class="py-0 textos text-black">
+      <div class="row">
+        <div class="col-4 pe-0 fw-bold">F. Creacion</div>
+        <div class="col">: {{requerimiento[0].documento_fecha_formato_impresion}} </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4 pe-0 fw-bold">F. Limite</div>
+        <div class="col">: {{requerimiento[0].documento_fecha_limite_formato_impresion}}</div>
+      </div>
+    
+      <div class="row">
+        <div class="col-4 pe-0 fw-bold">Centro Costos </div>
+        <div class="col">: {{requerimiento[0].documento_cencos_nombre}}</div>
+      </div>
+      <div class="row">
+        <div class="col-4 pe-0 fw-bold">Unidad Negocio</div>
+        <div class="col">: {{requerimiento[0].documento_nombre_unidad_negocio}}</div>
+      </div>
+      <div class="row">
+        <div class="col-4 pe-0 fw-bold">Orden Trabajo</div>
+        <div class="col">: {{requerimiento[0].documento_ot_nombre}}</div>
+      </div>
+      <div class="row">
+        <div class="col-4 pe-0 fw-bold">Responsable</div>
+        <div class="col">:</div>
+      </div>
+      <div class="row">
+        <div class="col">{{requerimiento[0].documento_nombre_responsable}}</div>
+      </div>
+      <div class="row">
+        <div class="col-4 pe-0 fw-bold">Solicitante</div>
+        <div class="col">:</div>
+      </div>
+      <div class="row">
+        <div class="col">{{requerimiento[0].documento_nombre_solicitante}}</div>
+      </div>
+
+      <div class="row my-2">
+        <div class="col-5 px-0 mx-auto">
+          <ion-button  expand="block"  shape="round" color="danger" (click)="downloadAndSharePDF()">
+            Descargar
+            <ion-icon slot="end" src="./../../../../assets/iconos/png.svg" ></ion-icon>
+            <!-- <ion-icon slot="end" src="./../../../../assets/iconos/pdf.svg" ></ion-icon> -->
+          </ion-button>
+        </div>
+        <!-- <input type="file" > -->
+        <div class="col-5 px-0 mx-auto">
+          <ion-button  expand="block"  shape="round" color="primary" (click)="upload()" >
+            Subir
+            <ion-icon slot="end" src="./../../../../assets/iconos/png.svg" ></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+
+      <ion-card *ngFor="let dato of requerimiento; let i = index" color="light" class="mx-0" >
+        <ion-card-content class="px-1 py-1 content-detalle_documento" >
+            <ion-row class="ion-justify-content-between">
+                <ion-col class="text-left fw-bold" style="height: 25px;">Articulo</ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-start">
+                <ion-col size="12" class="text-left py-0">{{dato.articulo_nombre}}</ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-start">
+                <ion-col size="2" class="text-left fw-bold pe-0">Cantidad:</ion-col>
+                <ion-col size="2" class="">{{dato.articulo_cantidad}}</ion-col>
+                <ion-col size="2" class="fw-bold">Precio:</ion-col>
+                <ion-col size="2" class="">{{dato.articulo_precio | number: '1.2'}}</ion-col>
+                <ion-col size="2" class="fw-bold">S. Total:</ion-col>
+                <ion-col size="2" class="">{{dato.articulo_importe | number: '1.2'}}</ion-col>
+            </ion-row>
+
+        </ion-card-content>
+            
+    </ion-card>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- <div class="" [hidden]="false">
+  <div class="w-100 d-flex justify-content-center" style=" margin-top: 0px;" >
+    <div id ="formato_impresion" class="mx-auto print-page" >
+      Hola1
+    </div>
+  </div>
+  
+</div> -->

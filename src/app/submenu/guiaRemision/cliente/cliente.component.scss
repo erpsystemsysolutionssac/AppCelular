@@ -1,0 +1,51 @@
+
+.label-font{
+    font-size: 22px;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+  }
+
+ion-button.custom-button{
+    // --padding-bottom:15px;
+    // --padding-end:15px;
+    // --padding-start:15px;
+    // --padding-top:15px;
+}
+
+ion-segment {
+    --background: #69a0ff;
+    border-radius: 20px;
+    
+
+}
+ion-segment-button{
+    height: 4px;
+    border-radius: 50px;
+    --background-checked:#306cd4;    
+}
+
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 50%;
+}
+
+.img-cropper{
+    // height: calc( 100% - 25px );
+    max-height:100%;
+    max-width: 100%;
+}
+
+
+image-cropper{
+    // --cropper-outline-color:#000000;
+    --cropper-overlay-color:rgba(0, 0, 0,1);
+}
+

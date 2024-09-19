@@ -1,0 +1,21 @@
+
+.img-articulo{
+    width: 100vh;
+  }
+
+ion-card{
+  height: calc( 100vh - 132px) ;
+}
+
+.sw{
+  height: calc( 100vh - 132px) ;
+}
+
+
+ion-icon.modal-icon {
+  font-size:32px;
+}
+
+ion-button.accion-icon{
+  margin-right: 25px;
+}

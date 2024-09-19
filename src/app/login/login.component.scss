@@ -1,0 +1,24 @@
+
+
+.title {
+    font-size: 1.5rem;
+    // margin-top: 1rem;
+}
+
+ion-select {
+    // --placeholder-color: #971e49;
+    --placeholder-opacity: 1;
+    width: 100%;
+    justify-content: center;
+  }
+
+//   .ion-valid{
+//     --highlight-background:red !important;
+//   }
+  
+  ion-select::part(placeholder),
+  ion-select::part(text) {
+    flex: 0 0 auto;
+  }
+  
+  

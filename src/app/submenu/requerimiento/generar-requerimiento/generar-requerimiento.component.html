@@ -1,0 +1,310 @@
+<ion-content class="" >
+  <div class="titulo-produ d-flex align-items-center px-3 py-1">
+    <ion-icon name="document-text" class="ms-2"></ion-icon>
+    <p class="mb-0 mx-3 ">Datos Generales</p>
+    
+    <p class="mb-0 ms-auto " *ngIf="!ifCargaPantalla"><ion-skeleton-text [animated]="true" style="width: 155px; height: 22px; border-radius: 15px;"></ion-skeleton-text></p>
+    <p class="mb-0 ms-auto " *ngIf="ifCargaPantalla" style="font-size: 13px; background: #fd824d; color: white; padding: 1px 5px; border-radius: 15px;"> 
+      F. Emisión: {{this._fechaEmision}} 
+      
+    </p>
+  </div>
+
+  <ion-card>
+    <ion-card-header class="p-2">
+
+      <form *ngIf="!ifCargaPantalla">
+        <div class="row">
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 28px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 28px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+          <div class="col-6">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 40px; border-radius: 5px;"></ion-skeleton-text>
+          </div>
+        </div>
+      </form>
+
+      <form [formGroup]="formCabRequerimiento" *ngIf="ifCargaPantalla">
+        <div class="row">
+          <div class="col-6">
+            <ion-label class="app-label">Punto Venta</ion-label>
+            <ion-select interface="action-sheet" placeholder="Punto Venta" class="border py-1 app-select" formControlName="codigoPuntoVenta">
+              <ion-select-option *ngFor="let puntoVenta of arrPuntoVenta;"  value="{{puntoVenta.Codigo}}">{{puntoVenta.Nombre}}</ion-select-option>
+            </ion-select>
+          </div>
+
+          <div class="col-6">
+            <ion-label class="app-label">Motivo</ion-label>
+            <ion-select interface="action-sheet" placeholder="Motivo" class="border py-1 app-select" formControlName="codigoMotivo">
+              <ion-select-option *ngFor="let motivo of arrMotivoTramite" value="{{motivo.Codigo}}">{{motivo.Nombre}}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+        <div class="row my-1"></div>
+        <div class="row">
+          <div class="col-6">
+            <div class="input-group input-group-sm"   >
+              <input type="text" class="form-control app-input-text text-center" value="S/" (click)="setOpen(true, 'moneda')" formControlName="moneda" readonly>
+              <input type="text" class="form-control app-input-text text-center" value="VTA" (click)="setOpen(true, 'tipoCambio')" style="border-left: 1px solid #dfdedf;" formControlName="tipoCambio" readonly>
+              <input type="text" class="form-control app-input-text" value="3.854" style="border-left: 1px solid #dfdedf;" formControlName="tasaCambio" readonly>
+            </div>
+          </div>
+
+          <div class="col-6" id="open-modal-fecha">
+            <div class="input-group input-group-sm"   >
+              <span class="input-group-text app-span" >F. Lim.</span>
+              <input type="date" class="form-control app-input-date" formControlName="fechaLimite" readonly>
+            </div>
+
+            <ion-modal class="open-modal-fecha" #modal trigger="open-modal-fecha" [keepContentsMounted]="true" >
+              <ng-template>
+                <ion-content>
+                  <ion-datetime #datetime id="date" presentation="date" (ionChange)="confirmar($event,  'fecha')" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar">
+                  </ion-datetime>
+                </ion-content>
+              </ng-template>
+            </ion-modal>
+          </div>
+        </div>
+        <div class="row my-1"></div>
+        <div class="row">
+          <div class="col-6">
+            <ion-label class="app-label">Prioridad</ion-label>
+            <ion-select interface="action-sheet" placeholder="Prioridad" class="border py-1 app-select" formControlName="prioridad">
+              <ion-select-option value="">Prioridad</ion-select-option>
+              <ion-select-option value="A">Alta</ion-select-option>
+              <ion-select-option value="M">Media</ion-select-option>
+              <ion-select-option value="B">Baja</ion-select-option>
+            </ion-select>
+          </div>
+
+          <div class="col-6">
+            <ion-label class="app-label">Centro Costos</ion-label>
+            <ion-select interface="action-sheet" placeholder="Centro Costos" class="border py-1 app-select" formControlName="codigoCencos">
+              <ion-select-option *ngFor="let cencos of arrCencos;" value="{{cencos.Codigo}}">{{cencos.Nombre}}</ion-select-option>
+            </ion-select>
+          </div>
+
+          
+        </div>
+        <div class="row my-1"></div>
+        <div class="row">
+          <div class="col-6">
+            <ion-label class="app-label">Unidad Negocio</ion-label>
+            <ion-select interface="action-sheet" placeholder="Unidad Negocio" class="border py-1 app-select" formControlName="codigoUnidad">
+              <ion-select-option *ngFor="let unidadNegocio of arrUnidadNegocio;" value="{{unidadNegocio.Codigo}}">{{unidadNegocio.Nombre}}</ion-select-option>
+            </ion-select>
+          </div>
+          <div class="col-6">
+            <ion-label class="app-label">Orden Trabajo</ion-label>
+            <ion-select interface="action-sheet" placeholder="Orden Trabajo" class="border py-1 app-select" formControlName="codigoOt">
+              <ion-select-option *ngFor="let ordenTrabajo of arrOrdenTrabajo;" value="{{ordenTrabajo.Codigo}}">{{ordenTrabajo.Nombre}}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+        <div class="row my-1"></div>
+        <div class="row">
+          <div class="col-6">
+            <ion-label class="app-label">Responsable</ion-label>
+            <ion-select interface="action-sheet" placeholder="Responsable" class="border py-1 app-select" formControlName="codigoResponsable">
+              <ion-select-option *ngFor="let responsable of arrResponsable;" value="{{responsable.Codigo}}">{{responsable.Nombre}}</ion-select-option>
+            </ion-select>
+          </div>
+          <div class="col-6">
+            <ion-label class="app-label">Solicitante</ion-label>
+            <ion-select interface="action-sheet" placeholder="Solicitante" class="border py-1 app-select" formControlName="codigoSolicitante">
+              <ion-select-option *ngFor="let solicitante of arrSolicitante" value="{{solicitante.Codigo}}">{{solicitante.Nombre}}</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+      </form>
+    </ion-card-header>
+  </ion-card>
+
+  <div class="titulo-produ d-flex align-items-center px-3 py-1">
+    <ion-icon name="briefcase" class="ms-2"></ion-icon>
+    <p class="mb-0 mx-3 ">Productos</p>
+    <!-- <p class="mb-0 ms-auto ">T/C: {{this.carritoService.tipoCambioVenta}} </p> -->
+  </div>
+
+  <ion-card *ngFor="let articulo of arrDetalle; let i =index "  class="mb-2 ps-2 pe-1 carta ">
+    <div class="row d-flex align-items-center ">
+      <div class="col-11 pe-0">
+        <p class="mb-0 pl-3 fw-bolder text-dark ">{{articulo.nombre}}</p>
+      </div>
+      <div class="col-1 my-0 py-0 ps-0" >
+        <ion-button  size="small" fill="clear" color="danger" class="btn-borrar" (click)="borrarArticulo(i)" >
+          <ion-icon name="close"></ion-icon>            
+        </ion-button>
+      </div>
+    </div>
+    <div class="row d-flex align-items-center mb-2 pe-2">
+      <div class="col-3 pe-0">
+        <ion-img [src]="articulo.imagen_1 | imagen:'articulos'" ></ion-img>
+      </div>
+      <div class="col pe-0">
+
+        <ion-card-title class="mt-0 fw-bold text-danger ">
+          {{articulo.moneda}} {{ 0 | number: '1.0-2'}}
+        </ion-card-title>
+
+        <div class="d-flex mt-2 ">
+          <ion-card-subtitle class="mt-0 text-black ">Present. :{{articulo.cunidad }}</ion-card-subtitle>
+        </div>
+    
+
+      </div>
+      <div class="col-auto d-flex  border color-border px-2 py-0 mx-1 mt-auto textos">
+        <ion-button type="button"  size="small" class="custom-button iconos" (click)="restarCantidad(i)">
+          <ion-icon name="remove-outline"></ion-icon>
+        </ion-button>
+        <ion-input #cantidadProducto  type="number" inputmode="numeric" [value]="articulo.cantidad" class="custom-input text-dark" [id]="i" style="width: 30px; "></ion-input>
+        <ion-button type="button"  size="small" class="custom-button iconos" (click)="sumarCantidad(i)">
+          <ion-icon name="add-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+    </div>
+
+  </ion-card>
+
+</ion-content>
+
+<ion-footer >
+  <!-- <div class="bg-success border border-dark text-light d-flex justify-content-between mx-2 px-3">
+    <p class="mb-0 py-2">Total</p>
+    <p class="mb-0 py-2">S/ {{carritoService.carritoMontoTotal_Descontado | number: '1.2-2'}}</p>
+  </div>
+  <div class="bg-success text-light border border-dark mx-2 " style="height: 15px;">
+  </div> -->
+  <ion-toolbar  class="footer-color border-top border-dark">
+    <ion-buttons slot="start">
+      <ion-button color="danger"  fill="outline" class="button-footer " (click)="borrarTodos(true)">
+        <ion-icon name="trash"></ion-icon>Eliminar Todo
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <!--  -->
+      <ion-button color="success"  fill="outline" class="button-footer "  [disabled]="arrDetalle.length > 0 ? false : true" (click)="guardarRequerimiento()" >
+        <ion-icon name="checkmark-done-sharp"></ion-icon>
+        Guardar Requerimiento
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<ion-modal class="open-modal-moneda" #modal [isOpen]="isModalMonedaOpen" [keepContentsMounted]="true">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Moneda</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-radio-group [(ngModel)]="selectedMoneda" [allowEmptySelection]="true" value="S/">
+          <ion-item>
+            <ion-label>Soles (S/.)</ion-label>
+            <ion-radio slot="end" value="S/"></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Dolares ($)</ion-label>
+            <ion-radio slot="end" value="$"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-content>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button >Cancelar</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button  [strong]="true" (click)="confirmar(selectedMoneda, 'moneda')" >Confirmar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+<ion-modal class="open-modal-tipoCambio" #modal [isOpen]="isModalTipoCambioOpen" [keepContentsMounted]="true">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Tipo Cambio</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-radio-group [(ngModel)]="selectedTipoCambio" [allowEmptySelection]="true" value="S/">
+          <ion-item>
+            <ion-label>Venta</ion-label>
+            <ion-radio slot="end" value="VTA"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Compra</ion-label>
+            <ion-radio slot="end" value="COM"></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Especial</ion-label>
+            <ion-radio slot="end" value="ESP"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-content>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button >Cancelar</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button  [strong]="true" (click)="confirmar(selectedTipoCambio, 'tipoCambio')" >Confirmar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

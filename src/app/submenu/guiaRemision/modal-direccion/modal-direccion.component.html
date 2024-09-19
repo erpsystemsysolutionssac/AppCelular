@@ -1,0 +1,5 @@
+<ion-list>
+    <ion-item *ngFor="let dir of direcciones" style="cursor: pointer;">
+        <ion-label style="white-space: initial; font-size: 0.87rem;" (click)="elegirDireccion(dir.direccion)" >{{dir.direccion}}</ion-label>
+    </ion-item>
+</ion-list>

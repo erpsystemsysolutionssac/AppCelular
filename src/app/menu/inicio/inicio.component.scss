@@ -1,0 +1,147 @@
+ion-menu-button {
+    color: var(--ion-color-primary);
+  }
+  
+#container {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+
+ion-button{
+  height: 100px;
+}
+
+ion-button.wrap {
+  flex-wrap: wrap !important;
+}
+.custom-bg-tertiary{
+  background-color: #5260ff;
+}
+
+.custom-bg-success{
+  background-color: #2dd36f;
+}
+
+.custom-bg-secondary{
+  background-color: #3dc2ff;
+}
+
+.custom-bg-primary{
+  background-color:#3880ff;
+}
+
+.h-100px{
+  height: 100px;
+}
+
+ion-icon{
+  font-size: 32px;
+}
+
+.app-br-blue{
+  border: 1px solid #5260ff; 
+}
+
+.app-br-red{
+  border: 1px solid #ff7552; 
+}
+
+.app-br-green{
+  border: 1px solid #2dd36f;
+}
+
+.app-br-sky{
+  border: 1px solid #3dc2ff; 
+}
+
+.app-card{
+  border-radius: 5px; 
+  box-shadow: 4px 4px 4px rgba(0,0,0,0.25); 
+  cursor: pointer;
+}
+
+.app-bgd-blue{
+  background: #5260ff;
+}
+
+.app-bgd-red{
+  background: #ff7552; 
+}
+
+.app-bgd-green{
+  background: #2dd36f;
+}
+
+.app-bgd-sky{
+  background: #3dc2ff;
+}
+
+.app-bgd-lgreen{
+  background: #20ddb7;
+}
+
+.app-card-header{
+  height: 44px;
+  align-items: center; 
+  border-bottom: 2px solid #00000038; 
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.app-icon{
+  color: white;
+}
+
+.app-title{
+  font-size: 16px; 
+  font-weight: 600; 
+  color: white;
+  text-align: center;
+}
+
+.app-footer{
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.app-footer-blue{
+  align-items: center; 
+  text-align: center; 
+}
+
+.app-icon-footer{
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; 
+  color: white;
+}
+
+.ion-color-light {
+  --ion-color-base: #3e56a1 !important;
+  --ion-color-base-rgb: var(--ion-color-light-rgb, 244, 245, 248) !important;
+  --ion-color-contrast: #fff !important;
+  --ion-color-contrast-rgb: var(--ion-color-light-contrast-rgb, 0, 0, 0) !important;
+  --ion-color-shade: var(--ion-color-light-shade, #d7d8da) !important;
+  --ion-color-tint: var(--ion-color-light-tint, #f5f6f9) !important;
+}

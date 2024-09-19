@@ -1,0 +1,46 @@
+
+
+<ion-content>
+  <ion-card  class="py-4">
+    <ion-card-header class="pb-2 pt-0">
+      <ion-card-title class="text-center titulos-grande">Vendedor</ion-card-title>
+    </ion-card-header>
+    <ion-list class="d-flex flex-column mt-0 pt-0" >
+
+      <form [formGroup]="vendedorForm" (ngSubmit)="editarVendedor()">
+      
+        <ion-item>
+          <ion-label  position="stacked" class="label-grande" >Nombre</ion-label>
+          <ion-input formControlName="nombre" type="text"  placeholder="Nombre" class="textos"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label  position="stacked" class="label-grande">Correo</ion-label>
+          <ion-input formControlName="correo" type="text" placeholder="Correo" class="textos"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label  position="stacked" class="label-grande">Celular</ion-label>
+          <ion-input formControlName="celular" type="text" placeholder="Celular" class="textos"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label  position="stacked" class="label-grande">Telefono</ion-label>
+          <ion-input formControlName="telefono" type="text" placeholder="Telefono" class="textos"></ion-input>
+        </ion-item>
+      </form>
+
+     
+    </ion-list>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="my-1 border-top border-dark" style="--min-height:30px;">
+    <div class="row my-auto">
+      <div class="col-auto mx-auto">
+        <ion-button type="submit" (click)="editarVendedor()" fill="outline" shape="round" style="text-transform: none;" class="mx-auto">
+          Guardar
+        </ion-button>
+      </div>
+    </div>
+    
+  </ion-toolbar>
+</ion-footer>

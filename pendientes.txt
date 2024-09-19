@@ -1,0 +1,268 @@
+
+router.post('/detalle/:id', async (req, res) => {
+  try {
+    const codigo_empresa = req.user.codigo_empresa;
+    const codigo_punto_venta = req.user.codigo_punto_venta;
+    const fecha_trabajo_sistema = req.user.fecha_trabajo_sistema;
+    const modulo = req.body.modulo;
+    const ccodigo_cliente = req.body.ccodigo_cliente;
+    var array_busqueda=[];
+
+    var tipo = modulo == 'orden_compra'?'42':'12';
+
+    var query_precio_costo="";
+    
+    const precio_historico = await pool.query("select count(*) as precio_historico from hconfiguraciones_2 where idempresa = ? and preciohistorico ='S' ",[codigo_empresa]);
+    
+
+    if(modulo == "transaccion_almacen"){
+      query_precio_costo = " ifnull(erp_articulo_unidad.erp_factor,1) * ifnull((select udf_costo_promedio_erp2(harticul.ccod_Empresa, halmacen_2.punto_venta, halmacen_2.ccod_almacen, harticul.ccod_articulo, ?, '"+fecha_trabajo_sistema+"')),0) ";
+      array_busqueda.push(req.body.moneda_documento)
+    }else{
+      if(modulo=="orden_compra"){
+        query_precio_costo=
+        "case ? when 'S/' then \n"+
+        "case when harticul.cmoneda_precio = 'S/' then 1 else ? end \n"+
+        "else \n"+
+        "case when harticul.cmoneda_precio = 'S/' then 1 / ? else 1 end \n"+
+        "end * \n"+
+        " ifnull(erp_lista_precio_cliente.erp_monto,0) \n";
+        array_busqueda.push(req.body.moneda_documento)
+        array_busqueda.push(req.body.tipo_cambio)
+        array_busqueda.push(req.body.tipo_cambio)
+      }else{
+        if(precio_historico[0].precio_historico > 0){
+          query_precio_costo=
+          "ifnull((select hmoviald.NPRECIO_TRANS as precio from hmovialc  \n"+
+          "inner join hmoviald on \n"+
+          "hmovialc.ccod_empresa = hmoviald.ccod_empresa \n"+
+          "and hmovialc.ccod_almacen = hmoviald.ccod_almacen \n"+
+          "and hmovialc.ccod_movimiento = hmoviald.ccod_movimiento \n"+
+          "and hmovialc.cnum_serie = hmoviald.cnum_serie \n"+
+          "and hmovialc.cnum_doc = hmoviald.cnum_doc \n"+
+          "where \n"+
+          "hmovialc.ccod_empresa= harticul.ccod_empresa  \n"+
+          "and hmovialc.ccod_cliente= ?  \n"+
+          "and hmovialc.cmoneda = ?  \n"+
+          "and hmovialc.ccod_almacen=?  \n"+
+          "and hmovialc.estado <> 'Anulado'  \n"+
+          "and hmoviald.ccod_articulo=? \n"+
+          "and hmoviald.cunidad = ifnull(erp_articulo_unidad.erp_codund, erp_lista_precio_cliente.erp_unidad) \n"+
+          "order by dfecha_doc desc limit 1),0) \n";
+          array_busqueda.push(ccodigo_cliente)
+          array_busqueda.push(req.body.moneda_documento)
+          array_busqueda.push(codigo_punto_venta)
+          array_busqueda.push(req.body.codigo)
+        }else{
+          query_precio_costo=
+          "case ? when 'S/' then \n"+
+          "case when harticul.cmoneda_precio = 'S/' then 1 else ? end \n"+
+          "else \n"+
+          "case when harticul.cmoneda_precio = 'S/' then 1 / ? else 1 end \n"+
+          "end * \n"+
+          " ifnull(erp_lista_precio_cliente.erp_monto,0) \n";
+          array_busqueda.push(req.body.moneda_documento)
+          array_busqueda.push(req.body.tipo_cambio)
+          array_busqueda.push(req.body.tipo_cambio)
+        }
+      }
+    }
+    var stock_comprometido="0"
+    if(modulo != "orden_compra"){
+      stock_comprometido = 
+      "ifnull((select sum(ncantidad-cantidad_atendida) as cantidad_comprometida from hpedidoc \n"+
+      "inner join hpedidod on \n"+
+      "hpedidoc.ccod_empresa = hpedidod.ccod_empresa \n"+
+      "and hpedidoc.idmotivo_venta = hpedidod.idmotivo_venta \n"+
+      "and hpedidoc.cnum_doc = hpedidod.cnum_doc \n"+
+      "and hpedidoc.ccod_almacen = hpedidod.ccod_almacen \n"+
+      "and hpedidoc.aprobado = 'Aprobado' \n"+
+      "and hpedidoc.atencion <> 'Atendido' \n"+
+      "where \n"+
+      "hpedidoc.ccod_empresa = harticul.ccod_empresa \n"+
+      "and hpedidoc.ccod_almacen = ? \n"+
+      "and hpedidod.ccod_articulo = ? \n"+
+      "and hpedidod.ccod_almacen_org = ? \n"+
+      "group by hpedidod.ccod_articulo ),0) / ifnull(erp_articulo_unidad.erp_factor,1) + \n"+
+      
+      "ifnull((select sum(ncantidad-cantidad_atendida) as cantidad_comprometida from hmovialc \n"+
+      "inner join hmoviald on \n"+
+      "hmovialc.ccod_empresa = hmoviald.ccod_empresa \n"+
+      "and hmovialc.ccod_almacen = hmoviald.ccod_almacen \n"+
+      "and hmovialc.ccod_movimiento = hmoviald.ccod_movimiento \n"+
+      "and hmovialc.cnum_doc = hmoviald.cnum_doc \n"+
+      "and hmovialc.tipo_venta in ('VENTA DIFERIDA','VENTA DIFERIDA DE PEDIDO') \n"+
+      "and hmovialc.atencion <> 'Atendido' \n"+
+      "where \n"+
+      "hmovialc.ccod_empresa = harticul.ccod_empresa \n"+
+      "and hmovialc.ccod_almacen = ? \n"+
+      "and hmoviald.ccod_articulo = ? \n"+
+      "and hmoviald.ccod_almacen_org = ? \n"+
+      "group by hmoviald.ccod_articulo ),0) / ifnull(erp_articulo_unidad.erp_factor,1)\n";
+      array_busqueda.push(codigo_punto_venta)
+      array_busqueda.push(req.body.codigo)
+      array_busqueda.push(req.body.almacen)
+      array_busqueda.push(codigo_punto_venta)
+      array_busqueda.push(req.body.codigo)
+      array_busqueda.push(req.body.almacen)
+    }
+    
+    // req.body.moneda_documento,
+    // req.body.tipo_cambio,
+    // req.body.tipo_cambio,
+
+    array_busqueda.push(tipo)
+    array_busqueda.push(req.body.lista_precios)
+    array_busqueda.push(codigo_punto_venta)
+    array_busqueda.push(req.body.almacen)
+    array_busqueda.push(codigo_empresa)
+    array_busqueda.push(req.body.codigo)
+    array_busqueda.push(req.body.almacen)
+
+    const lista = await pool
+    .query(
+      "select \n"+
+      "harticul.ccod_articulo as Codigo, \n"+
+      "ifnull(erp_articulo_unidad.erp_codund, erp_lista_precio_cliente.erp_unidad) as Unidad, \n"+
+      "ifnull(erp_articulo_unidad.erp_factor,1) as Factor, \n"+
+      query_precio_costo + " as Unit, \n"+
+      "ifnull(erp_lista_precio_cliente.erp_desc1,0) as Descuento1, \n"+
+      "(select erp_promociones_detalle.descuento from erp_promociones  \n"+
+        "inner join erp_promociones_detalle on  \n"+
+        "erp_promociones.codigo_empresa = erp_promociones_detalle.codigo_empresa and  \n"+
+        "erp_promociones.codigo_promocion = erp_promociones_detalle.codigo_promocion \n"+
+        "where  \n"+
+        "erp_promociones.codigo_empresa = harticul.ccod_empresa and  \n"+
+        "((now() - INTERVAL 6 HOUR) between erp_promociones.fecha_inicio and erp_promociones.fecha_vencimiento)  and \n"+
+        "erp_promociones_detalle.codigo_articulo = (case when erp_promociones.tipo_promocion = 'articulo' then harticul.ccod_articulo \n"+
+          "when erp_promociones.tipo_promocion = 'familia' then harticul.cfamilia \n"+
+          "when erp_promociones.tipo_promocion = 'subfamilia' then harticul.ccod_subfamilia \n"+
+          "when erp_promociones.tipo_promocion = 'concepto1' then harticul.codmarca \n"+
+          "when erp_promociones.tipo_promocion = 'concepto2' then harticul.color \n"+
+          "when erp_promociones.tipo_promocion = 'concepto3' then harticul.fuelle end) and \n"+
+        "(case when erp_promociones.tipo_promocion = 'articulo' then erp_promociones_detalle.unidad_articulo \n"+
+        "when erp_promociones.tipo_promocion = 'familia' then 'familia' \n"+
+        "when erp_promociones.tipo_promocion = 'subfamilia' then 'subfamilia' \n"+
+        "when erp_promociones.tipo_promocion = 'concepto1' then 'concepto1' \n"+
+        "when erp_promociones.tipo_promocion = 'concepto2' then 'concepto2' \n"+
+        "when erp_promociones.tipo_promocion = 'concepto3' then 'concepto3' end) = (case when erp_promociones.tipo_promocion = 'articulo' then erp_lista_precio_cliente.erp_unidad \n"+
+          "when erp_promociones.tipo_promocion = 'familia' then 'familia' \n"+
+          "when erp_promociones.tipo_promocion = 'subfamilia' then 'subfamilia' \n"+
+          "when erp_promociones.tipo_promocion = 'concepto1' then 'concepto1' \n"+
+          "when erp_promociones.tipo_promocion = 'concepto2' then 'concepto2' \n"+
+          "when erp_promociones.tipo_promocion = 'concepto3' then 'concepto3' end) limit 1) as Descuento2, \n"+
+      "SUM(ifnull(erp_stoart,0)) / ifnull(erp_articulo_unidad.erp_factor,1) as Stock, \n"+
+      stock_comprometido+" as Stock_Comprometido, \n"+
+      "'' as Cantidad, \n"+
+      "erp_articulo_unidad.erp_iteart as Item, \n"+
+      "nstock_min as Stock_Minimo, \n"+
+      "harticul.lote as Lote_SN, \n"+
+      "harticul.flagserie as Serie_SN, \n"+
+      "harticul.AFCT_PRC as Percepcion_SN, \n"+ 
+      "harticul.erp_porc_percep as Percepcion_Porc, \n"+ 
+      "case harticul.si_icbper when 'S' then harticul.monto_icbper else 0 end as ICBPER, \n"+
+      "0.00 as Importe, \n"+
+      "0.00 as PrecioCalcular \n"+
+      "from harticul \n"+
+      "left join erp_articulo_unidad on \n"+
+      "erp_articulo_unidad.erp_codemp = harticul.ccod_empresa and \n"+
+      "erp_articulo_unidad.erp_codart = harticul.ccod_articulo \n"+
+      "left join erp_lista_precio_cliente on \n"+
+      "erp_lista_precio_cliente.erp_codemp = harticul.ccod_empresa and \n"+
+      "erp_lista_precio_cliente.erp_codart = harticul.ccod_articulo and \n"+
+      "erp_lista_precio_cliente.erp_unidad = erp_articulo_unidad.erp_codund and \n"+
+      "erp_lista_precio_cliente.erp_tipo = ? and \n"+
+      "erp_lista_precio_cliente.erp_codigo_concepto = ? \n"+
+      "left join hunimed on \n"+
+      "hunimed.erp_codemp = erp_articulo_unidad.erp_codemp and \n"+
+      "hunimed.cunidad = erp_articulo_unidad.erp_codund \n"+
+      " left join hstock on \n"+
+      " hstock.erp_codemp = harticul.ccod_empresa and \n"+
+      " hstock.erp_codart = harticul.ccod_articulo and \n"+
+      " hstock.erp_codptv = ? and \n"+
+      " hstock.erp_codalm = ? \n"+
+
+      //inner join Agregado para que funcion en el modulo de transaccion
+      "left join halmacen on \n"+
+      "halmacen.ccod_empresa = harticul.ccod_empresa and\n"+
+      "halmacen.ccod_almacen = hstock.erp_codptv \n"+
+      "left join halmacen_2 on \n"+
+      "halmacen_2.ccod_empresa = harticul.ccod_empresa \n"+
+
+      "where  \n"+
+      "harticul.ccod_empresa = ? and \n"+
+      "harticul.ccod_articulo = ? and \n"+
+      "halmacen_2.ccod_almacen = ? \n"+
+      "group by \n"+
+      "harticul.ccod_articulo, \n"+
+      "hunimed.cunidad \n"+
+      "order by  \n"+
+      "hunimed.Hunimed_fechmodificacion asc\n", //ordenado por fecha de cracion
+      array_busqueda
+      );
+ 
+    res.json(lista);
+  } catch (err) {
+    res.send({message: err.message, sql: err.sql})
+  }
+});
+
+
+icono ala izquierda 
+
+clientes articulos pedidos perfil carrito
+
+
+linea de credito de cliente 
+
+
+nuevo pedido
+
+nuevo carrito
+
+
+-------------------
+cerrar sesion color azul y tamaño del icono del erp_articulo_unidad
+el sub menu mismo color del erp web
+mostrar factor de conversion de los articulos
+mostrar los primeros 100 articulos
+articulos el orden de los precios primero la und
+
+
+-------------------
+carrito 
+presentacion 
+cambiar a present.
+
+productos 
+u.medida U.Me 
+
+Factor 
+fact
+
+-------------------
+Ver las promociones de los articulos
+
+
+
+
+
+
+
+---------------------------------------
+Códigos para ejecutar ionic desde CMD
+
+ionic -serve
+ionic -build
+
+Códigos para crear el proyecto Android con Capacitor
+npx cap add android
+npx cap open android
+
+Finalmente en android studio crear el apk 
+
+
+
+ionic build
+npx cap add android
+npx cap open android

@@ -1,0 +1,36 @@
+.titulos{
+    font-size: 14px !important;
+}
+
+ion-input.custom-input {
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    text-align: center;
+    --border-style: none;
+    font-size: 17px;
+    --padding-start: 0px;
+}
+
+ion-button.custom-button {
+    // --border-radius:	50%;
+    --border-color: transparent;
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    --border-style: none;
+    --box-shadow: 0;
+    font-size: 15px;
+    --background: white;
+    --color: black;
+}
+
+.border-suma {
+    // border-color: #fd821a !important;
+    border-radius: 20px;
+}
+
+.titulo-division {
+    color: rgb(98, 98, 98);
+    background-color: rgba(216, 216, 216, 0.672);
+}

@@ -1,0 +1,126 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+// swiper.scss
+@import 'swiper/scss';
+@import 'swiper/css/a11y';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/zoom';
+
+// @import '~@ionic/angular/css/ionic-swiper';
+
+
+@import url('https://rsms.me/inter/inter.css');
+* { font-family: 'Inter', sans-serif !important; }
+@supports (font-variation-settings: normal) {
+  * { font-family: 'Inter var', sans-serif !important; }
+}
+:root{
+    --colorAzul:rgb(0, 0, 128) ;
+}
+
+
+
+.bg-azul-raro{
+    background-color: rgb(10, 121, 150)
+}
+
+.text-tertiary{
+    color: #6610f2;
+}
+
+.titulos{
+    font-size: 15px !important;
+}
+.titulos-medianos{
+    font-size: 19px !important;
+}
+
+.titulos-grande{
+    font-size: 22px !important;
+}
+
+.selects-grande{
+    font-size: 21px !important;
+}
+.label-grande{
+    font-size: 21px !important;
+}
+.textos{
+    font-size: 15px !important;
+}
+.textos-pequeño{
+    font-size: 13px !important;
+}
+
+.iconos{
+    font-size: 12px !important;
+}
+.iconos-mediano{
+    font-size: 18px !important;
+}
+.iconos-pequeño{
+    font-size: 10px !important;
+}
+.carta{
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 1px -2px, 
+                rgb(0 0 0 / 14%) -2px -1px 2px 0px;
+    border: 1px solid #cccccc;
+}
+
+#modal-direccion {
+    --width: fit-content;
+    --min-width: 290px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  }
+  
+// #modal-direccion h1 {
+//     margin: 20px 20px 10px 20px;
+//   }
+  
+// #modal-direccion ion-icon {
+//     margin-right: 6px;
+  
+//     width: 48px;
+//     height: 48px;
+  
+//     padding: 4px 0;
+  
+//     color: #aaaaaa;
+//   }
+  
+// #modal-direccion .wrapper {
+//     margin-bottom: 10px;
+//   }
+
+ion-item ion-icon.ion-accordion-toggle-icon.md.hydrated{
+    margin: 0px !important;
+    color: white;
+}

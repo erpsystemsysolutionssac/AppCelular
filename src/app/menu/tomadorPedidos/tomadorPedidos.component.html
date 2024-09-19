@@ -1,0 +1,110 @@
+<app-menu [sistema]="modulo" (execIrRuta)="irRuta()"></app-menu>
+
+<ion-content >
+</ion-content>
+
+<ion-tabs id="main-content">
+  <ion-tab-bar slot="top" class="tab-bar-custom d-flex justify-content-between align-items-center" >
+    <ion-tab-button style="max-width: 30px;"  class="erp-sidebar " >
+      <ion-menu-toggle >
+        <ion-button class="button-erp "  class="icon-color-erp2">
+          <ion-icon slot="" name="menu" class="icon-custom "></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-tab-button>
+
+    <ion-tab-button tab="articulos" class="menu text-custom col-auto" (click)="eventoActualizarArticulos()">
+      <ion-label class="textos" >Productos</ion-label>
+      <!-- <ion-icon name="clipboard" ></ion-icon> -->
+    </ion-tab-button>
+
+    <ion-tab-button tab="listaPrecios" class="menu text-custom col-auto" >
+      <ion-label class="textos" >ListaPrecios</ion-label>
+      <!-- <ion-icon name="gift-outline"></ion-icon> -->
+    </ion-tab-button>
+
+    <ion-tab-button tab="clientes"  class="menu text-custom col-auto"  >
+      <ion-label class="textos" >Clientes</ion-label>
+      <!-- <ion-icon name="people"></ion-icon> -->
+    </ion-tab-button>
+    
+    <ion-tab-button tab="carrito" class="menu icon-color-erp pe-1" style="max-width: 45px;"  >
+      <!-- <ion-label class="textos">Carrito</ion-label> -->
+     
+      <ion-badge class="fs-badge" color="tertiary">{{carritoS.arrCarrito.length}}</ion-badge>
+      <ion-icon name="cart" class="icon-custom"></ion-icon>
+      
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+
+
+
+
+
+<!-- 
+
+
+<ion-menu side="start" menuId="tomadorPedidos" contentId="tomadorPedidos">
+  <ion-header>
+    <ion-toolbar class="border-bottom border-primary">
+      <ion-title class="text-primary titulos-medianos">Tomador de Pedidos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle >
+        <ion-item  routerLink="/tomadorPedidos/vendedor" class="textos"  >
+          Vendedor
+          <ion-icon slot="start" name="cash" color="primary" class=""></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item  routerLink="/tomadorPedidos/pedidos" class="textos" >
+          Pedidos
+          <ion-icon slot="start" name="receipt" color="primary"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+
+<ion-content >
+</ion-content>
+
+<ion-tabs id="tomadorPedidos">
+  <ion-tab-bar slot="top" style="--border:none;" >
+    <ion-tab-button style="max-width: 40px;"  class="erp-sidebar">
+      <ion-menu-toggle  menu="tomadorPedidos">
+        <ion-button class="custom-button"  class="button-erp" ><ion-icon slot="" name="menu"></ion-icon></ion-button>
+      </ion-menu-toggle>
+    </ion-tab-button>
+
+    <ion-tab-button tab="articulos" class="bg-1 menu" >
+      <ion-label class="textos" >Produc.</ion-label>
+      <ion-icon name="clipboard" ></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="promociones" class="bg-4 menu" >
+      <ion-label class="textos" >Promos</ion-label>
+      <ion-icon name="gift-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="clientes"  class="bg-2 menu" >
+      <ion-label class="textos" >Clientes</ion-label>
+      <ion-icon name="people"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button tab="carrito" class="bg-3 menu"  >
+      <ion-label class="textos">Carrito</ion-label>
+      <ion-badge class="fs-badge" color="tertiary">{{carritoS.arrCarrito.length}}</ion-badge>
+      <ion-icon name="cart"></ion-icon>
+      
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+
+
+-->
