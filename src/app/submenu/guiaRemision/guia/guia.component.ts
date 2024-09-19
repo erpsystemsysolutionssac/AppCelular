@@ -57,7 +57,6 @@ export class GuiaComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((param) => {
-      console.log(param);
 
       this.cnum_doc = param.numeroDocumento
       this.motivo = param.motivo
