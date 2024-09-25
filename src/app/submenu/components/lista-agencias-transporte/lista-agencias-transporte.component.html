@@ -1,0 +1,124 @@
+<ion-content scroll-y="false" class="mt-0 ">
+  <!-- <ion-refresher slot="fixed"   [disabled]="refreshDisabled" 
+  (ionRefresh)="refresherArticulos($event)">
+    <ion-refresher-content   
+    ></ion-refresher-content>
+  </ion-refresher> -->
+
+  <ion-grid fixed class="p-0">
+      <ion-row>
+          <ion-col size="12" class="px-1 col-bg"
+              style="height: 34px; text-align: center; font-weight: 600; color: white; border-bottom: 1px solid #c77129;">
+              Agencias de Transporte
+          </ion-col>
+      </ion-row>
+  </ion-grid>
+
+  <form [formGroup]="buscarForm" (ngSubmit)="buscarAgencias(buscarForm)">
+      <ion-grid fixed class="p-0">
+          <ion-row>
+              <ion-col size="12" class="px-1 col-bg" style="height: 44px;">
+                  <ion-item class="input-col">
+                      <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar "></ion-input>
+                      <ion-button type="submit" expand="block" class="btn-buscar p-0">
+                          <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+                      </ion-button>
+                  </ion-item>
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+  </form>
+
+  <cdk-virtual-scroll-viewport #elscroll *ngIf="arrAgenciasTransportes.length>0" itemSize="10"
+      class="ion-content-scroll-host" (scroll)="onWindowScroll($event)">
+
+      <ion-list class="mb-3">
+          <ion-card *ngFor="let agenciaTransporte of arrAgenciasTransportes " class="mb-3 ps-2 pe-2 pt-2 carta ">
+              <div class="row m-0">
+                  <div class="col-10 p-0">
+                      <div class="row" style="margin-bottom: -6px;">
+                          <div class="col">
+                              <p class="mb-0 px-0 fw-bolder text-dark titulos">{{agenciaTransporte.Nombre}}</p>
+                          </div>
+                      </div>
+                      <div class="row mb-auto ">
+                          <div class="col">
+                              <p class="mb-0 px-0" style="font-size: 11px; color: gray;">{{agenciaTransporte.Codigo}}
+                              </p>
+                          </div>
+                      </div>
+                      <div class="row mb-0">
+                          <div class="col-3 pe-0">
+                              <p class="mb-0 px-0 fw-bolder text-dark text-informacion">Ruc:</p>
+                          </div>
+                          <div class="col-6 px-0">
+                              <p class="mb-0 px-0 text-dark text-informacion">{{agenciaTransporte.Ruc}}</p>
+                          </div>
+                      </div>
+                      <div class="row mb-0">
+                          <div class="col-3 pe-0">
+                              <p class="mb-0 px-0 fw-bolder text-dark text-informacion">Dirección:</p>
+                          </div>
+                          <div class="col-6 px-0">
+                              <p class="mb-0 px-0 text-dark text-informacion">{{agenciaTransporte.Direccion}}</p>
+                          </div>
+                      </div>
+                      <div class="row mb-1">
+                          <div class="col-3 pe-0">
+                              <p class="mb-0 px-0 fw-bolder text-dark text-informacion">Telefono:</p>
+                          </div>
+                          <div class="col-6 px-0">
+                              <p class="mb-0 px-0 text-dark text-informacion">{{agenciaTransporte.Telefono}}</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-2 p-0">
+                      <div class="row m-0">
+                          <ion-button type="button" expand="block" fill="solid" color="warning"
+                              class="c-b iconos px-0" [routerLink]="'editar/'+agenciaTransporte.Codigo">
+                              <ion-icon name="pencil"></ion-icon>
+                          </ion-button>
+                      </div>
+                      <div class="row m-0">
+                          <ion-button type="button" expand="block" fill="solid" color="primary"
+                              class="c-b iconos px-0" [routerLink]="'consultar/'+agenciaTransporte.Codigo">
+                              <ion-icon name="eye"></ion-icon>
+                          </ion-button>
+                      </div>
+                      <div class="row m-0">
+                          <ion-button type="button" expand="block" fill="solid" color="danger"
+                              class="c-b iconos px-0" [routerLink]="'eliminar/'+agenciaTransporte.Codigo">
+                              <ion-icon name="trash"></ion-icon>
+                          </ion-button>
+                      </div>
+                  </div>
+              </div>
+          </ion-card>
+      </ion-list>
+
+      <!-- <ion-infinite-scroll *ngIf="estadoRecargar"  (ionInfinite)="recargarArticulos($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Cargando">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll> -->
+
+      <div class="mt-4 pt-4"></div>
+      <div class="mt-4 pt-4"></div>
+  </cdk-virtual-scroll-viewport>
+
+</ion-content>
+
+<ion-footer collapse="fade"> 
+  <ion-toolbar>
+    <ion-grid fixed>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="7" >
+          <ion-button type="button"  expand="block" fill="solid" routerLink="guardar/nuevo" >
+            Agregar Agencia
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer> 

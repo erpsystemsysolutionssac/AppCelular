@@ -1,0 +1,222 @@
+cdk-virtual-scroll-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+ion-card-title {
+    font-size: 14px;
+}
+
+ion-input.custom-input {
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    text-align: center;
+    --border-style: none;
+    font-size: 17px;
+    --padding-start: 0px;
+}
+
+ion-button.custom-button {
+    --border-color: transparent;
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    --border-style: none;
+    --box-shadow: 0;
+    font-size: 15px;
+    --background: white;
+    --color: black;
+}
+
+.button-small {
+    height: 1.7em;
+}
+
+.border-suma {
+    border-radius: 20px;
+}
+
+.color-border {
+    border-color: #fd821a !important;
+
+}
+
+
+ion-item.list {
+    --padding-bottom: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --padding-top: 0px;
+    --inner-padding-start: 0px;
+    --inner-padding-end: 0px;
+    --inner-padding-top: 0px;
+    --inner-padding-bottom: 0px;
+    --min-height: auto;
+}
+
+.p-custom {
+    padding: 0.05rem !important;
+}
+
+.moneda {
+    font-size: 10px;
+    background-image: none;
+    padding-right: 9px;
+    padding-left: 9px;
+    font-size: 14px;
+    padding: 2px;
+}
+
+.moneda:focus {
+    border-color: none;
+    box-shadow: none;
+}
+
+.table-fs {
+    font-size: 13.5px;
+
+}
+
+.btn-ver-lista {
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.btn-ver-lista:focus {
+    box-shadow: none;
+}
+
+.btnPrecio {
+    --padding-top: 0px;
+    --padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 4px;
+    margin-left: 2px;
+    margin-right: 2px;
+    height: 17.5px;
+    --padding-start: 2px;
+    --padding-end: 2px;
+    font-size: 12px;
+}
+
+.color_descuento {
+    color: #44ac6d;
+    margin-top: 4px;
+    margin-bottom: 4px
+}
+
+.itemDt {
+    --highlight-background: transparent;
+    --min-height: 16px;
+    height: 15px;
+    min-height: 15px;
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+}
+
+.itemDt.item-native {
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    padding-inline-end: 0;
+    --inner-padding-end: 0;
+}
+
+
+.datosTecnicos {
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --inner-padding-end: 0px !important;
+}
+
+// datosTecnicos.
+
+
+image-cropper {
+    --cropper-overlay-color: rgba(0, 0, 0, 1);
+}
+
+/*Fitlro*/
+.input-col {
+    border-radius: 30px;
+    --inner-padding-end: 0px !important;
+    --min-height: 30px;
+}
+
+.input-buscar {
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --inner-padding-end: 0px !important;
+}
+
+.btn-buscar {
+    --background: transparent;
+    --color: grey;
+    --box-shadow: none;
+}
+
+.btn-filtrar {
+    --border-color: #fd821a;
+    --background: white;
+    text-transform: none;
+    --color: grey;
+    --padding-start: 4px;
+    --padding-end: 4px;
+    --inner-padding-end: 0px;
+}
+
+.col-bg {
+    background-color: #fd821a;
+    --background: #fd821a !important;
+}
+
+.ion-valid {
+    --highlight-color-valid: transparent;
+}
+
+
+
+/*refresher*/
+
+ion-refresher {
+    z-index: 10000;
+}
+
+.stilo1 {
+    --ion-text-color: rgb(0, 0, 128);
+
+}
+
+.refresher-refreshing-text {
+    color: rgb(0, 0, 128);
+    --ion-text-color: rgb(0, 0, 128);
+}
+
+.refresher-refreshing-icon {
+    font-size: 0px;
+    color: rgb(0, 0, 128);
+    --ion-text-color: rgb(0, 0, 128);
+}
+
+.color-azul {
+    color: rgb(0, 0, 128);
+}
+
+.modal_descuentos_titulos {
+    font-size: 12px;
+    color: rgb(0, 0, 128);
+    border-color: #fd821a !important;
+}
+
+.modal_descuentos_body {
+    font-size: 9px;
+    border-color: #fd821a !important;
+}

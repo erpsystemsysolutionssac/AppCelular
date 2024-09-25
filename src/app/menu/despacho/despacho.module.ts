@@ -26,7 +26,7 @@ import { ModalPedidoComponent } from 'src/app/submenu/despacho/modal-pedido/moda
         DespachoRoutingModule,
         HeaderModule,
         ScrollingModule,
-        SharedModule,
+        // SharedModule,
         ReactiveFormsModule,
         SwiperModule,
         ImageCropperModule

@@ -1,83 +1,83 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AgenciaFormComponent } from 'src/app/submenu/tomadorPedidos/agencia-form/agencia-form.component';
-import { AgenciasTransportesComponent } from 'src/app/submenu/tomadorPedidos/agencias-transportes/agencias-transportes.component';
+import { ListaArticulosComponent } from 'src/app/submenu/components/lista-articulos/lista-articulos.component';
+import { ListaClientesComponent } from 'src/app/submenu/components/lista-clientes/lista-clientes.component';
+import { ClienteComponent } from 'src/app/submenu/mantenimientos/cliente/cliente.component';
 import { ArticuloComponent } from 'src/app/submenu/tomadorPedidos/articulo/articulo.component';
-import { ArticulosComponent } from 'src/app/submenu/tomadorPedidos/articulos/articulos.component';
-import { CarritoComponent } from 'src/app/submenu/tomadorPedidos/carrito/carrito.component';
-import { ClienteComponent } from 'src/app/submenu/tomadorPedidos/cliente/cliente.component';
-import { ClientesComponent } from 'src/app/submenu/tomadorPedidos/clientes/clientes.component';
-import { ListaPreciosComponent } from 'src/app/submenu/tomadorPedidos/lista-precios/lista-precios.component';
+import { CarritoV2Component } from 'src/app/submenu/tomadorPedidos/carrito-v2/carrito-v2.component';
 import { PedidoComponent } from 'src/app/submenu/tomadorPedidos/pedido/pedido.component';
 import { PedidosComponent } from 'src/app/submenu/tomadorPedidos/pedidos/pedidos.component';
 import { PromocionesComponent } from 'src/app/submenu/tomadorPedidos/promociones/promociones.component';
-import { VendedorComponent } from 'src/app/submenu/tomadorPedidos/vendedor/vendedor.component';
 import { VerMasComponent } from 'src/app/submenu/tomadorPedidos/ver-mas/ver-mas.component';
 
 import { TomadorPedidosComponent } from './tomadorPedidos.component';
+import { ListaPreciosComponent } from 'src/app/submenu/components/lista-precios/lista-precios.component';
+import { ListaAgenciasTransporteComponent } from 'src/app/submenu/components/lista-agencias-transporte/lista-agencias-transporte.component';
+import { AgenciaComponent } from 'src/app/submenu/mantenimientos/agencia/agencia.component';
+import { VendedorComponent } from 'src/app/submenu/mantenimientos/vendedor/vendedor.component';
 
 
 const routes: Routes = [
   {
     path: '',
     component: TomadorPedidosComponent,
-    children:[
+    children: [
       {
         path: '',
         redirectTo: 'articulos',
         pathMatch: 'full'
       },
       {
-        path:'articulos',
-        component:ArticulosComponent,
+        path: 'articulos',
+        component: ListaArticulosComponent
       },
       {
-        path:'articulos/:cod',
-        component:ArticuloComponent,
+        path: 'articulos/:cod',
+        component: ArticuloComponent,
       },
       {
-        path:'promociones',
-        component:PromocionesComponent,
+        path: 'promociones',
+        component: PromocionesComponent,
       },
       {
-        path:'listaPrecios',
-        component:ListaPreciosComponent,
+        path: 'listaPrecios',
+        component: ListaPreciosComponent
       },
       {
-        path:'pedidos',
-        component:PedidosComponent
-      }, 
-      {
-        path:'pedidos/:cod/:motivo',
-        component:PedidoComponent
+        path: 'pedidos',
+        component: PedidosComponent
       },
       {
-        path:'clientes',
-        component:ClientesComponent,
+        path: 'pedidos/:cod/:motivo',
+        component: PedidoComponent
       },
       {
-        path:'clientes/:ccod_cliente',
-        component:ClienteComponent
+        path: 'clientes',
+        component: ListaClientesComponent
       },
       {
-        path:'carrito',
-        component:CarritoComponent,
+        path: 'clientes/:ccod_cliente',
+        component: ClienteComponent
       },
       {
-        path:'vendedor',
-        component:VendedorComponent
+        path: 'carrito',
+        component: CarritoV2Component
       },
       {
-        path:'agenciasTransportes',
-        component: AgenciasTransportesComponent
+        path: 'vendedor',
+        component: VendedorComponent
       },
       {
-        path:'agenciasTransportes/:evento/:ccod_agencia',
-        component: AgenciaFormComponent
+        path: 'agenciasTransportes',
+        component: ListaAgenciasTransporteComponent
       },
       {
-        path:'verMas/:random',
-        component:VerMasComponent
+        path: 'agenciasTransportes/:evento/:ccod_agencia',
+        component: AgenciaComponent
+      },
+      {
+        path: 'verMas/:random',
+        component: VerMasComponent
       },
       {
         path: '**',
@@ -86,11 +86,11 @@ const routes: Routes = [
     ]
   },
 
- 
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TomadorPedidosRoutingModule {}
+export class TomadorPedidosRoutingModule { }

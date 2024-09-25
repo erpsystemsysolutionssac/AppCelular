@@ -16,24 +16,15 @@ import { SwiperModule } from 'swiper/angular';
 
 import {  TomadorPedidosComponent } from './tomadorPedidos.component';
 import { ArticuloComponent } from 'src/app/submenu/tomadorPedidos/articulo/articulo.component';
-import { ArticulosComponent } from 'src/app/submenu/tomadorPedidos/articulos/articulos.component';
 import { VerMasComponent } from 'src/app/submenu/tomadorPedidos/ver-mas/ver-mas.component';
-import { ClientesComponent } from 'src/app/submenu/tomadorPedidos/clientes/clientes.component';
-import { ClienteComponent } from 'src/app/submenu/tomadorPedidos/cliente/cliente.component';
 import { PedidosComponent } from 'src/app/submenu/tomadorPedidos/pedidos/pedidos.component';
-import { CarritoComponent } from 'src/app/submenu/tomadorPedidos/carrito/carrito.component';
-import { VendedorComponent } from 'src/app/submenu/tomadorPedidos/vendedor/vendedor.component';
 import { PedidoComponent } from 'src/app/submenu/tomadorPedidos/pedido/pedido.component';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { PromocionesComponent } from 'src/app/submenu/tomadorPedidos/promociones/promociones.component';
-import { ListaPreciosComponent } from 'src/app/submenu/tomadorPedidos/lista-precios/lista-precios.component';
-import { ModalDireccionComponent } from 'src/app/submenu/tomadorPedidos/modal-direccion/modal-direccion.component';
-import { AgenciasTransportesComponent } from 'src/app/submenu/tomadorPedidos/agencias-transportes/agencias-transportes.component';
-import { AgenciaFormComponent } from 'src/app/submenu/tomadorPedidos/agencia-form/agencia-form.component';
-import { TypeaheadComponent } from 'src/app/submenu/tomadorPedidos/typeahead/typeahead.component';
 import { ComponentesModule } from 'src/app/submenu/components/componentes.module';
-import { ModalPromocionesComponent } from 'src/app/submenu/tomadorPedidos/modal-promociones/modal-promociones.component';
+import { CarritoV2Component } from 'src/app/submenu/tomadorPedidos/carrito-v2/carrito-v2.component';
+import { MantenimientosModule } from 'src/app/submenu/mantenimientos/mantenimientos.modulo';
 
 
 @NgModule({
@@ -44,29 +35,21 @@ import { ModalPromocionesComponent } from 'src/app/submenu/tomadorPedidos/modal-
     TomadorPedidosRoutingModule,
     HeaderModule,
     ScrollingModule,
-    SharedModule ,
+    SharedModule,
     ReactiveFormsModule,
     SwiperModule,
     ImageCropperModule,
-    ComponentesModule
+    ComponentesModule,
+    MantenimientosModule
   ],
-  declarations: [TomadorPedidosComponent,
-    CarritoComponent,
-    ArticulosComponent,
+  declarations: [
+    TomadorPedidosComponent,
     ArticuloComponent,
     VerMasComponent,
-    ClientesComponent,
-    ClienteComponent,
     PedidosComponent,
     PedidoComponent,
-    VendedorComponent,
     PromocionesComponent,
-    ListaPreciosComponent,
-    ModalDireccionComponent,
-    AgenciasTransportesComponent,
-    AgenciaFormComponent,
-    TypeaheadComponent,
-    ModalPromocionesComponent
+    CarritoV2Component
   ],
   // exports:[ClientesComponent,ClienteComponent]
 })

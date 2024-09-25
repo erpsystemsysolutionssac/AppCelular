@@ -34,4 +34,13 @@ export class PuntoVentaService {
         this.customHeaders
     );
   }
+
+  datosPuntoVenta(codigo_punto_venta: string){
+    return this.http.post<any[]>(this.ruta + '/datos/'+this.globalService.calcularNumeroRandomUrl(), {
+      codigo_empresa: this.loginService.codigo_empresa,
+      codigo_punto_venta
+  },
+      this.customHeaders
+  );
+  }
 }

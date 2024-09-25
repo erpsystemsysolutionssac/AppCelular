@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
       
     ])
       .then(async (resp) => {
-       
+        console.log(resp);
         if (!resp[0].estado) {
           await this.toolS.ocultarCargando(idLoading)
           this.mostrarAlerta(resp[0].message)

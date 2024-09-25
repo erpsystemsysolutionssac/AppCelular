@@ -1,0 +1,86 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cerrarImagenesModal()" color="danger">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button class="accion-icon" (click)="borrarImagen()">
+        <ion-icon color="danger" name="trash-outline" class="modal-icon"></ion-icon>
+      </ion-button>
+      <ion-button class="accion-icon" (click)="cambiarGaleria()">
+        <ion-icon color="warning" name="create-outline" class="modal-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Imagenes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="h-100 d-flex align-items-center">
+
+    <swiper [config]="config" (swiper)="onSwiper($event)" (slideChange)="onSlideChange($event)">
+      <ng-template swiperSlide *ngFor="let img of sliederArr" class="w-100 d-flex justify-content-center">
+        <div class="swiper-zoom-container">
+          <img [src]="img.src | imagen:'articulos'" class="w-auto" />
+        </div>
+      </ng-template>
+    </swiper>
+
+  </div>
+</ion-content>
+
+<ion-footer>
+
+  <ion-toolbar>
+    <ion-grid class="border-top border-dark ">
+      <ion-row>
+        <ion-col size="6" class="mx-auto">
+          <ion-button expand="block" shape="round" class="" (click)="guardarImagen()">
+            Guardar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+
+</ion-footer>
+
+<ion-modal #cropperModal trigger="open-modal">
+  <ng-template>
+
+    <ion-content class="ion-padding " color="dark">
+
+      <div class="h-100 d-flex justify-content-center align-items-center bg-dark">
+        <div class="spinner-border bg-transparent" role="status" [hidden]="!cropperLoading">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <image-cropper [hidden]="cropperLoading" #cropper [maintainAspectRatio]="true" [aspectRatio]="1/1" format="jpeg"
+          [imageQuality]=90 [onlyScaleDown]=true [hideResizeSquares]="true" [imageURL]='imgCropear'
+          (imageLoaded)='imageLoaded()' (loadImageFailed)="loadImageFailed()"></image-cropper>
+      </div>
+    </ion-content>
+
+    <ion-footer class="border-top border-dark">
+      <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+          <ion-button fill="outline" color="danger" (click)="cancel()" style="text-transform: none;">
+            <ion-icon slot="start" name="close-sharp"></ion-icon>
+            Cancelar
+          </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button fill="outline" color="success" (click)="generarCropper()" style="text-transform: none;">
+            <ion-icon slot="start" name="checkmark-sharp"></ion-icon>
+            Listo
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+
+  </ng-template>
+</ion-modal>

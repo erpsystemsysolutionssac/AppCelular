@@ -9,6 +9,8 @@ import { ToolsService } from './tools.service';
 })
 export class LoginService {
 
+  public modulo: string = '';
+
   public datosUsu:any
   public centro_costo:any
   public unidad_negocio:any
@@ -175,5 +177,13 @@ export class LoginService {
     var milliseconds = new Date().getMilliseconds()
     var numero_adicional = random + '-' + milliseconds
     return numero_adicional;
+  }
+
+  updateModulo(_modulo: string){
+    localStorage.setItem('modulo', _modulo);
+  }
+
+  getModulo(){
+    return localStorage.getItem('modulo')
   }
 }

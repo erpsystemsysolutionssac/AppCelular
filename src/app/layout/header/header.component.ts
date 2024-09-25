@@ -14,11 +14,12 @@ export class HeaderComponent implements OnInit {
   public titulo:String;
   public activo :boolean;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(
+    private activatedRoute: ActivatedRoute,
     public loginService:LoginService,
     private router:Router,
     private tools:ToolsService,
-    public globalService: GlobalService
+    public globalService: GlobalService,
     ) {
    }
 
@@ -30,6 +31,11 @@ export class HeaderComponent implements OnInit {
         this.cerrarSesion('Fecha de trabajo incorrecto, Cerrar Sesion');
       }
     }
+  }
+
+  irInicio(){
+    localStorage.setItem('modulo', '')
+    this.router.navigate([''])
   }
 
   cerrarSesion(mensaje?: string){
@@ -44,8 +50,6 @@ export class HeaderComponent implements OnInit {
 
       }
     })
-
-  
   }
 
 }

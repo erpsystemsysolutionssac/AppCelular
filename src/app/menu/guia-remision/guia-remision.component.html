@@ -1,4 +1,4 @@
-<app-menu [sistema]="modulo" (execIrRuta)="irRuta()"></app-menu>
+<app-menu (execIrRuta)="irRuta()"></app-menu>
 
 <ion-content>
 </ion-content>
@@ -27,7 +27,7 @@
 
     <ion-tab-button tab="carrito" class="menu icon-color-erp pe-1" style="max-width: 45px;">
 
-      <ion-badge class="fs-badge" color="tertiary">{{carritoS.arrCarrito.length}}</ion-badge>
+      <ion-badge class="fs-badge" color="tertiary">{{carritoService.getTotalItems()}}</ion-badge>
       <ion-icon name="cart" class="icon-custom"></ion-icon>
 
     </ion-tab-button>

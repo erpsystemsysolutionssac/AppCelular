@@ -158,6 +158,10 @@ export class ToolsService {
     return this.fechaHoy(fecha) + ' ' + this.horaActual(fecha);
   };
 
+  year = (fecha = new Date()) => {
+    return fecha.getFullYear();
+  };
+
   fechaYHoraIso(fecha = new Date()) {
     return this.fechaHoy() + 'T' + this.horaActual();
   }
@@ -166,6 +170,21 @@ export class ToolsService {
     let f1: string | number = String(fecha);
     f1 = Date.parse(f1);
     return this.fechaYHora(new Date(f1));
+  }
+
+  convertirFechaDate(fechaString: string, separador: string): Date {
+    const partes = fechaString.split(separador); 
+    const dia = parseInt(partes[0], 10); 
+    const mes = parseInt(partes[1], 10) - 1;
+    const anio = parseInt(partes[2], 10); 
+  
+    return new Date(anio, mes, dia);
+  }
+
+  addDays(fecha: string, dias: number) {
+    const nuevaFecha = new Date(fecha);
+    nuevaFecha.setUTCDate(nuevaFecha.getUTCDate() + dias);
+    return this.parsearMysqlDate(nuevaFecha);
   }
 
   parsearIso(fecha: string,hora:boolean=true) {
@@ -213,6 +232,8 @@ export class ToolsService {
           return environment.erpSystemsMype.urlApi;
         case 'urlImagenes':
           return environment.erpSystemsMype.urlImagenes;
+        case 'urlArchivos':
+          return environment.erpSystemsMype.urlArchivos;
       }
       
     } else if (isrucSoft) {
@@ -223,6 +244,8 @@ export class ToolsService {
           return environment.erpSystemsSoft.urlApi;
         case 'urlImagenes':
           return environment.erpSystemsSoft.urlImagenes;
+        case 'urlArchivos':
+          return environment.erpSystemsSoft.urlArchivos;
       }
       
     } else {
@@ -233,6 +256,8 @@ export class ToolsService {
           return environment.erpSolutions.urlApi;
         case 'urlImagenes':
           return environment.erpSolutions.urlImagenes;
+        case 'urlArchivos':
+          return environment.erpSolutions.urlArchivos;
       }
     }
   }

@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonTabs } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { ArticuloService } from 'src/app/service/tomadorPedidos/articulo.service';
+import { LoginService } from 'src/app/service/login.service';
+import { ProductoService } from 'src/app/service/mantenimiento/producto.service';
 import { CarritoService } from 'src/app/service/tomadorPedidos/carrito.service';
 
 @Component({
@@ -12,17 +13,15 @@ import { CarritoService } from 'src/app/service/tomadorPedidos/carrito.service';
 })
 export class TomadorPedidosComponent implements OnInit, OnDestroy {
 
-  modulo: string = 'tomadorPedidos';
-
   private subscricion: Subscription = null
 
   constructor(
-    public carritoS: CarritoService,
+    private loginService: LoginService,
+    public carritoService: CarritoService,
     private router: Router,
     private route: ActivatedRoute,
-    private artituloService: ArticuloService,
+    private productoService: ProductoService,
   ) {
-    
   }
 
   public catalogoMenu = [
@@ -40,32 +39,32 @@ export class TomadorPedidosComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    console.log('ngOnInit Pedido')
-    localStorage.setItem('modulo', this.modulo);
-    console.log(this.carritoS.arrCarrito);
-    let dataCarrito = localStorage.getItem('arrCarrito_'+this.modulo);
-    let dataCliente = localStorage.getItem('objCliente_'+this.modulo);
+    
+    console.log('ngOnInit TomadorPedidosComponent: ', this.loginService.getModulo())
+    let dataCarrito = localStorage.getItem('arrCarrito_'+this.loginService.getModulo());
+    let dataCliente = localStorage.getItem('objCliente_'+this.loginService.getModulo());
   
-    this.carritoS.arrCarrito = []
+    this.carritoService.arrayCarrito = []
 
     if (JSON.parse(dataCarrito)) {
-      this.carritoS.arrCarrito = JSON.parse(dataCarrito);
+      this.carritoService.arrayCarrito = JSON.parse(dataCarrito);
+      this.carritoService.calcularDetalleVenta();
     }
 
-    this.carritoS.objCliente = {};
-    this.carritoS.arrFormasPago = []
-    this.carritoS.arrDirecciones = []
-    this.carritoS.arrAgencias = []
+    this.carritoService.objCliente = {};
+    this.carritoService.arrFormasPago = []
+    this.carritoService.arrDirecciones = []
+    this.carritoService.arrAgencias = []
 
     if (JSON.parse(dataCliente)) {
-      this.carritoS.objCliente = JSON.parse(dataCliente);
-      this.carritoS.arrFormasPago = []
-      this.carritoS.arrDirecciones = []
-      this.carritoS.arrAgencias = []
-      if (this.carritoS.objCliente.ccod_cliente) {
-        this.carritoS.arrDirecciones.push(...this.carritoS.objCliente.direcciones)
-        this.carritoS.arrAgencias.push(...this.carritoS.objCliente.agencias)
-        this.carritoS.arrFormasPago.push(...this.carritoS.objCliente.forma_pagos)
+      this.carritoService.objCliente = JSON.parse(dataCliente);
+      this.carritoService.arrFormasPago = []
+      this.carritoService.arrDirecciones = []
+      this.carritoService.arrAgencias = []
+      if (this.carritoService.objCliente.ccod_cliente) {
+        this.carritoService.arrDirecciones.push(...this.carritoService.objCliente.direcciones)
+        this.carritoService.arrAgencias.push(...this.carritoService.objCliente.agencias)
+        this.carritoService.arrFormasPago.push(...this.carritoService.objCliente.forma_pagos)
       }
     }
   }
@@ -79,7 +78,7 @@ export class TomadorPedidosComponent implements OnInit, OnDestroy {
   }
 
   eventoActualizarArticulos(){
-    this.artituloService.eventSeleccionArticulo.next(true);
+    this.productoService.eventSeleccionArticulo.next(true);
   }
 
   ngOnDestroy(): void {

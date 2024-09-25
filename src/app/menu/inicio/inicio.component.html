@@ -1,11 +1,7 @@
 <!-- <app-header></app-header> -->
 
 <ion-content [fullscreen]="true"  >
-  <!-- <div id="container">
-    <strong class="capitalize">Bienvenido</strong>
-  </div> -->
 
- 
   <div >
     <ion-grid>
       <ion-accordion-group [multiple]="true" expand="inset" class="mx-0" [value]="['first', 'second']">
@@ -15,8 +11,8 @@
           </ion-item>
           <div class="ion-padding px-0" slot="content">
 
-            <div class="row m-0" *ngIf="loginS.permisosUsu.pedidos == 'si'" >
-              <div class="col-6" routerLink="/tomadorPedidos">
+            <div class="row m-0" *ngIf="loginService.permisosUsu.pedidos == 'si'" >
+              <div class="col-6" (click)="irModulo('tomadorPedidos')" >
                 <div class="row m-0">
                   <div class="col-12 p-0 app-card app-br-blue">
                     <div class="row m-0 px-1 app-card-header app-bgd-blue">
@@ -52,8 +48,8 @@
       
             </div>
 
-            <div class="row m-0 pt-3" *ngIf="loginS.permisosUsu.pedidos == 'si'" >
-              <div class="col-6" routerLink="/guiaRemision">
+            <div class="row m-0 pt-3" *ngIf="loginService.permisosUsu.pedidos == 'si'" >
+              <div class="col-6" (click)="irModulo('guiaRemision')" >
                 <div class="row m-0">
                   <div class="col-12 p-0 app-card app-br-red">
                     <div class="row m-0 px-1 app-card-header app-bgd-red">
@@ -89,7 +85,7 @@
       
             </div>
 
-            <div class="row m-0 pt-3" *ngIf="loginS.permisosUsu.despacho == 'si'" >
+            <div class="row m-0 pt-3" *ngIf="loginService.permisosUsu.despacho == 'si'" >
               <div class="col-6" routerLink="/despacho">
                 <div class="row m-0">
                   <div class="col-12 p-0 app-card app-br-sky">
@@ -138,7 +134,7 @@
           </ion-item>
           <div class="ion-padding px-0" slot="content">
 
-            <div class="row m-0" *ngIf="loginS.permisosUsu.pedidos == 'si'" >
+            <div class="row m-0" *ngIf="loginService.permisosUsu.pedidos == 'si'" >
               <div class="col-6" routerLink="/requerimiento">
                 <div class="row m-0">
                   <div class="col-12 p-0 app-card app-br-green">
@@ -189,7 +185,7 @@
           </ion-item>
           <div class="ion-padding px-0" slot="content">
 
-            <div class="row m-0" *ngIf="loginS.permisosUsu.pedidos == 'si'" >
+            <div class="row m-0" *ngIf="loginService.permisosUsu.pedidos == 'si'" >
               <div class="col-6" routerLink="/asistencia">
                 <div class="row m-0">
                   <div class="col-12 p-0 app-card app-br-green">

@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LoginService } from 'src/app/service/login.service';
+import { ProductoService } from 'src/app/service/mantenimiento/producto.service';
 import { ArticuloService } from 'src/app/service/tomadorPedidos/articulo.service';
 import { CarritoService } from 'src/app/service/tomadorPedidos/carrito.service';
 
@@ -11,14 +13,13 @@ import { CarritoService } from 'src/app/service/tomadorPedidos/carrito.service';
 })
 export class GuiaRemisionComponent implements OnInit, OnDestroy {
 
-  modulo: string = 'guiaRemision';
-
   private subscricion: Subscription = null
 
   constructor(
-    public carritoS: CarritoService,
     private router: Router,
-    private artituloService: ArticuloService,
+    private loginService: LoginService,
+    public carritoService: CarritoService,
+    private productoService: ProductoService,
   ) { 
   }
 
@@ -37,35 +38,33 @@ export class GuiaRemisionComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    console.log('ngOnInit Guia')
-    localStorage.setItem('modulo', this.modulo);
-    let dataCarrito = localStorage.getItem('arrCarrito_'+this.modulo);
-    let dataCliente = localStorage.getItem('objCliente_'+this.modulo);
+    console.log('ngOnInit GuiaRemisionComponent: ', this.loginService.getModulo())
+    let dataCarrito = localStorage.getItem('arrCarrito_'+this.loginService.getModulo());
+    let dataCliente = localStorage.getItem('objCliente_'+this.loginService.getModulo());
   
-    this.carritoS.arrCarrito = []
+    this.carritoService.arrayCarrito = []
 
     if (JSON.parse(dataCarrito)) {
-      this.carritoS.arrCarrito = JSON.parse(dataCarrito);
+      this.carritoService.arrayCarrito = JSON.parse(dataCarrito);
+      this.carritoService.calcularDetalleVenta();
     }
 
-    this.carritoS.objCliente = {};
-    this.carritoS.arrFormasPago = []
-    this.carritoS.arrDirecciones = []
-    this.carritoS.arrAgencias = []
+    this.carritoService.objCliente = {};
+    this.carritoService.arrFormasPago = []
+    this.carritoService.arrDirecciones = []
+    this.carritoService.arrAgencias = []
 
     if (JSON.parse(dataCliente)) {
-      this.carritoS.objCliente = JSON.parse(dataCliente);
-      this.carritoS.arrFormasPago = []
-      this.carritoS.arrDirecciones = []
-      this.carritoS.arrAgencias = []
-      if (this.carritoS.objCliente.ccod_cliente) {
-        this.carritoS.arrDirecciones.push(...this.carritoS.objCliente.direcciones)
-        this.carritoS.arrAgencias.push(...this.carritoS.objCliente.agencias)
-        this.carritoS.arrFormasPago.push(...this.carritoS.objCliente.forma_pagos)
+      this.carritoService.objCliente = JSON.parse(dataCliente);
+      this.carritoService.arrFormasPago = []
+      this.carritoService.arrDirecciones = []
+      this.carritoService.arrAgencias = []
+      if (this.carritoService.objCliente.ccod_cliente) {
+        this.carritoService.arrDirecciones.push(...this.carritoService.objCliente.direcciones)
+        this.carritoService.arrAgencias.push(...this.carritoService.objCliente.agencias)
+        this.carritoService.arrFormasPago.push(...this.carritoService.objCliente.forma_pagos)
       }
     }
-
-    console.log('guia remision componet', this.carritoS.arrCarrito)
   }
 
   random() {
@@ -77,7 +76,7 @@ export class GuiaRemisionComponent implements OnInit, OnDestroy {
   }
 
   eventoActualizarArticulos(){
-    this.artituloService.eventSeleccionArticulo.next(true);
+    this.productoService.eventSeleccionArticulo.next(true);
   }
 
   ngOnDestroy(): void {

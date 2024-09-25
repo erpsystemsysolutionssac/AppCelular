@@ -6,13 +6,13 @@ export const environment = {
   production: false,
 
   erpSolutions: {
-    // url :'http://localhost:5000/movil',
-    // urlApi :'http://localhost:5000',
-    // urlImagenes : 'http://localhost:5000/erp',
+    url :'http://localhost:5000/movil',
+    urlApi :'http://localhost:5000',
+    urlImagenes : 'http://localhost:5000/erp',
 
-    url :'https://erp-solutionsperu.com/movil',
-    urlApi :'https://erp-solutionsperu.com',
-    urlImagenes : 'https://erp-solutionsperu.com/erp',
+    // url :'https://erp-solutionsperu.com/movil',
+    // urlApi :'https://erp-solutionsperu.com',
+    // urlImagenes : 'https://erp-solutionsperu.com/erp',
     urlArchivos : 'https://erp-solutionsperu.com/movil',
   },
   erpSystemsMype: {

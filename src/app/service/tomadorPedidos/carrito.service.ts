@@ -1,9 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DetalleVenta } from 'src/app/interfaces/detalle-venta';
 import { Articulo, Cliente, Direcciones, Agencias, FormaPago, Moneda, filtroListaPrecio } from 'src/app/interfaces/interfases';
+import { MontoTotalesVenta } from 'src/app/interfaces/monto-totales-venta';
 import { environment } from 'src/environments/environment';
 import { LoginService } from '../login.service';
 import { ToolsService } from '../tools.service';
+import { CalculosService } from '../utilitarios/calculos.services';
 import { ArticuloService } from './articulo.service';
 
 @Injectable({
@@ -11,7 +14,9 @@ import { ArticuloService } from './articulo.service';
 })
 export class CarritoService {
 
-  public arrCarrito: Articulo[]
+  public arrayCarrito: DetalleVenta[] = [];
+  public montoTotalesVenta: MontoTotalesVenta = { SubTotal_Sin_Descuentos: 0, Descuentos: 0, SubTotal_Con_Descuentos: 0, SubTotal_Con_Descuentos_Con_Anticipos: 0, Igv: 0, Icbper: 0, Total: 0, Total_Percepcion: 0, Importe: 0 };
+
   public arrfiltroListaPrecio: filtroListaPrecio[] = []
   public objCliente: Cliente = {}
   public carritoSubTotal_SinDescuento: number = 0
@@ -34,21 +39,20 @@ export class CarritoService {
   private random = '/' + new Date().getTime()
   private rutaApi = this.toolsService.obtenerUrl('urlApi');
 
-  public modulo: string;
-
   constructor(
-    private toolsService: ToolsService, 
-    private http: HttpClient, 
-    private loginS: LoginService
+    private toolsService: ToolsService,
+    private http: HttpClient,
+    private loginService: LoginService,
+    private calculosService: CalculosService
   ) {
-    this.modulo = localStorage.getItem('modulo');
-    let dataCarrito = localStorage.getItem('arrCarrito_'+this.modulo);
-    let dataCliente = localStorage.getItem('objCliente_'+this.modulo);
-  
-    this.arrCarrito = []
+    console.log('CarritoService: ', this.loginService.getModulo())
+    let dataCarrito = localStorage.getItem('arrCarrito_' + this.loginService.getModulo());
+    let dataCliente = localStorage.getItem('objCliente_' + this.loginService.getModulo());
+
+    this.arrayCarrito = []
 
     if (JSON.parse(dataCarrito)) {
-      this.arrCarrito = JSON.parse(dataCarrito);
+      this.arrayCarrito = JSON.parse(dataCarrito);
     }
 
     if (JSON.parse(dataCliente)) {
@@ -72,55 +76,50 @@ export class CarritoService {
 
   }
 
-  limpiarCarrito() {
-    this.arrCarrito = [];
+  agregarCarritov2(detalleVenta: DetalleVenta) {
+    this.arrayCarrito.push(detalleVenta);
+
+    this.calcularDetalleVenta();
+
+    console.log(this.arrayCarrito);
   }
-  agregarCarrito(articulo: Articulo) {
-    console.log(articulo);
-    this.arrCarrito.push(articulo)
-    this.calcularMontoTotal()
-  }
 
+  calcularDetalleVenta() {
+    let percepcion: number = 0;
+    const isMasIgv = this.masIgv == 'S' ? true : false;
+    this.montoTotalesVenta = { SubTotal_Sin_Descuentos: 0, Descuentos: 0, SubTotal_Con_Descuentos: 0, SubTotal_Con_Descuentos_Con_Anticipos: 0, Igv: 0, Icbper: 0, Total: 0, Total_Percepcion: 0, Importe: 0 };
 
-  calcularMontoTotal() {
-    this.carritoMontoTotal = 0
-    this.carritoMontoTotal_Descontado = 0
-    this.carritoDescuento = 0
-    let montoIGVTotal = 0;
-    this.arrCarrito.forEach((articulo) => {
-      let montoDolar = 0
-      if (articulo.moneda == '$') {
-        montoDolar = this.toolsService.redondear(articulo.listaPrecios[0].monto * this.tipoCambioVenta)
-        if (articulo.descuentoPromo == 100) {
-          this.carritoDescuento += montoDolar
-        }
-        this.carritoMontoTotal += montoDolar
-      } else {
-        if (articulo.descuentoPromo == 100) {
-          this.carritoDescuento += this.toolsService.redondear(articulo.listaPrecios[0].monto)
-        }
+    this.arrayCarrito.forEach(element => {
+      let calculos = this.calculosService.calcular_totales_ventas(isMasIgv, element.Cantidad, element.Unit, element.Igv_Art, 0, element.Desc1, element.Desc2, element.Desc3, element.Desc4, false, element.tipo_descuento, 'BC');
+      percepcion = calculos.Total * element.Perpecion_porc / 100
+      // console.log(calculos);
+      element.Base_Calculada = this.toolsService.redondear(calculos.SubTotal_Sin_Descuentos, 2);
+      element.Base_calculada_dec = this.toolsService.redondear(calculos.SubTotal_Sin_Descuentos, 2);
+      element.Base_Imponible = this.toolsService.redondear(calculos.SubTotal_Con_Descuentos, 2);
+      element.Base_imp_dec = this.toolsService.redondear(calculos.SubTotal_Con_Descuentos, 2);
+      element.Igv = this.toolsService.redondear(calculos.Igv, 2);
+      element.Igv_dec = this.toolsService.redondear(calculos.Igv, 2);
+      element.Importe = this.toolsService.redondear(calculos.Total, 2);
+      element.Importe_dec = this.toolsService.redondear(calculos.Total, 2);
+      element.Percepcion_uni = this.toolsService.redondear((calculos.Total * element.Perpecion_porc) / 100, 2);
+      element.Monto_Descuento = this.toolsService.redondear(calculos.Descuentos_SubTotal, 2);
+      element.Cantidad_Kardex = element.Cantidad * element.Factor;
+      element.PesoTotal = element.Peso * element.Cantidad * element.Factor;
 
-        this.carritoMontoTotal += this.toolsService.redondear(articulo.listaPrecios[0].monto)
+      this.montoTotalesVenta.SubTotal_Sin_Descuentos += this.toolsService.redondear(calculos.SubTotal_Sin_Descuentos, 2);
+      this.montoTotalesVenta.SubTotal_Con_Descuentos += this.toolsService.redondear(calculos.SubTotal_Con_Descuentos, 2);
+      this.montoTotalesVenta.Descuentos += this.toolsService.redondear(calculos.Descuentos_SubTotal, 2);
+      this.montoTotalesVenta.Igv += this.toolsService.redondear(calculos.Igv, 2);
+      this.montoTotalesVenta.Icbper += this.toolsService.redondear(calculos.ICBPER, 2);
+      var total_unit = this.toolsService.redondear(calculos.Total, 2)
+      var decimales_precio = 2;
 
-        if (this.masIgv == 'S') {
-          if (articulo.descuentoPromo != 100) {
-            montoIGVTotal += this.toolsService.redondear(articulo.listaPrecios[0].monto * (articulo.nigv / 100), 2);
-          }
-        }
-      }
-
-      this.carritoMontoTotal = this.toolsService.redondear(this.carritoMontoTotal,2)
-
-    })
-    montoIGVTotal = this.toolsService.redondear(montoIGVTotal, 2);
-  
-    if (this.masIgv == 'S') {
-      this.carritoMontoTotal_Descontado = this.toolsService.redondear(this.toolsService.redondear(this.carritoMontoTotal + montoIGVTotal) - this.carritoDescuento,2)
-    } else {
-      this.carritoMontoTotal_Descontado = this.toolsService.redondear(this.toolsService.redondear(this.carritoMontoTotal) - this.carritoDescuento,2)
-    }
-
-    localStorage.setItem('arrCarrito_'+this.modulo, JSON.stringify(this.arrCarrito));
+      this.montoTotalesVenta.Total += parseFloat(total_unit.toFixed(decimales_precio));
+      this.montoTotalesVenta.Importe += parseFloat(total_unit.toFixed(decimales_precio));
+      this.montoTotalesVenta.Total_Percepcion += percepcion;
+    });
+    console.log('calcularDetalleVenta: ', this.loginService.getModulo(), this.montoTotalesVenta)
+    localStorage.setItem('arrCarrito_' + this.loginService.getModulo(), JSON.stringify(this.arrayCarrito));
   }
 
   agregarCliente(cliente: Cliente) {
@@ -132,33 +131,35 @@ export class CarritoService {
     this.arrAgencias.push(...this.objCliente.agencias)
     this.arrFormasPago.push(...this.objCliente.forma_pagos)
 
-    localStorage.setItem('objCliente_'+this.modulo, JSON.stringify(this.objCliente));
+    localStorage.setItem('objCliente_' + this.loginService.getModulo(), JSON.stringify(this.objCliente));
   }
+
   redondear(monto: number): number {
     return Math.round((monto + Number.EPSILON) * 100) / 100
   }
 
   listaTipoDocumento() {
     return this.http.post<any>(this.rutaPedidos + '/obtener_tipo_doc' + this.random, {
-      codigo_empresa: this.loginS.codigo_empresa
+      codigo_empresa: this.loginService.codigo_empresa
     }, this.customHeaders).toPromise()
   }
+
   listaTalonar() {
     return this.http.post<any>(this.rutaPedidos + '/lista_talonar' + this.random, {
-      codigo_empresa: this.loginS.codigo_empresa,
-      ccod_almacen: this.loginS.punto_venta
+      codigo_empresa: this.loginService.codigo_empresa,
+      ccod_almacen: this.loginService.punto_venta
     }, this.customHeaders).toPromise()
   }
   listaFormaPago() {
     return this.http.post<any>(this.rutaPedidos + '/lista_forma_pago' + this.random, {
-      codigo_empresa: this.loginS.codigo_empresa
+      codigo_empresa: this.loginService.codigo_empresa
     }, this.customHeaders).toPromise()
   }
 
   async tipoCambio() {
 
     return this.http.post<any>(this.rutaPedidos + '/obtener_tipo_cambio' + this.random, {
-      codigo_empresa: this.loginS.codigo_empresa
+      codigo_empresa: this.loginService.codigo_empresa
     }, this.customHeaders)
       .subscribe((resp) => {
         this.tipoCambioVenta = resp.ntc_venta
@@ -168,7 +169,7 @@ export class CarritoService {
   async configuracionesVentas() {
 
     return this.http.post<any>(this.rutaPedidos + '/configuraciones_ventas' + this.random, {
-      codigo_empresa: this.loginS.codigo_empresa
+      codigo_empresa: this.loginService.codigo_empresa
     }, this.customHeaders)
       .subscribe((resp) => {
         if (resp.length > 0) {
@@ -193,45 +194,37 @@ export class CarritoService {
     return ipFinal
   }
 
-  crearPedido(cabecera: any, detalle: any) {
-    let datos = { ...cabecera, ...detalle }
-    datos.codigo_empresa = this.loginS.codigo_empresa
-    datos.codigo_punto_venta = this.loginS.punto_venta
-    datos.anio = new Date().getFullYear()
+  guardarPedido(dataPedido: any) {
+    return this.http.post<any>(this.rutaApi + '/pedido/app/v1/guardar' + this.random, dataPedido, this.customHeaders).toPromise()
+  }
 
-
-    datos.vendedor_1 = this.loginS.objVendedor.ccod_vendedor
-
-
-    datos.codigo_centro_costos = this.loginS.centro_costo
-    datos.codigo_unidad_negocio = this.loginS.unidad_negocio
-    datos.pto_partida = this.loginS.datosUsu.cdireccion
-    datos.codigo_usuario = this.loginS.codigo_usuario
-
-    return this.http.post<any>(this.rutaPedidos + '/guardar_pedido' + this.random, {
-      ...datos
-    }, this.customHeaders).toPromise()
+  guardarGuiaRemision(dataGuiaRemision: any) {
+    return this.http.post<any>(this.rutaApi + '/guia/app/v1/guardar' + this.random, dataGuiaRemision, this.customHeaders).toPromise()
   }
 
   crearGuiaRemision(cabecera: any, detalle: any) {
     let datos = { ...cabecera, ...detalle }
-    datos.codigo_empresa = this.loginS.codigo_empresa
-    datos.codigo_punto_venta = this.loginS.punto_venta
+    datos.codigo_empresa = this.loginService.codigo_empresa
+    datos.codigo_punto_venta = this.loginService.punto_venta
     datos.anio = new Date().getFullYear()
 
 
-    datos.vendedor_1 = this.loginS.objVendedor.ccod_vendedor
+    datos.vendedor_1 = this.loginService.objVendedor.ccod_vendedor
 
 
-    datos.codigo_centro_costos = this.loginS.centro_costo
-    datos.codigo_unidad_negocio = this.loginS.unidad_negocio
-    datos.pto_partida = this.loginS.datosUsu.cdireccion
-    datos.codigo_usuario = this.loginS.codigo_usuario
-    datos.ruc_empresa_usuario = this.loginS.ruc_empresa_usuario;
+    datos.codigo_centro_costos = this.loginService.centro_costo
+    datos.codigo_unidad_negocio = this.loginService.unidad_negocio
+    datos.pto_partida = this.loginService.datosUsu.cdireccion
+    datos.codigo_usuario = this.loginService.codigo_usuario
+    datos.ruc_empresa_usuario = this.loginService.ruc_empresa_usuario;
     datos.omitirVentaPrecioCosto = 'S';
 
     return this.http.post<any>(this.rutaApi + '/guia/app/v1/guardar' + this.random, {
       ...datos
     }, this.customHeaders).toPromise()
+  }
+
+  getTotalItems() {
+    return this.arrayCarrito.length;
   }
 }

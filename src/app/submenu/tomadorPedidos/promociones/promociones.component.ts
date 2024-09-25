@@ -246,10 +246,9 @@ export class PromocionesComponent implements OnInit,OnDestroy {
     })
     let objArticulo:Articulo = {...articulo};    
     objArticulo.listaPrecios = [{...listaEscojida}]    
-    this.carritoS.agregarCarrito(objArticulo)
+    // this.carritoS.agregarCarrito(objArticulo)
     this.toolsS.mostrarAlerta(`${objArticulo.nombre} agregado al Carrito`,'success',1000)
 
-    // this.carritoService.arrCarrito.push(objArticulo)
   }
 
   ngOnDestroy():void{

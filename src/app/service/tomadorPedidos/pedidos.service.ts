@@ -71,6 +71,18 @@ export class PedidosService {
     return this.http.post<any[]>(this.rutaApi + '/pedido/app/v1/lista_documentos_pendientes/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 
+  consultarDetallePedidioPendiente(codigoPuntoVenta: string, codigoMotivo: string, numero: string) {
+
+    const body = {
+      codigo_empresa: this.loginService.codigo_empresa,
+      codigo_punto_venta: codigoPuntoVenta,
+      codigo_motivo: codigoMotivo,
+      numero: numero,
+    };
+
+    return this.http.post<any[]>(this.rutaApi + '/pedido/app/v1/lista_detalle_pendientes/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+  }
+
   consultarPedidioPendiente(codigoPuntoVenta: string, codigoMotivo: string, numero: string) {
 
     const body = {

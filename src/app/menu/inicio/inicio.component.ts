@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/service/login.service';
 
 @Component({
@@ -9,11 +10,16 @@ import { LoginService } from 'src/app/service/login.service';
 export class InicioComponent implements OnInit {
 
   constructor(
-    public loginS:LoginService
+    public loginService: LoginService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    
+
   }
 
+  irModulo(modulo: string){
+    this.loginService.updateModulo(modulo)
+    this.router.navigate(['/'+modulo]);
+  }
 }
