@@ -70,6 +70,16 @@ export interface DetalleVenta {
     Origen_Numero?: string,
     Origen_NItem?: string,
 
+    pedido_numero?: string,
+    pedido_motivo?: string,
+    pedido_punto_venta?: string,
+    pedido_nitem?: string,
+
+    guia_punto_venta?: string,
+    guia_serie?: string,
+    guia_numero?: string,
+    guia_nitem?: string,
+
     imagen_1: string;
     moneda: string;
     tipo_descuento: string;

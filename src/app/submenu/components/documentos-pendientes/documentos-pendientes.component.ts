@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IonDatetime, IonModal, IonSelect, ModalController } from '@ionic/angular';
+import { GuiasRemisionService } from 'src/app/service/guias-remision/guias-remision.service';
 import { PedidosService } from 'src/app/service/tomadorPedidos/pedidos.service';
 import { ToolsService } from 'src/app/service/tools.service';
 
@@ -26,30 +27,24 @@ export class DocumentosPendientesComponent implements OnInit {
   public refreshDisabled: boolean = false;
   public estadoRecargar = true;
 
-  private modulo: string;
-
   @ViewChild('filtroSelect') filtroSelect: IonSelect;
   @ViewChild('fechaDel') public fechaDel: IonDatetime;
   @ViewChild('fechaHasta') public fechaHasta: IonDatetime;
   @ViewChild('modalDel') modalDel: IonModal;
   @ViewChild('modalHasta') modalHasta: IonModal;
-
-  @HostListener("window:scroll") onWindowScroll(event) {
-    const top = event.srcElement.scrollTop
-    if (top == 0) this.refreshDisabled = false
-    else this.refreshDisabled = true
-  }
+  
+  @Input() tipoDocumento: string;
 
   constructor(
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private toolsService: ToolsService,
-    private pedidosService: PedidosService
+    private pedidosService: PedidosService,
+    private guiasRemisionService: GuiasRemisionService,
   ) { }
 
   ngOnInit() {
-    this.modulo = localStorage.getItem('modulo')
-
+    console.log(this.tipoDocumento);
     this.buscarForm = this.fb.group({
       buscar: [''],
       filtro: ['nroPedido']
@@ -102,8 +97,8 @@ export class DocumentosPendientesComponent implements OnInit {
     let idLoading: string
     if (cargar) idLoading = await this.toolsService.mostrarCargando('Cargando Documentos Pendientes');
 
-    switch (this.modulo) {
-      case 'guiaRemision':
+    switch (this.tipoDocumento) {
+      case 'Pedido':
         this.tituloVentana = 'Pedidos Pendientes'
         await this.pedidosService.listaPedidosPendientes(this.inicio, this.limite, this.texto, this.fechaInicio, this.fechaFinal, this.busqueda).then(async(resp)=>{
      
@@ -112,7 +107,15 @@ export class DocumentosPendientesComponent implements OnInit {
 
         });
         break;
-    
+      case 'Guia':
+        this.tituloVentana = 'Guia Pendientes'
+        await this.guiasRemisionService.listaGuiasPendientes(this.inicio, this.limite, this.texto, this.fechaInicio, this.fechaFinal, this.busqueda).then(async(resp)=>{
+     
+          this.arrDocumentosPendientes.push(...resp) 
+          if (cargar) await this.toolsService.ocultarCargando(idLoading)
+
+        });
+        break;
       default:
         break;
     }
@@ -154,5 +157,11 @@ export class DocumentosPendientesComponent implements OnInit {
 
   close() {
     return this.modalCtrl.dismiss(null, 'cancel');
+  }
+
+  @HostListener("window:scroll") onWindowScroll(event) {
+    const top = event.srcElement.scrollTop
+    if (top == 0) this.refreshDisabled = false
+    else this.refreshDisabled = true
   }
 }

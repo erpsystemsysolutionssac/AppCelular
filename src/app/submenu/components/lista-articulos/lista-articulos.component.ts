@@ -349,11 +349,11 @@ export class ListaArticulosComponent implements OnInit {
     // })
   }
 
-  async mostrarModalDocumentosPendientes() {
+  async mostrarModalDocumentosPendientes(tipoDocmuento: string) {
     const modal = await this.modalCtrl.create({
       component: DocumentosPendientesComponent,
       componentProps: {
-
+        tipoDocumento: tipoDocmuento
       }
     });
 

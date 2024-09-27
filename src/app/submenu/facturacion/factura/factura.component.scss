@@ -1,0 +1,58 @@
+
+
+.input-custom{
+    margin: 0px;
+}
+
+.card-item-header{
+    --min-height:48px;
+    --padding-start: 8px;
+    --inner-padding-end: 8px;
+    --inner-border-width: 0 0 2px 0;
+    --highlight-height: 2px;
+    --inner-padding-top: 0px;
+    --inner-padding-bottom: 25px;
+}
+//------------------------pdf------------------------
+
+.header-pedido{
+ --min-height:20px;
+}
+
+
+.pdf-bd-header{
+    border-style: solid;
+    border-width: thin;
+    border-width: 0.1px; 
+    border-color: rgba(0, 0, 0, 0.004);
+
+}
+
+.pdf-header-fs{
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.bg-color-pdf{
+    background-color: #eaf4fc;
+}
+
+.pdf-border-color{
+    border-color: #343a40 !important;
+}
+
+.pdf-p-left{
+    padding-left: 2px;
+}
+.pdf-lh{
+    line-height: 1;
+}
+.pdf-py{
+    padding-top: 1px;
+    padding-bottom: 2px;
+}
+
+.carta{
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 1px -2px, 
+                rgb(0 0 0 / 14%) -2px -1px 2px 0px;
+  }

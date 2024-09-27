@@ -19,6 +19,7 @@ export interface Cliente {
     ccod_departamento?: string;
     cdistrito?:         string;
     cciudad?:           string;
+    codigoUbigeo?:      string;
     erp_nombres?:       string;
     erp_apepat?:        string;
     erp_apemat?:        string;

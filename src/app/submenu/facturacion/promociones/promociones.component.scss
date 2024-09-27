@@ -1,0 +1,116 @@
+cdk-virtual-scroll-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+ion-input.custom-input{
+    --padding-bottom:0px;
+    --padding-top:0px;
+    text-align: center;
+    --border-style	:none;
+    font-size: 17px;
+    --padding-start:0px;
+}
+  
+ion-button.custom-button{
+    // --border-radius:	50%;
+    --border-color:transparent	;
+    --padding-bottom	:0px;
+    --padding-top	:0px;
+    --padding-start	:0px;
+    --padding-end	:0px;
+    --border-style	:none;
+    --box-shadow:0;
+    font-size: 15px;
+    --background: white;
+    --color :black;
+}
+.btnPrecio{
+    --padding-top: 0px;
+    --padding-bottom: 0px;
+    margin-top:3px ;
+    margin-bottom:3px ;
+    margin-left:2px ;
+    margin-right:2px ;
+    height:26px;
+    --padding-start:6px;
+    --padding-end:6px;
+}
+.color_descuento{
+    color: #44ac6d;
+    margin-top: 4px;
+    margin-bottom: 4px
+}
+
+.color-border{
+    border-color: grey !important;
+    border-radius: 20px;
+}
+
+.contenedor {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+}
+  
+.contenedor::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.item {
+    width: auto;
+    flex-shrink: 0;
+}
+
+.chip{
+    --background: #0d6efd;
+    --color: #fff;
+}
+
+.chip.chip-outline{
+    border-color: #adb5bd;
+    background: transparent;
+    color: #0d6efd;
+}
+
+.sub-chip{
+    --background: #0dcaf0;
+    --color: #000;
+}
+.sub-chip.chip-outline{
+    border-color: #adb5bd;
+    background: transparent;
+    color: #0dcaf0;
+}
+
+//Filtro
+
+.col-bg{
+    background-color: #fd821a;
+    --background:#fd821a !important;
+}
+
+.input-col{
+    border-radius: 30px;
+    --inner-padding-end:0px !important;
+    --min-height:30px;
+}
+  
+.input-buscar{
+    --padding-bottom	:0px;
+    --padding-top	:0px;
+    --padding-end	:0px;
+    --padding-start	:0px;
+    --inner-padding-end:0px !important;
+}
+
+.ion-valid{
+    --highlight-color-valid:transparent;
+}
+
+.btn-buscar{
+    --background: transparent;
+    --color: grey;
+    --box-shadow:none;
+}

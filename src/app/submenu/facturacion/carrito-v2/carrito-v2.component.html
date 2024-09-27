@@ -90,7 +90,7 @@
         <ion-card-subtitle class=" my-0 textos"><strong>Dirección:</strong> <span class="text-dark"> {{objCliente.cdireccion}}</span>   </ion-card-subtitle>
         <ion-card-subtitle class=" my-0 textos"><strong>Ubigeo:</strong> <span class="text-dark"> {{objCliente.cnom_distrito}} - {{objCliente.cnom_ciudad}} - {{objCliente.cnom_departamento}}</span>   </ion-card-subtitle>
         <ion-card-subtitle class=" my-0 textos"><strong>Zona:</strong> <span class="text-dark pe-1"> {{objCliente.cnom_zona}}</span> <strong>Lista Precio:</strong> <span class="text-dark"> {{objCliente.nombre_lista_precio}}</span>  </ion-card-subtitle>
-        <ion-card-subtitle class=" my-0 textos" *ngIf="docPendSeleccionado" ><strong>Doc. Ref.:</strong> <span class="text-dark"> {{docPendSeleccionado.Tipo_Documento +' - '+docPendSeleccionado.Numero}}</span>   </ion-card-subtitle>
+        <ion-card-subtitle class=" my-0 textos" *ngIf="docPendSeleccionado" ><strong>Doc. Ref.:</strong> <span class="text-dark"> {{docPendSeleccionado.Tipo_Documento == '09' ? docPendSeleccionado.Motivo_Serie +' - '+docPendSeleccionado.Numero : docPendSeleccionado.Tipo_Documento +' - '+docPendSeleccionado.Numero}}</span>   </ion-card-subtitle>
         
       </ion-card-header>
       <ion-card-content class="custom-border-top border-success my-0 py-2 ">
@@ -101,8 +101,28 @@
       <ion-card-content class="custom-border-top border-success my-0 py-2">
         <ion-card-title class="titulos-grande">Datos del Comprobante</ion-card-title>
 
-      <form [formGroup]="guiaForm">
+      <form [formGroup]="facturaForm">
         <ion-list class="py-0">
+
+          <div class="row">
+            <div class="col-7">
+              <ion-item class="custom-item h-auto">
+                <ion-label position="stacked" class="selects-grande">Tipo Documento</ion-label>
+                <ion-select placeholder="Seleccione" interface="action-sheet" formControlName="tipoDocumento" (ionChange)="changeTipoDocumento()">
+                  <ion-select-option [value]="tipoDocumento.ctip_doc" *ngFor="let tipoDocumento of arrTipoDocumento">{{tipoDocumento.cnom_doc}} </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+            <div class="col-5">
+              <ion-item class="custom-item h-auto">
+                <ion-label position="stacked" class="selects-grande">Serie</ion-label>
+                <ion-select placeholder="Seleccione" interface="action-sheet" formControlName="serie">
+                  <ion-select-option [value]="talonario.cnum_serie" *ngFor="let talonario of arrTalonario">{{talonario.cnum_serie}} </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+          </div>
+          
 
           <ion-item class="custom-item h-auto">
             <ion-label position="stacked" class="selects-grande">Punto Partida</ion-label>
@@ -225,10 +245,10 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <!--  -->
-      <ion-button color="success"  fill="outline" class="button-footer " (click)="generarGuiaRemision()" 
+      <ion-button color="success"  fill="outline" class="button-footer " (click)="generarFactura()" 
       [disabled]="!clienteExiste">
         <ion-icon name="checkmark-done-sharp"></ion-icon>
-        Finalizar Guia
+        Finalizar Factura
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

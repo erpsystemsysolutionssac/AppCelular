@@ -1,0 +1,104 @@
+
+.color-custom{
+    color: #2e6e9e;
+}
+
+.bg-custom{
+    background-color:#dfeffc;
+
+}
+
+.border-custom{
+    border-color:#c5dbec;
+}    
+
+.bg-row-first{
+    border: 1px solid #fad42e;
+    background: #fbec88;
+    color: #363636;
+}
+
+.carta{
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 1px -2px, 
+                rgb(0 0 0 / 14%) -2px -1px 2px 0px;
+}
+
+
+/*#region Fitlro*/
+.input-col{
+    border-radius: 30px;
+    --inner-padding-end:0px !important;
+    --min-height:30px;
+}
+.input-buscar{
+    --padding-bottom	:0px;
+    --padding-top	:0px;
+    --padding-end	:0px;
+    --padding-start	:0px;
+    --inner-padding-end:0px !important;
+}
+.btn-buscar{
+    --background: transparent;
+    --color: grey;
+    --box-shadow:none;
+}
+.btn-filtrar{
+    --border-color: #fd821a;
+    --background: white;
+    text-transform: none;
+    --color: grey;
+    --padding-start:4px;
+    --padding-end:4px;
+    --inner-padding-end:0px;
+}
+.col-bg{
+    background-color: #fd821a;
+    --background:#fd821a !important;
+}
+
+.ion-valid{
+    --highlight-color-valid:transparent;
+  }
+
+.btn-fecha{
+    --background:white ;
+    --color: grey;
+}
+
+
+
+/*#endregion Filtro*/
+
+
+
+/*#region Modal*/
+
+ion-modal#example-modal {
+    --width: fit-content;
+    --min-width: 250px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  }
+  
+  ion-modal#example-modal h1 {
+    margin: 20px 20px 10px 20px;
+  }
+  
+  ion-modal#example-modal ion-icon {
+    margin-right: 6px;
+  
+    width: 48px;
+    height: 48px;
+  
+    padding: 4px 0;
+  
+    color: #aaaaaa;
+  }
+  
+  ion-modal#example-modal .wrapper {
+    margin-bottom: 10px;
+  }
+
+/*#endregion */
+

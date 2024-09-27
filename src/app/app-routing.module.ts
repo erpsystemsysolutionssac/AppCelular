@@ -24,6 +24,11 @@ const routes: Routes = [
     loadChildren: () => import('./menu/guia-remision/guia-remision.module').then( m => m.GuiaRemisionModule)
   },
   {
+    path: 'facturacion',
+    canActivate:[LoginGuard],
+    loadChildren: () => import('./menu/facturacion/facturacion.module').then( m => m.FacturacionModule)
+  },
+  {
     path: 'tomadorPedidos',
     canActivate:[LoginGuard],
     loadChildren: () => import('./menu/tomadorPedidos/tomadorPedidos.module').then( m => m.TomadorPedidosModule)

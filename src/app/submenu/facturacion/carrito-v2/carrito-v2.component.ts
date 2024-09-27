@@ -9,17 +9,19 @@ import { LoginService } from 'src/app/service/login.service';
 import { clienteService } from 'src/app/service/mantenimiento/cliente.service';
 import { ProductoService } from 'src/app/service/mantenimiento/producto.service';
 import { CarritoService } from 'src/app/service/tomadorPedidos/carrito.service';
-import { PedidosService } from 'src/app/service/tomadorPedidos/pedidos.service';
 import { PromocionesService } from 'src/app/service/tomadorPedidos/promociones.service';
 import { ToolsService } from 'src/app/service/tools.service';
 import { ModalDireccionComponent } from '../../components/modal-direccion/modal-direccion.component';
 import { ModalPromocionesComponent } from '../../components/modal-promociones/modal-promociones.component';
-import { GuiasRemisionService } from 'src/app/service/guias-remision/guias-remision.service';
 import { PuntoVentaService } from 'src/app/service/mantenimiento/punto-venta.service';
 import { UbigeoService } from 'src/app/service/mantenimiento/ubigeo.service';
 import { VehiculoService } from 'src/app/service/mantenimiento/vehiculo.service';
 import { ChoferService } from 'src/app/service/mantenimiento/chofer.service';
 import { Cliente } from 'src/app/interfaces/cliente';
+import { FacturacionService } from 'src/app/service/facturacion/facturacion.service';
+import { PedidosService } from 'src/app/service/tomadorPedidos/pedidos.service';
+import { GuiasRemisionService } from 'src/app/service/guias-remision/guias-remision.service';
+import { TalonariosService } from 'src/app/service/mantenimiento/talonarios.service';
 
 @Component({
   selector: 'app-carrito',
@@ -36,15 +38,15 @@ export class CarritoV2Component implements OnInit {
   public arrfiltroListaPrecio: filtroListaPrecio[] = []
   public objCliente: Cliente = {}
 
-  public arrTipoDocu: any[] = []
-  public listaTalonar: any[] = []
+  public arrTipoDocumento: any[] = []
+  public arrTalonario: any[] = []
   public arrTalonar: any[] = []
   public objVendedor: Vendedor = {}
   public arrUbigeos: any[] = [];
   public arrVehiculos: any[] = [];
   public arrChoferes: any[] = [];
 
-  public guiaForm: FormGroup
+  public facturaForm: FormGroup
   public tipoCambio: number
 
   private ip: string
@@ -66,24 +68,26 @@ export class CarritoV2Component implements OnInit {
     private toolsService: ToolsService,
     private fb: FormBuilder,
     private loginService: LoginService,
-    private guiaRemisionService: GuiasRemisionService,
-    private pedidosService: PedidosService,
     private productoService: ProductoService,
     private promoS: PromocionesService,
     private modalCtrl: ModalController,
     private puntoVentaService: PuntoVentaService,
     private ubigeoService: UbigeoService,
     private vehiculoSevice: VehiculoService,
-    private choferService: ChoferService
+    private choferService: ChoferService,
+    private facturacionService: FacturacionService,
+    private pedidosService: PedidosService,
+    private guiasRemisionService: GuiasRemisionService,
+    private talonariosService: TalonariosService
   ) {
 
-   }
+  }
 
   async ngOnInit() {
     let idLoaing = await this.toolsService.mostrarCargando()
-    this.guiaForm = this.fb.group({
-      // tipoDocumento: ['', [Validators.required]],
-      // serie:['',[Validators.required]],
+    this.facturaForm = this.fb.group({
+      tipoDocumento: ['', [Validators.required]],
+      serie:['',[Validators.required]],
       puntoPartida: ['', [Validators.required]],
       ubigeoPartida: ['', [Validators.required]],
       direcciones: ['', [Validators.required]],
@@ -98,7 +102,7 @@ export class CarritoV2Component implements OnInit {
     this.arrayCarrito = this.carritoService.arrayCarrito;
     this.arrfiltroListaPrecio = this.carritoService.arrfiltroListaPrecio
     this.objCliente = this.carritoService.objCliente
-    
+
     this.objVendedor = this.loginService.objVendedor
     await this.listarTipoDocuYTalo();
     await this.listaUbigeos();
@@ -107,8 +111,8 @@ export class CarritoV2Component implements OnInit {
     this.listaVehiculos();
     await this.toolsService.ocultarCargando(idLoaing)
 
-    this.route.params.subscribe(async (param)=>{
-      if(this.carritoService.documentoPendienteSeleccionado && this.carritoService.documentoPendienteSeleccionado != ''){
+    this.route.params.subscribe(async (param) => {
+      if (this.carritoService.documentoPendienteSeleccionado && this.carritoService.documentoPendienteSeleccionado != '') {
         this.docPendSeleccionado = this.carritoService.documentoPendienteSeleccionado;
         this.cargarDocumentoPendiente(this.carritoService.documentoPendienteSeleccionado);
       }
@@ -116,12 +120,12 @@ export class CarritoV2Component implements OnInit {
   }
 
   get clienteExiste() {
-    
+
     if (Object.keys(this.objCliente).length == 0) {
       return false
     } else {
       if (!this.edicionCampo) {
-        this.guiaForm.patchValue({
+        this.facturaForm.patchValue({
           direcciones: this.objCliente.cdireccion,
         })
       }
@@ -132,27 +136,36 @@ export class CarritoV2Component implements OnInit {
   async listarTipoDocuYTalo() {
     await Promise.all([
       this.carritoService.listaTipoDocumento(),
-      this.carritoService.listaTalonar(),
+      this.talonariosService.listaTalonarios('03'),
       this.carritoService.getPublicIP(),
     ]).then((resp: any) => {
       if (resp.estado) console.log(resp.msg);
-      this.arrTipoDocu.push(...resp[0])
-      this.listaTalonar.push(...resp[1])
+
+      this.arrTipoDocumento.push(...resp[0])
+      this.arrTalonario = resp[1];
+
+      this.facturaForm.patchValue({tipoDocumento: '03', serie: this.arrTalonario[0].cnum_serie})
       this.ip = resp[2]
     }).catch((err) => { console.log(err); })
 
-    
   }
 
   cambiarTalonar(e: any) {
     let value = e.detail.value
-    this.arrTalonar = this.listaTalonar.filter((tipo) => {
-      return tipo.tip_doc == value
-    })
+    this.arrTalonar = this.arrTalonario.filter((talonario) => talonario.tip_doc == value)
+  }
+
+  async changeTipoDocumento(){
+    let codigoTipoDocumento = this.facturaForm.get('tipoDocumento').value;
+    if(codigoTipoDocumento != ''){
+      let data = await this.talonariosService.listaTalonarios(codigoTipoDocumento);
+      this.arrTalonario = data;
+      this.facturaForm.patchValue({serie: this.arrTalonario[0].cnum_serie})
+    }
   }
 
   formaPagoChange() {
-    let codigoFormaPago = this.guiaForm.get('formaPago').value;
+    let codigoFormaPago = this.facturaForm.get('formaPago').value;
     let formaPago = this.carritoService.arrFormasPago.find((formaPago) => formaPago.ccod_forpago === codigoFormaPago);
     this.objFormaPago = formaPago;
   }
@@ -181,7 +194,7 @@ export class CarritoV2Component implements OnInit {
   }
 
   restarCantidad(detalleVenta: DetalleVenta) {
-    if(detalleVenta.Cantidad > 0){
+    if (detalleVenta.Cantidad > 0) {
       detalleVenta.Cantidad -= 1;
     }
   }
@@ -228,14 +241,14 @@ export class CarritoV2Component implements OnInit {
             this.carritoService.objCliente = {}
             this.objCliente = {}
             this.objCliente = this.carritoService.objCliente
-            this.guiaForm.patchValue({
+            this.facturaForm.patchValue({
               formaPago: '',
               tipoDocumento: ''
             })
             this.productoService.refrescar()
             this.carritoService.documentoPendienteSeleccionado = ''
-            localStorage.setItem('objCliente_'+this.loginService.getModulo(), JSON.stringify(this.objCliente));
-            localStorage.setItem('arrCarrito_'+this.loginService.getModulo(), JSON.stringify(this.arrayCarrito));
+            localStorage.setItem('objCliente_' + this.loginService.getModulo(), JSON.stringify(this.objCliente));
+            localStorage.setItem('arrCarrito_' + this.loginService.getModulo(), JSON.stringify(this.arrayCarrito));
           }
         })
     } else {
@@ -245,17 +258,17 @@ export class CarritoV2Component implements OnInit {
       this.objCliente = {}
       this.objCliente = this.carritoService.objCliente
       this.productoService.refrescar();
-      this.guiaForm.patchValue({
+      this.facturaForm.patchValue({
         formaPago: ''
       })
       this.carritoService.documentoPendienteSeleccionado = ''
-      localStorage.setItem('objCliente_'+this.loginService.getModulo(), JSON.stringify(this.objCliente));
+      localStorage.setItem('objCliente_' + this.loginService.getModulo(), JSON.stringify(this.objCliente));
     }
 
   }
 
-  async generarGuiaRemision() {
-    console.log(this.guiaForm.getRawValue(), this.objFormaPago)
+  async generarFactura() {
+    console.log(this.facturaForm.getRawValue(), this.objFormaPago)
     if (this.arrayCarrito.length == 0) {
       this.toolsService.mostrarAlerta('Ingrese un Producto')
       return
@@ -266,24 +279,24 @@ export class CarritoV2Component implements OnInit {
       return
     }
 
-    if (this.guiaForm.invalid) {
-      this.guiaForm.markAllAsTouched()
+    if (this.facturaForm.invalid) {
+      this.facturaForm.markAllAsTouched()
       return
     }
 
     let estado = false
-    await this.toolsService.confirmarAlerta('Finalizar Guia', 'warning').then((conf) => { estado = conf })
+    await this.toolsService.confirmarAlerta('Finalizar Factura', 'warning').then((conf) => { estado = conf })
     if (!estado) return
 
-    let idLoading: string = await this.toolsService.mostrarCargando('Creando Guia')
+    let idLoading: string = await this.toolsService.mostrarCargando('Creando Factura')
 
-    this.carritoService.guardarGuiaRemision(this.datoGuiaRemisionCabecera()).then(async (resp) => {
+    this.carritoService.guardarFactura(this.datoFacturaCabecera()).then(async (resp) => {
       await this.toolsService.ocultarCargando(idLoading)
       if (resp.estado) {
         this.isSelecArticulo = false;
         this.productoService.setListaPrecioCliente('');
-        this.toolsService.mostrarAlerta(`Guia ${resp.codigo} Creado`, 'success', 4000)
-        this.guiaForm.reset({
+        this.toolsService.mostrarAlerta(`Factura ${resp.codigo} Creado`, 'success', 4000)
+        this.facturaForm.reset({
           tipoDocumento: '',
           formaPago: '',
           fechaEntrega: this.toolsService.fechaYHoraIso(),
@@ -291,7 +304,7 @@ export class CarritoV2Component implements OnInit {
         }
         )
         this.borrarTodos()
-        this.guiaRemisionService.refresh()
+        this.facturacionService.refresh()
         this.productoService.refrescar()
         this.promoS.refrescar()
       }
@@ -302,9 +315,9 @@ export class CarritoV2Component implements OnInit {
 
   }
 
-  datoGuiaRemisionCabecera(){
-    // console.log(this.guiaForm.getRawValue())
-    let dataFormulario = this.guiaForm.getRawValue();
+  datoFacturaCabecera() {
+    // console.log(this.facturaForm.getRawValue())
+    let dataFormulario = this.facturaForm.getRawValue();
 
     let fechaDocumentoReferencia;
     if (this.docPendSeleccionado) {
@@ -320,9 +333,9 @@ export class CarritoV2Component implements OnInit {
       validar_precio_costo: 'N',
       consultar_stock: 'N',
 
-      motivo: 'T001',
+      serie: dataFormulario.serie,
       numero_correlativo: '',
-      codigo_movimiento: '09',
+      tipo_documento: dataFormulario.tipoDocumento,
       tipo_movimiento: 'S',
       automatico: 'A',
       fecha_doc: this.toolsService.fechaYHora(),
@@ -352,7 +365,7 @@ export class CarritoV2Component implements OnInit {
       descuento: '0',
       orden_trabajo: '00',
       pto_partida: dataFormulario.puntoPartida, //this.loginService.datosUsu.cdireccion, //FALTA CONFIGURAR EL PUNTO DE PARTIDA
-      pto_llegada: dataFormulario.direcciones, 
+      pto_llegada: dataFormulario.direcciones,
       dias: this.objFormaPago.nro_dias,
       pais: this.objCliente.ccod_pais,
       atencion: 'Pendiente',
@@ -381,7 +394,7 @@ export class CarritoV2Component implements OnInit {
       erp_Dtotal: this.toolsService.redondear(this.carritoService.montoTotalesVenta.Total, 2),
       erp_ICBPER: 0,
       erp_gestor: '00',
-      tipo: this.docPendSeleccionado ? 'GUIA DE PEDIDO' : 'GUIA DIRECTA',
+      tipo: this.docPendSeleccionado ? this.docPendSeleccionado.Tipo_Documento == '09' ? 'FACTURAR GUIAS DE VENTA' : 'FACTURAR PEDIDO' : 'VENTA DIRECTA',
       tipo_documento_cliente: this.objCliente.tip_doc,
       codigo_transportista: '00',
       nombre_transportista: '',
@@ -413,7 +426,7 @@ export class CarritoV2Component implements OnInit {
       direccion_cliente_2: '',
       codigo_proveedor: '00',
       nombre_proveedor_c: '',
-      modulo: 'Guia_Venta',
+      modulo: 'Facturacion',
       ccod_almacen2: '',
       ccod_almacend2: '',
       codigo_transaccion: '00',
@@ -496,11 +509,12 @@ export class CarritoV2Component implements OnInit {
       numero_expediente2: '',
       tipo_operacion: 'OPERACION GRAVADA',
 
-      filas_detalle: this.datosGuiaRemisionDetalle()
+      datos_anticipos: JSON.stringify([]), 
+      filas_detalle: this.datosFacturaDetalle()
     }
   }
 
-  datosGuiaRemisionDetalle(){
+  datosFacturaDetalle() {
     let filas_detalle = []
     this.carritoService.arrayCarrito.forEach((element) => {
       filas_detalle.push({
@@ -553,7 +567,15 @@ export class CarritoV2Component implements OnInit {
         Codigo_presentacion: element.Codigo,
         Codigo_Cencos: '00',
         Codigo_OT: '00',
-        Codigo_Unidad_negocio: '00'
+        Codigo_Unidad_negocio: '00',
+        pedido_numero: element.pedido_numero,
+        pedido_motivo: element.pedido_motivo,
+        pedido_punto_venta: element.pedido_punto_venta,
+        pedido_nitem: element.pedido_nitem,
+        guia_punto_venta: element.guia_punto_venta,
+        guia_serie: element.guia_serie,
+        guia_numero: element.guia_numero,
+        guia_nitem: element.guia_nitem
       })
     });
     console.log(filas_detalle);
@@ -575,7 +597,7 @@ export class CarritoV2Component implements OnInit {
     modal.onDidDismiss().then((direccion) => {
       if (direccion !== null && direccion.role != "backdrop") {
         var direc = direccion.data
-        this.guiaForm.patchValue({
+        this.facturaForm.patchValue({
           direcciones: direc.direccion
         })
       }
@@ -584,14 +606,14 @@ export class CarritoV2Component implements OnInit {
     await modal.present();
   }
 
-  async mostrarModalPromociones(documento: any){
+  async mostrarModalPromociones(documento: any) {
     const modal = await this.modalCtrl.create({
       component: ModalPromocionesComponent,
       componentProps: {
-          documento: documento
+        documento: documento
       }
     });
-    
+
     await modal.present();
   }
 
@@ -599,24 +621,34 @@ export class CarritoV2Component implements OnInit {
     this.edicionCampo = true;
   }
 
-  async cargarDocumentoPendiente(data: any){
+  async cargarDocumentoPendiente(data: any) {
     let idLoading: string = await this.toolsService.mostrarCargando('Consultando Documento')
     console.log(data);
-    await this.pedidosService.consultarDetallePedidioPendiente(data.Punto_Venta, data.Codigo_Motivo_Serie, data.Numero,).then(async(resp)=>{
-     
-      this.arrayCarrito = resp;
-      this.carritoService.arrayCarrito = this.arrayCarrito;
 
-    });
+    if (data.Tipo_Documento == '09') {
+      await this.guiasRemisionService.consultarDetalleGuiaPendiente(data.Punto_Venta, data.Codigo_Motivo_Serie, data.Numero,).then(async (resp) => {
 
-    await this.clienteService.consultarCliente(data.Codigo_Cliente ).then(async(resp)=>{
+        this.arrayCarrito = resp;
+        this.carritoService.arrayCarrito = this.arrayCarrito;
+
+      });
+    } else {
+      await this.pedidosService.consultarDetallePedidioPendiente(data.Punto_Venta, data.Codigo_Motivo_Serie, data.Numero,).then(async (resp) => {
+
+        this.arrayCarrito = resp;
+        this.carritoService.arrayCarrito = this.arrayCarrito;
+
+      });
+    }
+
+    await this.clienteService.consultarCliente(data.Codigo_Cliente).then(async (resp) => {
       console.log(resp);
       let dataCliente = resp[0];
 
       await this.clienteService.clienteFormasPago(data.Codigo_Cliente).then((resp) => {
         dataCliente.forma_pagos = resp
       })
-  
+
       await this.clienteService.clienteDirecciones(data.Codigo_Cliente).then((resp) => {
         dataCliente.direcciones = resp
       })
@@ -625,69 +657,89 @@ export class CarritoV2Component implements OnInit {
       })
 
       await this.carritoService.agregarCliente(dataCliente)
- 
+
     });
 
     this.edicionCampo = true;
-    
-    this.guiaForm.patchValue({
-      'direcciones': data.Punto_Llegada,
-      'agencias': data.codigo_agencia_transporte,
-      'formaPago': data.Codigo_Forma_Pago,
-      'fechaEntrega': data.Fecha_Entrega_Iso,
-      'ubigeoLlegada': this.objCliente.codigoUbigeo
-    })
+
+    if (data.Tipo_Documento == '09') {
+      this.facturaForm.patchValue({
+        tipoDocumento: '03',
+        'direcciones': data.Punto_Llegada,
+        'agencias': data.Agencia_Transporte,
+        'formaPago': data.Forma_Pago,
+        'fechaEntrega': data.Fecha_Entrega_Iso,
+        'ubigeoLlegada': this.objCliente.codigoUbigeo,
+        'vehiculo': data.Codigo_Vehiculo,
+        'chofer': data.Codigo_Chofer
+      })
+
+      this.changeTipoDocumento();
+    } else {
+      let tipoDocumento = data.Tipo_Documento_Pago == ''? '03' : data.Tipo_Documento_Pago
+      this.facturaForm.patchValue({
+        tipoDocumento: tipoDocumento,
+        'direcciones': data.Punto_Llegada,
+        'agencias': data.codigo_agencia_transporte,
+        'formaPago': data.Codigo_Forma_Pago,
+        'fechaEntrega': data.Fecha_Entrega_Iso,
+        'ubigeoLlegada': this.objCliente.codigoUbigeo
+      })
+
+      this.changeTipoDocumento();
+    }
 
     this.formaPagoChange();
+    this.datosPuntoVenta();
     await this.toolsService.ocultarCargando(idLoading)
   }
 
   async datosPuntoVenta() {
     return new Promise((resolve) => {
       this.puntoVentaService.datosPuntoVenta(this.loginService.punto_venta).subscribe((resp) => {
-            this.guiaForm.patchValue({puntoPartida: resp[0].Direccion});
-            this.guiaForm.patchValue({ubigeoPartida: resp[0].Ubigeo});
-            resolve('acabo')
-        }, (err) => {
-          this.toolsService.mostrarAlerta(err, 'error')
-            console.log(err);
-        })
+        this.facturaForm.patchValue({ puntoPartida: resp[0].Direccion });
+        this.facturaForm.patchValue({ ubigeoPartida: resp[0].Ubigeo });
+        resolve('acabo')
+      }, (err) => {
+        this.toolsService.mostrarAlerta(err, 'error')
+        console.log(err);
+      })
     })
   }
 
   async listaUbigeos() {
     return new Promise((resolve) => {
       this.ubigeoService.listaUbigeos().subscribe((resp) => {
-            this.arrUbigeos = resp;
-            resolve('acabo')
-        }, (err) => {
-          this.toolsService.mostrarAlerta(err, 'error')
-            console.log(err);
-        })
+        this.arrUbigeos = resp;
+        resolve('acabo')
+      }, (err) => {
+        this.toolsService.mostrarAlerta(err, 'error')
+        console.log(err);
+      })
     })
   }
 
   async listaVehiculos() {
     return new Promise((resolve) => {
       this.vehiculoSevice.listaVehiculos().subscribe((resp) => {
-            this.arrVehiculos = resp;
-            resolve('acabo')
-        }, (err) => {
-          this.toolsService.mostrarAlerta(err, 'error')
-            console.log(err);
-        })
+        this.arrVehiculos = resp;
+        resolve('acabo')
+      }, (err) => {
+        this.toolsService.mostrarAlerta(err, 'error')
+        console.log(err);
+      })
     })
   }
 
   async listaChoferes() {
     return new Promise((resolve) => {
       this.choferService.listaChoferes().subscribe((resp) => {
-            this.arrChoferes = resp;
-            resolve('acabo')
-        }, (err) => {
-          this.toolsService.mostrarAlerta(err, 'error')
-            console.log(err);
-        })
+        this.arrChoferes = resp;
+        resolve('acabo')
+      }, (err) => {
+        this.toolsService.mostrarAlerta(err, 'error')
+        console.log(err);
+      })
     })
   }
 
@@ -695,18 +747,18 @@ export class CarritoV2Component implements OnInit {
     this.ubigeoOpen = true;
   }
 
-  ubigeoSelectionChanged(ubigeos: any){
-    this.guiaForm.patchValue({
+  ubigeoSelectionChanged(ubigeos: any) {
+    this.facturaForm.patchValue({
       ubigeoLlegada: ubigeos.Codigo,
     })
     this.ubigeoOpen = false
   }
 
-  cerrarModalUbigeos(){
+  cerrarModalUbigeos() {
     this.ubigeoOpen = false;
   }
 
   get isUbigeoLlegada() {
-    return this.guiaForm.get('ubigeoLlegada').value;
+    return this.facturaForm.get('ubigeoLlegada').value;
   }
 }

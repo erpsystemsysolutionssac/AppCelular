@@ -8,12 +8,14 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { SharedModule } from 'src/app/shared.module';
 import { AgenciaComponent } from './agencia/agencia.component';
 import { VendedorComponent } from './vendedor/vendedor.component';
+import { ArticuloComponent } from './articulo/articulo.component';
 
 @NgModule({
   declarations: [
     ClienteComponent,
     AgenciaComponent,
-    VendedorComponent
+    VendedorComponent,
+    ArticuloComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { VendedorComponent } from './vendedor/vendedor.component';
   exports: [
     ClienteComponent,
     AgenciaComponent,
-    VendedorComponent
+    VendedorComponent,
+    ArticuloComponent
   ]
 })
 export class MantenimientosModule { }

@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { GuiaRemisionComponent } from './guia-remision.component';
 import { ComponentesModule } from 'src/app/submenu/components/componentes.module';
-import { ArticuloComponent } from 'src/app/submenu/guiaRemision/articulo/articulo.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SwiperModule } from 'swiper/angular';
 import { SharedModule } from 'src/app/shared.module';
@@ -36,7 +35,6 @@ import { CarritoV2Component } from 'src/app/submenu/guiaRemision/carrito-v2/carr
   ],
   declarations: [
     GuiaRemisionComponent,
-    ArticuloComponent,
     VerMasComponent,
     GuiasComponent,
     GuiaComponent,

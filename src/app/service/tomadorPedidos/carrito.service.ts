@@ -150,6 +150,7 @@ export class CarritoService {
       ccod_almacen: this.loginService.punto_venta
     }, this.customHeaders).toPromise()
   }
+
   listaFormaPago() {
     return this.http.post<any>(this.rutaPedidos + '/lista_forma_pago' + this.random, {
       codigo_empresa: this.loginService.codigo_empresa
@@ -202,26 +203,9 @@ export class CarritoService {
     return this.http.post<any>(this.rutaApi + '/guia/app/v1/guardar' + this.random, dataGuiaRemision, this.customHeaders).toPromise()
   }
 
-  crearGuiaRemision(cabecera: any, detalle: any) {
-    let datos = { ...cabecera, ...detalle }
-    datos.codigo_empresa = this.loginService.codigo_empresa
-    datos.codigo_punto_venta = this.loginService.punto_venta
-    datos.anio = new Date().getFullYear()
 
-
-    datos.vendedor_1 = this.loginService.objVendedor.ccod_vendedor
-
-
-    datos.codigo_centro_costos = this.loginService.centro_costo
-    datos.codigo_unidad_negocio = this.loginService.unidad_negocio
-    datos.pto_partida = this.loginService.datosUsu.cdireccion
-    datos.codigo_usuario = this.loginService.codigo_usuario
-    datos.ruc_empresa_usuario = this.loginService.ruc_empresa_usuario;
-    datos.omitirVentaPrecioCosto = 'S';
-
-    return this.http.post<any>(this.rutaApi + '/guia/app/v1/guardar' + this.random, {
-      ...datos
-    }, this.customHeaders).toPromise()
+  guardarFactura(dataFactura: any) {
+    return this.http.post<any>(this.rutaApi + '/facturacion/app/v1/guardar' + this.random, dataFactura, this.customHeaders).toPromise()
   }
 
   getTotalItems() {

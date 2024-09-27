@@ -57,7 +57,8 @@
       <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let documento of arrDocumentosPendientes; let i = index;" (click)="clickRow(documento)">
 
         <div class="textos d-flex justify-content-between mb-1">
-          <p class="mb-0  "><span class="badge bg-primary textos-pequeño">{{documento.Numero}}</span> </p>
+          <p class="mb-0" *ngIf="tipoDocumento == 'Pedido'" ><span class="badge bg-primary textos-pequeño">{{documento.Numero}}</span> </p>
+          <p class="mb-0" *ngIf="tipoDocumento == 'Guia'" ><span class="badge bg-primary textos-pequeño">{{documento.Motivo_Serie +' - '+documento.Numero}}</span> </p>
           <!-- <p class="mb-0 text-danger fw-bold">{{documento.cmoneda}} {{documento.erp_Dtotal | number:'1.0-2'}} </p> -->
         </div>
 

@@ -38,13 +38,13 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="3" class="p-0 px-1 col-bg d-flex" *ngIf="modulo == 'guiaRemision'" >
-          <ion-button (click)="mostrarModalDocumentosPendientes()" shape="round" class="btn-filtrar textos w-100">
+        <ion-col size="3" class="p-0 px-1 col-bg d-flex" *ngIf="modulo != 'tomadorPedidos'" >
+          <ion-button (click)="mostrarModalDocumentosPendientes('Pedido')" shape="round" class="btn-filtrar textos w-100">
             <ion-icon name="clipboard"></ion-icon>
             Pedidos
           </ion-button>
         </ion-col>
-        <ion-col [size]="modulo == 'guiaRemision' ? '9' : '12'" class="p-0 px-1 col-bg d-flex ">
+        <ion-col [size]="modulo != 'tomadorPedidos' ? modulo == 'facturacion' ? '6' : '9' : '12'" class="p-0 px-1 col-bg d-flex ">
           <ion-button (click)="cambiarListaPrecio()" shape="round" class="btn-filtrar textos w-100">
             <ion-icon name="options-outline"></ion-icon>
             Lista de Precios
@@ -54,6 +54,12 @@
             <ion-select-option value="lista_precios_lima">Lima</ion-select-option>
             <ion-select-option value="lista_precios_provincia">Provincia</ion-select-option>
           </ion-select>
+        </ion-col>
+        <ion-col size="3" class="p-0 px-1 col-bg d-flex" *ngIf="modulo == 'facturacion'" >
+          <ion-button (click)="mostrarModalDocumentosPendientes('Guia')" shape="round" class="btn-filtrar textos w-100">
+            <ion-icon name="clipboard"></ion-icon>
+            Guias
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

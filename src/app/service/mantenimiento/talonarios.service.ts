@@ -7,9 +7,8 @@ import { ToolsService } from '../tools.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UbigeoService {
-
-  private ruta = this.toolsService.obtenerUrl('urlApi') + '/ubigeo/app/v1';
+export class TalonariosService {
+  private ruta = this.toolsService.obtenerUrl('urlApi') + '/talonarios/app/v1';
 
   private customHeaders = {
     headers: new HttpHeaders({
@@ -24,9 +23,17 @@ export class UbigeoService {
     private toolsService: ToolsService
   ) { }
 
-  listaUbigeos() {
-    return this.http.post<any[]>(this.ruta + '/lista/' + this.globalService.calcularNumeroRandomUrl(), {
+  listaTalonarios(tipoDocumento: string) {
+    return this.http.post<any>(this.ruta + '/serie_documento/' + this.globalService.calcularNumeroRandomUrl(), {
       codigo_empresa: this.loginService.codigo_empresa,
+      punto_venta: this.loginService.punto_venta,
+      tipo_documento: tipoDocumento,
+    }, this.customHeaders).toPromise();
+
+    return this.http.post<any[]>(this.ruta + '/serie_documento/' + this.globalService.calcularNumeroRandomUrl(), {
+      codigo_empresa: this.loginService.codigo_empresa,
+      punto_venta: this.loginService.punto_venta,
+      tipo_documento: tipoDocumento,
     },
       this.customHeaders
     );
