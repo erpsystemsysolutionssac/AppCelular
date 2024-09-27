@@ -1,13 +1,13 @@
 
 
 <ion-header>
-  <ion-toolbar class="header-pedido" >
+  <ion-toolbar class="header-factura" >
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/guiaRemision/guias" style="height:10px;"></ion-back-button>
     </ion-buttons>
     <ion-item class="">
-      <ion-card-title class="titulos-medianos">Guia</ion-card-title>
-      <ion-badge slot="end" class="">{{ guiaRemisionCabecera.cnum_serie +' - '+ guiaRemisionCabecera.cnum_doc }} </ion-badge>
+      <ion-card-title class="titulos-medianos">Factura</ion-card-title>
+      <ion-badge slot="end" class="">{{ facturaCabecera.cnum_serie +' - '+ facturaCabecera.cnum_doc }} </ion-badge>
     </ion-item>
   </ion-toolbar>
 </ion-header>
@@ -18,48 +18,48 @@
     <ion-card-content class="py-0 textos text-black">
       <div class="row">
         <div class="col-5">F.Creacion</div>
-        <div class="col">: {{guiaRemisionCabecera.dfecha_doc | date:'dd/MM/yyyy'}} </div>
+        <div class="col">: {{facturaCabecera.dfecha_doc | date:'dd/MM/yyyy'}} </div>
       </div>
       <div class="row">
         <div class="col-5">Entregar</div>
-        <div class="col">: {{guiaRemisionCabecera.dfecha_entr| date:'dd/MM/yyyy'}}</div>
+        <div class="col">: {{facturaCabecera.dfecha_entr| date:'dd/MM/yyyy'}}</div>
       </div>
       
       <!-- <div class="row">
         <div class="col-5">Nro.Pedido</div>
-        <div class="col">: {{guiaRemisionCabecera.cnum_doc}} </div>
+        <div class="col">: {{facturaCabecera.cnum_doc}} </div>
       </div> -->
       <div class="row">
         <div class="col-5">Nro Doc. </div>
-        <div class="col">: {{guiaRemisionCabecera.ccod_cliente}}</div>
+        <div class="col">: {{facturaCabecera.ccod_cliente}}</div>
       </div>
       <div class="row">
         <div class="col-5">Cliente</div>
         <div class="col">:</div>
       </div>
       <div class="row">
-        <div class="col fw-semibold">{{guiaRemisionCabecera.cnom_cliente_v}}</div>
+        <div class="col fw-semibold">{{facturaCabecera.cnom_cliente_v}}</div>
       </div>
       <div class="row">
         <div class="col-5">Direccion</div>
         <div class="col">:</div>
       </div>
       <div class="row">
-        <div class="col fw-semibold">{{guiaRemisionCabecera.pto_llegada_02}}</div>
+        <div class="col fw-semibold">{{facturaCabecera.pto_llegada_02}}</div>
       </div>
       <div class="row">
         <div class="col-5">Punto Venta</div>
         <div class="col">:</div>
       </div>
       <div class="row">
-        <div class="col fw-semibold">{{guiaRemisionCabecera.nombre_almacen}}</div>      
+        <div class="col fw-semibold">{{facturaCabecera.nombre_almacen}}</div>      
       </div>
       <div class="row">
         <div class="col-5">VoucherPago</div>
         <div class="col">:</div>
       </div>
       <div class="row">
-        <div class="col fw-semibold" (click)="download()" >{{guiaRemisionCabecera.ruta_pdf}}</div>      
+        <div class="col fw-semibold" (click)="download()" >{{facturaCabecera.ruta_pdf}}</div>      
       </div>
 
       <div class="row my-2">
@@ -97,16 +97,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let pedidoD of guiaRemisionDetalle;" class="align-middle">
-                <td class="text-center p-1">{{pedidoD.CNOM_ARTICULO}} </td>
-                <td class="text-center p-1">{{pedidoD.NCANTIDAD}} </td>
-                <td class="text-center p-1">{{pedidoD.CUNIDAD}} </td>
-                <td class="text-center p-1">{{pedidoD.factor}} </td>
-                <td class="text-center p-1">{{pedidoD.precio_original | number : '1.2-2'}} </td>
-                <td class="text-center p-1">{{pedidoD.base_calculada | number : '1.2-2'}} </td>
-                <td class="text-center p-1">{{pedidoD.NBASEIMPON | number : '1.2-2'}} </td>
-                <td class="text-center p-1">{{pedidoD.nigvcalc | number : '1.2-2'}} </td>
-                <td class="text-center p-1">{{pedidoD.NPRECIO_IMPORTE | number : '1.2-2'}} </td>
+              <tr *ngFor="let factura of facturaDetalle;" class="align-middle">
+                <td class="text-center p-1">{{factura.CNOM_ARTICULO}} </td>
+                <td class="text-center p-1">{{factura.NCANTIDAD}} </td>
+                <td class="text-center p-1">{{factura.CUNIDAD}} </td>
+                <td class="text-center p-1">{{factura.factor}} </td>
+                <td class="text-center p-1">{{factura.precio_original | number : '1.2-2'}} </td>
+                <td class="text-center p-1">{{factura.base_calculada | number : '1.2-2'}} </td>
+                <td class="text-center p-1">{{factura.NBASEIMPON | number : '1.2-2'}} </td>
+                <td class="text-center p-1">{{factura.nigvcalc | number : '1.2-2'}} </td>
+                <td class="text-center p-1">{{factura.NPRECIO_IMPORTE | number : '1.2-2'}} </td>
               </tr>
             </tbody>
           </table>
@@ -117,7 +117,7 @@
 
       <div class="row" >
         <div class="col-auto ms-auto">
-          Total : <span class="text-danger">{{guiaRemisionCabecera.cmoneda}} {{totalD}}</span> 
+          Total : <span class="text-danger">{{facturaCabecera.cmoneda}} {{totalD}}</span> 
         </div>
       </div>
 
@@ -138,7 +138,7 @@
           <div class="col-4 border border-dark rounded bg-color-pdf ms-auto pdf-header-fs pb-0 fw-bold" >
             <p class="mb-0 mt-0 text-center" > RUC :{{ loginS.ruc_empresa_usuario }}</p>
             <p class="mt-0 text-center" style="margin-bottom: 2px; margin-top: 2px;"> GUIA REMISION</p>
-            <p class="mt-0 text-center " style="margin-bottom: 3px;"> {{ guiaRemisionCabecera.cnum_serie +' - '+guiaRemisionCabecera.cnum_doc }}</p>
+            <p class="mt-0 text-center " style="margin-bottom: 3px;"> {{ facturaCabecera.cnum_serie +' - '+facturaCabecera.cnum_doc }}</p>
           </div>
         </div> 
     
@@ -147,25 +147,25 @@
             Pto. Venta: 
           </div>
           <div style="width:160px ;" class="px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.nombre_almacen}}
+            {{facturaCabecera.nombre_almacen}}
           </div>
           <div style="width:45px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             Cencos : 
           </div>
           <div class="col px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.nombre_centro_costo}}
+            {{facturaCabecera.nombre_centro_costo}}
           </div>
           <div style="width:45px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             T./C : 
           </div>
           <div style="width:45px ;" class="px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.tipo_cambio | number : '1.3-3'}}
+            {{facturaCabecera.tipo_cambio | number : '1.3-3'}}
           </div>
           <div style="width:45px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             Moneda : 
           </div>
           <div style="width:45px ;" class="px-2">
-            {{guiaRemisionCabecera.cmoneda}}
+            {{facturaCabecera.cmoneda}}
           </div>
         </div>
         <div class="row border border-top-0 pdf-border-color" style="height: 15px;">
@@ -173,19 +173,19 @@
             Codigo: 
           </div>
           <div class="col px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.ccod_cliente}}
+            {{facturaCabecera.ccod_cliente}}
           </div>
           <div style="width:45px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             Fecha : 
           </div>
           <div class="col px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.dfecha_doc | date:'dd/MM/yyyy'}}
+            {{facturaCabecera.dfecha_doc | date:'dd/MM/yyyy'}}
           </div>
           <div style="width:55px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             Fecha Ent. : 
           </div>
           <div class="col px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.dfecha_entr | date:'dd/MM/yyyy'}}
+            {{facturaCabecera.dfecha_entr | date:'dd/MM/yyyy'}}
           </div>
         </div>
         <div class="row border border-top-0 pdf-border-color" style="height: 15px;">
@@ -193,13 +193,13 @@
             Nombre: 
           </div>
           <div class="col px-2 border-end pdf-border-color">
-            {{ guiaRemisionCabecera.cnom_cliente_v | capitalizar }}
+            {{ facturaCabecera.cnom_cliente_v | capitalizar }}
           </div>
           <div style="width:47px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             Tipo Doc : 
           </div>
           <div style="width:105px ;" class="px-2">
-            {{ guiaRemisionCabecera.tipo_pedido | capitalizar }}
+            {{ facturaCabecera.tipo_pedido | capitalizar }}
           </div>
         </div>
         <div class="row border border-top-0 pdf-border-color" style="height: 15px;">
@@ -207,13 +207,13 @@
             Direccion: 
           </div>
           <div  class="col px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.lugar_entrega | capitalizar}}
+            {{facturaCabecera.lugar_entrega | capitalizar}}
           </div>
           <div style="width:47px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             Doc Ref : 
           </div>
           <div style="width:105px ;" class="px-2 ">
-            {{guiaRemisionCabecera.cnum_docref}}
+            {{facturaCabecera.cnum_docref}}
           </div>
           
         </div>
@@ -222,19 +222,19 @@
             Forma Pago: 
           </div>
           <div  class="col px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.nombre_forPago | capitalizar}}
+            {{facturaCabecera.nombre_forPago | capitalizar}}
           </div>
           <div style="width:50px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             Vendedor : 
           </div>
           <div class="col px-2 border-end pdf-border-color">
-            {{guiaRemisionCabecera.nombre_vendedor | capitalizar}}
+            {{facturaCabecera.nombre_vendedor | capitalizar}}
           </div>
           <div style="width:47px ;" class="bg-color-pdf pdf-p-left pe-0 border-end pdf-border-color">
             N° Orden : 
           </div>
           <div style="width:105px ;" class="px-2 ">
-            {{guiaRemisionCabecera.n_orden}}
+            {{facturaCabecera.n_orden}}
           </div>
         </div>
         <div class="row border border-top-0 pdf-border-color" style="height: 15px;">
@@ -242,7 +242,7 @@
             Glosa : 
           </div>
           <div style="width:100px ; height: 45px;" class="px-2 ">
-            {{guiaRemisionCabecera.erp_glosa}}
+            {{facturaCabecera.erp_glosa}}
           </div>
         </div>
     
@@ -277,30 +277,30 @@
     
         <div class="row  border border-top-0 pdf-border-color" style="height: 395px;">
           <div class="col">
-            <div class="row " *ngFor="let pedido of guiaRemisionDetalle; let ind = index">
+            <div class="row " *ngFor="let factura of facturaDetalle; let ind = index">
               <div style="width:33px ;" class=" text-center pdf-p-left px-0">
               {{ind+1}}
               </div>
               <div style="width:48px ;" class=" text-center pdf-p-left px-0">
-                {{pedido.NCANTIDAD | number : '1.2-2'}}
+                {{factura.NCANTIDAD | number : '1.2-2'}}
               </div>
               <div style="width:42px ;" class=" text-center pdf-p-left px-0">
-                {{pedido.CUNIDAD}}
+                {{factura.CUNIDAD}}
               </div>
               <div style="width:50px ;" class="pdf-p-left px-0">
-                {{pedido.ccod_articulo}}
+                {{factura.ccod_articulo}}
               </div>
               <div  class="col pdf-p-left px-0">
-                {{pedido.CNOM_ARTICULO | capitalizar }}
+                {{factura.CNOM_ARTICULO | capitalizar }}
               </div>
               <div style="width:48px ;" class=" text-center pdf-p-left px-0">
                 Ninguno
               </div>
               <div style="width:53px ;" class=" text-center pdf-p-left px-0">
-                {{guiaRemisionCabecera.cmoneda}} {{pedido.nprecio | number : '1.2-2'}}
+                {{facturaCabecera.cmoneda}} {{factura.nprecio | number : '1.2-2'}}
               </div>
               <div style="width:53px ;" class=" text-center pdf-p-left px-0">
-                {{guiaRemisionCabecera.cmoneda}} {{pedido.NPRECIO_IMPORTE | number : '1.2-2'}}
+                {{facturaCabecera.cmoneda}} {{factura.NPRECIO_IMPORTE | number : '1.2-2'}}
               </div>
             
             </div>
@@ -314,7 +314,7 @@
                 Observaciones :
               </div>
               <div class="col">
-                {{guiaRemisionCabecera.observacion}}
+                {{facturaCabecera.observacion}}
               </div>
             </div>
           </div>
@@ -324,7 +324,7 @@
                   Sub Total
                 </div>
                 <div class="col text-center">
-                  {{guiaRemisionCabecera.cmoneda}} {{subtotal | number : '1.2-2'}}
+                  {{facturaCabecera.cmoneda}} {{subtotal | number : '1.2-2'}}
                 </div>
               </div>
               <div class="row border-bottom   pdf-border-color" style="height: 15px;">
@@ -332,7 +332,7 @@
                   IGV(18%)
                 </div>
                 <div class="col text-center">
-                  {{guiaRemisionCabecera.cmoneda}} {{totalIgv | number : '1.2-2'}}
+                  {{facturaCabecera.cmoneda}} {{totalIgv | number : '1.2-2'}}
                 </div>
               </div>
               <div class="row border-bottom   pdf-border-color" style="height: 15px;">
@@ -340,7 +340,7 @@
                   Descuento
                 </div>
                 <div class="col text-center">
-                  {{guiaRemisionCabecera.cmoneda}} {{descuento | number : '1.2-2'}}
+                  {{facturaCabecera.cmoneda}} {{descuento | number : '1.2-2'}}
                 </div>
               </div>
               <div class="row " style="height: 15px;">
@@ -348,7 +348,7 @@
                   Total
                 </div>
                 <div class="col text-center">
-                  {{guiaRemisionCabecera.cmoneda}} {{totalD | number : '1.2-2'}}
+                  {{facturaCabecera.cmoneda}} {{totalD | number : '1.2-2'}}
                 </div>
               </div>
           </div>
@@ -356,12 +356,12 @@
     
         <div style="height: 135px;"  class="row mt-2 d-flex justify-content-evenly align-items-center">
           <div class="col-2 border-top pdf-border-color text-center px-0">
-            {{guiaRemisionCabecera.Usuario}}
+            {{facturaCabecera.Usuario}}
             <br>
             Solicitante
           </div>
           <div class="col-2 border-top pdf-border-color text-center px-0">
-            <span> {{guiaRemisionCabecera.nombre_vendedor | capitalizar}}</span>
+            <span> {{facturaCabecera.nombre_vendedor | capitalizar}}</span>
             <br>
             Vendedor 1
           </div>

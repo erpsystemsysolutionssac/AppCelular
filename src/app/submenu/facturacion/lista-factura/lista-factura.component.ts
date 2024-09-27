@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { IonDatetime, IonModal, IonSelect, RefresherCustomEvent, RefresherEventDetail } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { GuiaRemisionCabecera } from 'src/app/interfaces/guia-remision';
-import { GuiasRemisionService } from 'src/app/service/guias-remision/guias-remision.service';
+import { FacturaCabecera } from 'src/app/interfaces/factura';
+import { FacturacionService } from 'src/app/service/facturacion/facturacion.service';
 import { ToolsService } from 'src/app/service/tools.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class ListaFacturaComponent implements OnInit, OnDestroy {
   @ViewChild('modalDel') modalDel: IonModal;
   @ViewChild('modalHasta') modalHasta: IonModal;
 
-  public arrGuiaCabecera: GuiaRemisionCabecera[] = []
+  public arrFacturaCabecera: FacturaCabecera[] = []
 
   private inicio: number = 0
   private limite: number = 100
@@ -39,7 +39,7 @@ export class ListaFacturaComponent implements OnInit, OnDestroy {
     Filtrar por estado Cliente fecha y por nro pedido
    */
   constructor(
-    private guiasRemisionService: GuiasRemisionService,
+    private facturacionService: FacturacionService,
     private toolsS: ToolsService,
     private router: Router,
     private route: ActivatedRoute,
@@ -52,20 +52,20 @@ export class ListaFacturaComponent implements OnInit, OnDestroy {
       filtro: ['NroPedido'],
     })
 
-    this.obtenerPedidos()
-    this.subscripcion = this.guiasRemisionService._refresh$.subscribe(() => {
+    this.obtenerFacturas()
+    this.subscripcion = this.facturacionService._refresh$.subscribe(() => {
       console.log('refresh')
-      this.obtenerPedidos()
+      this.obtenerFacturas()
     })
   }
 
   crearRuta() {
-    this.guiasRemisionService.rutaClientes.push(...this.arrGuiaCabecera)
+    this.facturacionService.rutaClientes.push(...this.arrFacturaCabecera)
     this.router.navigate(['../verMas', new Date().getTime()], { relativeTo: this.route })
   }
 
   async ionRefrescar(e) {
-    await this.obtenerPedidos(false);
+    await this.obtenerFacturas(false);
     e.target.complete();
     console.log('refresco');
   }
@@ -78,24 +78,24 @@ export class ListaFacturaComponent implements OnInit, OnDestroy {
     this.clickCount++
 
     if (this.clickCount == 2) {
-      let guiaRemisionCabecera = this.arrGuiaCabecera.find((pedido) => {
+      let facturaCabecera = this.arrFacturaCabecera.find((pedido) => {
         return pedido.cnum_doc == doc
       })
 
-      Object.assign(this.guiasRemisionService.guiaRemisionCabecera, guiaRemisionCabecera)
-      this.router.navigate(['../guiaRemision/guias', guiaRemisionCabecera.cnum_serie, doc ])
+      Object.assign(this.facturacionService.facturaCabecera, facturaCabecera)
+      this.router.navigate(['../facturacion/factura', facturaCabecera.cnum_serie, doc ])
 
     }
     setTimeout(() => { this.clickCount = 0 }, 300);
 
   }
 
-  async obtenerPedidos(cargar: boolean = true) {
+  async obtenerFacturas(cargar: boolean = true) {
     let idLoading: string
-    if (cargar) idLoading = await this.toolsS.mostrarCargando('Cargando Pedidos');
-    await this.guiasRemisionService.obtenerPedidos(this.inicio, this.limite, this.filtro, this.campo).then(async (resp) => {
+    if (cargar) idLoading = await this.toolsS.mostrarCargando('Cargando Facturas');
+    await this.facturacionService.obtenerFacturas(this.inicio, this.limite, this.filtro, this.campo).then(async (resp) => {
 
-      this.arrGuiaCabecera = []
+      this.arrFacturaCabecera = []
       for (const pedido1 of resp) {
         for (let [key, value] of Object.entries(pedido1)) {
           if (typeof value == 'string' && value.endsWith('Z') && value.length == 24) {
@@ -103,9 +103,9 @@ export class ListaFacturaComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.arrGuiaCabecera.push(...resp)
+      this.arrFacturaCabecera.push(...resp)
 
-      this.guiasRemisionService.rutaClientes = this.arrGuiaCabecera
+      this.facturacionService.rutaClientes = this.arrFacturaCabecera
 
       if (cargar) await this.toolsS.ocultarCargando(idLoading)
     })
@@ -126,7 +126,7 @@ export class ListaFacturaComponent implements OnInit, OnDestroy {
         this.filtro.push(datos.buscar)
         break;
     }
-    this.obtenerPedidos()
+    this.obtenerFacturas()
   }
 
   selectCambio() {

@@ -22,7 +22,14 @@
 
       <ion-menu-toggle *ngIf="isGuias">
         <ion-item routerLink="/guiaRemision/guias" class="textos ">
-          Guias Remision
+          Guías Remisión
+          <ion-icon slot="start" name="receipt" class="erp-color"></ion-icon>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle *ngIf="isFacturas">
+        <ion-item routerLink="/facturacion/facturas" class="textos ">
+          Facturación
           <ion-icon slot="start" name="receipt" class="erp-color"></ion-icon>
         </ion-item>
       </ion-menu-toggle>

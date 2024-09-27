@@ -4,7 +4,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <p class="titulos-grande text-center my-1">Guias Remisión</p>
+  <p class="titulos-grande text-center my-1">Facturas</p>
 
   <form [formGroup]="buscarForm" class="sticky-top" (ngSubmit)="filtrarPedido()">
     <ion-grid fixed class="p-0">
@@ -52,48 +52,48 @@
     </ion-grid>
   </form>
 
-  <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let guiaRemision of arrGuiaCabecera; let i = index;" (click)="clickRow(i,guiaRemision.cnum_doc)">
-    <!-- <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let guiaRemision of arrGuiaCabecera;let i = index " [routerLink]="guiaRemision.cnum_doc"> -->
+  <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let factura of arrFacturaCabecera; let i = index;" (click)="clickRow(i,factura.cnum_doc)">
+    <!-- <ion-card class="py-3 px-3 carta mb-3 " *ngFor="let factura of arrGuiaCabecera;let i = index " [routerLink]="factura.cnum_doc"> -->
 
     <div class="textos d-flex justify-content-between mb-1">
-      <p class="mb-0  "><span class="badge bg-primary textos-pequeño">{{guiaRemision.cnum_serie +' - '+ guiaRemision.cnum_doc}}</span> </p>
-      <p class="mb-0 text-danger fw-bold">{{guiaRemision.cmoneda}} {{guiaRemision.erp_Dtotal | number:'1.0-2'}} </p>
+      <p class="mb-0  "><span class="badge bg-primary textos-pequeño">{{factura.cnum_serie +' - '+ factura.cnum_doc}}</span> </p>
+      <p class="mb-0 text-danger fw-bold">{{factura.cmoneda}} {{factura.erp_Dtotal | number:'1.0-2'}} </p>
     </div>
 
     <div class="text-dark textos">
 
       <div class="row">
         <div class="col-5">F.Creacion</div>
-        <div class="col ">: {{guiaRemision.dfecha_doc | date:'dd/MM/yyyy'}} </div>
+        <div class="col ">: {{factura.dfecha_doc | date:'dd/MM/yyyy'}} </div>
       </div>
       <div class="row ">
         <div class="col-5">Entregar el </div>
-        <div class="col">: {{guiaRemision.dfecha_entr | date:'dd/MM/yyyy'}}</div>
+        <div class="col">: {{factura.dfecha_entr | date:'dd/MM/yyyy'}}</div>
       </div>
       <div class="row">
         <div class="col-5">Nro Doc. </div>
-        <div class="col">: {{guiaRemision.ccod_cliente}}</div>
+        <div class="col">: {{factura.ccod_cliente}}</div>
       </div>
       <div class="row">
         <div class="col-5"> Cliente </div>
         <div class="col">: </div>
       </div>
       <div class="row">
-        <div class="col fw-semibold"> {{guiaRemision.cnom_cliente_v}}</div>
+        <div class="col fw-semibold"> {{factura.cnom_cliente_v}}</div>
       </div>
       <div class="row">
         <div class="col-5"> Direccion </div>
         <div class="col">: </div>
       </div>
       <div class="row">
-        <div class="col fw-semibold">{{guiaRemision.pto_llegada_02}}</div>
+        <div class="col fw-semibold">{{factura.pto_llegada_02}}</div>
       </div>
       <div class="row mt-1">
         <div class="col-5">Atencion </div>
         <div class="col">:
           <span
-            [ngClass]="guiaRemision.estado == 'Ingresado' ?'bg-success' : guiaRemision.estado == 'Modificado' ? 'bg-warning' : 'bg-danger' "
-            class="badge textos-pequeño">{{guiaRemision.estado}}</span>
+            [ngClass]="factura.estado == 'Ingresado' ?'bg-success' : factura.estado == 'Modificado' ? 'bg-warning' : 'bg-danger' "
+            class="badge textos-pequeño">{{factura.estado}}</span>
         </div>
       </div>
 

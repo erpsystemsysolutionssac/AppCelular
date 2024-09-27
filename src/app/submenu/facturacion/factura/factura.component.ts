@@ -16,6 +16,8 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import domtoimage from 'dom-to-image';
 import { GuiaRemisionCabecera, GuiaRemisionDetalle } from 'src/app/interfaces/guia-remision';
 import { GuiasRemisionService } from 'src/app/service/guias-remision/guias-remision.service';
+import { FacturaCabecera, FacturaDetalle } from 'src/app/interfaces/factura';
+import { FacturacionService } from 'src/app/service/facturacion/facturacion.service';
 
 
 
@@ -38,8 +40,8 @@ export class FacturaComponent implements OnInit {
 
   public cnum_doc: string
   public motivo: string
-  public guiaRemisionCabecera: GuiaRemisionCabecera = {}
-  public guiaRemisionDetalle: GuiaRemisionDetalle[] = []
+  public facturaCabecera: FacturaCabecera = {}
+  public facturaDetalle: FacturaDetalle[] = []
   public totalD: number = 0
   public totalIgv: number = 0
   public subtotal: number = 0
@@ -50,7 +52,7 @@ export class FacturaComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private guiasRemisionService: GuiasRemisionService,
+    private facturacionService: FacturacionService,
     private toolS: ToolsService,
     public loginS: LoginService
   ) { }
@@ -61,7 +63,7 @@ export class FacturaComponent implements OnInit {
       this.cnum_doc = param.numeroDocumento
       this.motivo = param.motivo
       this.obtenerPedido(this.cnum_doc, this.motivo)
-      this.guiaRemisionCabecera = this.guiasRemisionService.guiaRemisionCabecera
+      this.facturaCabecera = this.facturacionService.facturaCabecera
 
     })
   }
@@ -69,13 +71,13 @@ export class FacturaComponent implements OnInit {
 
   async obtenerPedido(cnum_doc: string, motivo: string) {
     let idLoading = await this.toolS.mostrarCargando()
-    this.guiasRemisionService.obtenerPedidoDetalle(cnum_doc, motivo).then(async (resp) => {
-      this.guiaRemisionDetalle = []
-      this.guiaRemisionDetalle.push(...resp)
+    this.facturacionService.obtenerFacturaDetalle(cnum_doc, motivo).then(async (resp) => {
+      this.facturaDetalle = []
+      this.facturaDetalle.push(...resp)
 
       this.totalD = 0
 
-      for (const guiaRemisionD of this.guiaRemisionDetalle) {
+      for (const guiaRemisionD of this.facturaDetalle) {
         this.totalIgv += guiaRemisionD.nigvcalc
         this.subtotal += guiaRemisionD.base_calculada
         this.totalD += guiaRemisionD.NPRECIO_IMPORTE
@@ -102,7 +104,7 @@ export class FacturaComponent implements OnInit {
     const formImagenes: FormData = new FormData();
     formImagenes.append('imagenes', blob, nombre_imagen);
 
-    var archivosubido = await this.guiasRemisionService.subir_archivos(formImagenes, this.guiaRemisionCabecera.dfecha_doc.toString(), this.guiaRemisionCabecera.cnum_serie, this.guiaRemisionCabecera.cnum_doc);
+    var archivosubido = await this.facturacionService.subir_archivos(formImagenes, this.facturaCabecera.dfecha_doc.toString(), this.facturaCabecera.cnum_serie, this.facturaCabecera.cnum_doc);
 
     if (archivosubido.estado == true) {
       this.toolS.mostrarAlerta('Archivo subido', 'success');
@@ -112,10 +114,10 @@ export class FacturaComponent implements OnInit {
   }
 
   async download() {
-    var fecha = this.guiaRemisionCabecera.dfecha_doc.toString()
+    var fecha = this.facturaCabecera.dfecha_doc.toString()
     var ejercicio = fecha.slice(0, 4)
     var periodo = fecha.slice(5, 7)
-    window.open(`${this.rutaImages}/${this.loginS.ruc_empresa_usuario}/pedido/${ejercicio}/${periodo}/${this.guiaRemisionCabecera.cnum_serie}-${this.guiaRemisionCabecera.cnum_doc}-${this.guiaRemisionCabecera.ruta_pdf}`, "_blank")
+    window.open(`${this.rutaImages}/${this.loginS.ruc_empresa_usuario}/pedido/${ejercicio}/${periodo}/${this.facturaCabecera.cnum_serie}-${this.facturaCabecera.cnum_doc}-${this.facturaCabecera.ruta_pdf}`, "_blank")
   }
 
   async savePdf() {
@@ -123,7 +125,7 @@ export class FacturaComponent implements OnInit {
     var node = document.getElementById('pdfTable');
     let container = document.querySelector("#pdfTable");
 
-    var nombre_img = this.guiaRemisionCabecera.cnum_serie+' - '+this.guiaRemisionCabecera.cnum_doc
+    var nombre_img = this.facturaCabecera.cnum_serie+' - '+this.facturaCabecera.cnum_doc
     nombre_img = nombre_img + '.png'
     var img = new Image();
     var data_url;
@@ -148,7 +150,7 @@ export class FacturaComponent implements OnInit {
     })
     await Share.share({
       title: nombre_img,
-      text: "Guia Remision Nro: " + nombre_img,
+      text: "Factura Nro: " + nombre_img,
       url: uri,
       dialogTitle: nombre_img,
     });

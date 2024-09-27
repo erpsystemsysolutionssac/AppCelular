@@ -14,7 +14,7 @@ export class FacturacionService {
   private urlArchivos = this.toolsService.obtenerUrl('urlArchivos') + '/pedidos'
   private rutaApi = this.toolsService.obtenerUrl('urlApi');
 
-  public guiaRemisionCabecera: FacturaCabecera = {}
+  public facturaCabecera: FacturaCabecera = {}
   public _refresh$ = new Subject<any>();
 
   public rutaClientes: FacturaCabecera[] = []
@@ -30,12 +30,12 @@ export class FacturacionService {
     this._refresh$.next()
   }
 
-  obtenerPedidos(inicio: number, limite: number, filtro: string[], campo: string) {
-    return this.http.post<FacturaCabecera[]>(this.rutaApi + '/factura/app/v1/obtener_guias_remision', { codigo_empresa: this.loginService.codigo_empresa, inicio, limite, vendedor: this.loginService.objVendedor.ccod_vendedor, filtro, campo }).toPromise()
+  obtenerFacturas(inicio: number, limite: number, filtro: string[], campo: string) {
+    return this.http.post<FacturaCabecera[]>(this.rutaApi + '/facturacion/app/v1/obtener_facturas', { codigo_empresa: this.loginService.codigo_empresa, inicio, limite, vendedor: this.loginService.objVendedor.ccod_vendedor, filtro, campo }).toPromise()
   }
 
-  obtenerPedidoDetalle(cnum_doc: string, motivo: string) {
-    return this.http.post<FacturaDetalle[]>(this.rutaApi + '/factura/app/v1/obtener_guia_remision_detalle_v2', { codigo_empresa: this.loginService.codigo_empresa, cnum_doc, motivo }).toPromise()
+  obtenerFacturaDetalle(cnum_doc: string, motivo: string) {
+    return this.http.post<FacturaDetalle[]>(this.rutaApi + '/facturacion/app/v1/obtener_factura_detalle_v2', { codigo_empresa: this.loginService.codigo_empresa, cnum_doc, motivo }).toPromise()
   }
 
   subir_archivos(imagen: FormData, fecha: string, motivo_venta: string, numero_pedido: string) {
