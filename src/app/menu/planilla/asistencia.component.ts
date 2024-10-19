@@ -18,5 +18,11 @@ export class AsistenciaComponent implements OnInit {
 
   }
 
+  ionViewDidEnter(){
+    console.log("didenter")
+  }
+  ionViewWillEnter(){
+      console.log("ionViewWillEnter ")
+  }
 
 }

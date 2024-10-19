@@ -155,6 +155,13 @@
           </ion-item>
 
           <ion-item class="custom-item h-auto">
+            <ion-label position="stacked" class="selects-grande">Transportista</ion-label>
+            <ion-select placeholder="Seleccione" interface="action-sheet"  formControlName="transportista">
+              <ion-select-option *ngFor="let transportista of arrTransportista" [value]="transportista.Codigo" >{{transportista.Nombre}} </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="custom-item h-auto">
             <ion-label position="stacked" class="selects-grande">Vehiculo</ion-label>
             <ion-select placeholder="Seleccione" interface="action-sheet"  formControlName="vehiculo">
               <ion-select-option *ngFor="let vehiculo of arrVehiculos" [value]="vehiculo.Codigo" >{{vehiculo.Nombre}} </ion-select-option>

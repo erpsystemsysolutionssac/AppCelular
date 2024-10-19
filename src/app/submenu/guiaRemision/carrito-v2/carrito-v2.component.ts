@@ -20,6 +20,7 @@ import { UbigeoService } from 'src/app/service/mantenimiento/ubigeo.service';
 import { VehiculoService } from 'src/app/service/mantenimiento/vehiculo.service';
 import { ChoferService } from 'src/app/service/mantenimiento/chofer.service';
 import { Cliente } from 'src/app/interfaces/cliente';
+import { TransportistaService } from 'src/app/service/mantenimiento/transportista.service';
 
 @Component({
   selector: 'app-carrito',
@@ -43,6 +44,7 @@ export class CarritoV2Component implements OnInit {
   public arrUbigeos: any[] = [];
   public arrVehiculos: any[] = [];
   public arrChoferes: any[] = [];
+  public arrTransportista: any[] = [];
 
   public guiaForm: FormGroup
   public tipoCambio: number
@@ -74,7 +76,8 @@ export class CarritoV2Component implements OnInit {
     private puntoVentaService: PuntoVentaService,
     private ubigeoService: UbigeoService,
     private vehiculoSevice: VehiculoService,
-    private choferService: ChoferService
+    private choferService: ChoferService,
+    private transportistaService: TransportistaService
   ) {
 
    }
@@ -89,6 +92,7 @@ export class CarritoV2Component implements OnInit {
       direcciones: ['', [Validators.required]],
       ubigeoLlegada: ['', [Validators.required]],
       agencias: ['00'],
+      transportista: ['00'],
       formaPago: ['', [Validators.required]],
       vehiculo: ['00'],
       chofer: ['00'],
@@ -105,6 +109,7 @@ export class CarritoV2Component implements OnInit {
     await this.datosPuntoVenta();
     this.listaChoferes();
     this.listaVehiculos();
+    this.listaTransportistas();
     await this.toolsService.ocultarCargando(idLoaing)
 
     this.route.params.subscribe(async (param)=>{
@@ -383,7 +388,7 @@ export class CarritoV2Component implements OnInit {
       erp_gestor: '00',
       tipo: this.docPendSeleccionado ? 'GUIA DE PEDIDO' : 'GUIA DIRECTA',
       tipo_documento_cliente: this.objCliente.tip_doc,
-      codigo_transportista: '00',
+      codigo_transportista: dataFormulario.transportista,
       nombre_transportista: '',
       codigo_vehiculo: dataFormulario.vehiculo,
       motivo_traslado: '01',
@@ -683,6 +688,18 @@ export class CarritoV2Component implements OnInit {
     return new Promise((resolve) => {
       this.choferService.listaChoferes().subscribe((resp) => {
             this.arrChoferes = resp;
+            resolve('acabo')
+        }, (err) => {
+          this.toolsService.mostrarAlerta(err, 'error')
+            console.log(err);
+        })
+    })
+  }
+
+  async listaTransportistas() {
+    return new Promise((resolve) => {
+      this.transportistaService.listaTransportistas().subscribe((resp) => {
+            this.arrTransportista = resp;
             resolve('acabo')
         }, (err) => {
           this.toolsService.mostrarAlerta(err, 'error')

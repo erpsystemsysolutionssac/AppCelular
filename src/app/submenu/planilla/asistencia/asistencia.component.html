@@ -1,40 +1,247 @@
+<style>
+    .card_containter{
+        font-family: 'Courier New', Courier, monospace!important;
+    }
 
+    ion-modal ion-toolbar {
+        --background: #3273eb;
+        --color: white;
+    }
+    #leafletMap {
+        height: 100%;
+    }
+    .icon_bottom {
+        position: fixed;
+        left: 0;
+        bottom: 10px;
+        right: 0;
+    }
+
+    .check-container {
+        width: 6.25rem;
+        height: 6.25rem;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .check-container .check-background {
+        width: 100%;
+        height: calc(100% - 1.25rem);
+        background: linear-gradient(to bottom right, #5de593, #41d67c);
+        box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+        transform: scale(0.84);
+        border-radius: 50%;
+        animation: animateContainer 0.75s ease-out forwards 0.75s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+    }
+        
+    .check-container .check-background svg {
+        width: 65%;
+        transform: translateY(0.25rem);
+        stroke-dasharray: 80;
+        stroke-dashoffset: 80;
+        animation: animateCheck 0.35s forwards 1.25s ease-out;
+    }
+    .check-container .check-shadow {
+        bottom: calc(-15% - 5px);
+        left: 0;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, #49da83, transparent);
+        animation: animateShadow 0.75s ease-out forwards 0.75s;
+    }
+
+    @keyframes animateContainer {
+        0% {
+            opacity: 0;
+            transform: scale(0);
+            box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+        }
+        25% {
+            opacity: 1;
+            transform: scale(0.9);
+            box-shadow: 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+        }
+        43.75% {
+            transform: scale(1.15);
+            box-shadow: 0px 0px 0px 43.334px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 65px rgba(255, 255, 255, 0.25) inset;
+        }
+        62.5% {
+            transform: scale(1);
+            box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 21.667px rgba(255, 255, 255, 0.25) inset;
+        }
+        81.25% {
+            box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset;
+        }
+        100% {
+            opacity: 1;
+            box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 0px 0px 0px rgba(255, 255, 255, 0.25) inset;
+        }
+    }
+    @keyframes animateCheck {
+        from {
+            stroke-dashoffset: 80;
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes animateShadow {
+        0% {
+            opacity: 0;
+            width: 100%;
+            height: 15%;
+        }
+        25% {
+            opacity: 0.25;
+        }
+        43.75% {
+            width: 40%;
+            height: 7%;
+            opacity: 0.35;
+        }
+        100% {
+            width: 85%;
+            height: 15%;
+            opacity: 0.25;
+        }
+    }
+</style>
 <ion-content>
-    <ion-card-header class="p-2" [hidden]=ishidden>
+    <ion-card-header class="p-2 card_containter" [hidden]=ishidden>
         <form [formGroup]="formGeoLoc" >
-            <ion-card-content class="custom-border-top border-success my-0 py-2">
-                <ion-card-title class="titulos-grande">Opciones</ion-card-title>
-            </ion-card-content>
-            
-            <div class="col-12 mx-3 px-3" >
-                <ion-button color="primary" class="btn-borrar"  size="small" fill="clear" (click)="showFingerprintAuth()">
-                    Marcar Asistencia
-                </ion-button>
-                <ion-button color="danger" class="btn-borrar"  size="small" fill="clear" (click)="buscarAsistencia()">
-                    Marcar Asistencia (Sin huella)
-                </ion-button>
-                <ion-item class="custom-item">
-                    <ion-label class="ws"  label="Default input" >{{geoloc_marcar}}</ion-label>
-                </ion-item>
+            <ion-item>
+                <ion-select #otSelect label="Floating label" placeholder="Orden de Trabajo" (ionChange)="otSelectChange()">
+                    <ion-select-option *ngFor="let ele of arrOT" [value]="ele.ccod_ot" >{{ele.cnom_ot}} </ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <div class="col-12 text-center pt-3">
+                <div class="text-center">
+                    <img src="https://erp-solutionsperu.com/img/no-image.png" class="border border-success rounded-circle rounded col-6 ">
+                </div>
+            </div>
+            <div class="col-12 text-center pt-3">
+                <ion-label class="textos" style="color: #2385ee; font-weight: bolder;" >{{nombre_usuario}}</ion-label>
+            </div>
+            <div class="col-12 text-center py-0 my-0">
+                <ion-label class="iconos text-dark " style="font-weight: bolder;">{{nrodoc_usuario}}</ion-label>
             </div>
 
-            <div class="col-12 mx-3 px-3" >
-                <ion-button type="button" class="custom-button iconos"  size="small" fill="clear" (click)="showPosUsuario()">
-                    Ver Ubicación actual
-                </ion-button>
-                <ion-item class="custom-item" [hidden]=PosActual_hidden>
-                    <ion-label class="py-0 my-0 ws ms-auto" >{{geoloc_posicion}}</ion-label>
-                </ion-item>
+            <div class="border-top my-2"></div>
+
+            <div class="row justify-content-md-center pb-3" style="justify-content: center; height: 100px" [hidden]=MarcarAsistencia_hidden>
+                <div class="col-12 text-center" style="height: 100%">
+                    <!-- <ion-button color="primary" class="btn-borrar"  size="small" fill="clear" (click)="showFingerprintAuth()" style="height: 100%;" block>
+                        <img src="https://erp-solutionsperu.com/img/huella5.png" style="width : 100% ; height : 100%;" >
+                    </ion-button> -->
+                    <ion-button color="primary" class="btn-borrar"  size="small" fill="clear" (click)="btnmarcarAsistencia()" style="height: 100%;" block>
+                        <img src="https://erp-solutionsperu.com/img/huella5.png" style="width : 100% ; height : 100%;" >
+                    </ion-button>
+                </div>
             </div>
-            <div class="col-12 mx-3 px-3" >
-                <ion-button type="button" class="custom-button iconos"  size="small" fill="clear" (click)="showPosCencos()">
-                    Ver Datos del Centro de Costos
-                </ion-button>
+
+            <div #marcar_asistencia class="row py-2 justify-content-md-center " style="justify-content: center" [hidden]=Opcional_hidden >
+                <div class="col-auto text-center border border-primary rounded">
+                    <ion-button color="primary" class="btn-borrar"  size="small" fill="clear" (click)="btnmarcarAsistencia()" style="height: 40%;" block>
+                        Marcar Asistencia
+                    </ion-button>
+                </div>
+            </div>
+
+
+            <div #div_asistencia >
+                <div class="col-12 text-center pt-2" [hidden]=Asistencia_hidden>
+                    <ion-label class="py-0 my-0 ws ms-auto" style="color: #1bab0e; font-weight: bolder; font-size: 1.2rem;" >&#x2713; {{hora_asistencia}}</ion-label>
+                </div>
+                <div class="col-12 text-center" [hidden]=Asistencia_hidden>
+                    <ion-label class="py-0 my-0 ws ms-auto" style="color: #1bab0e; font-weight: bolder; font-size: 1.1rem;" >{{fecha_asistencia}}</ion-label>
+                </div>
+
+                <div #marcar_asistencia class="row justify-content-md-center " style="justify-content: center" [hidden]=Asistencia_hidden >
+                    <div class="check-container" (click)="btnmarcarSalida()">
+                        <div class="check-background">
+                            <svg viewBox="0 0 65 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 25L27.3077 44L58.5 7" stroke="white" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <div class="check-shadow"></div>
+                    </div>
+                </div>
+                <div class="col-12 text-center " [hidden]=Asistencia_hidden>
+                    <ion-label class="py-0 my-0 ws ms-auto" style="color: #1bab0e; font-weight: bolder; font-size: 1.4rem;">{{texto_asistencia}}</ion-label>
+                </div>
+                    
+<!--                 
+                <div class="col-12 my-4 text-center" [hidden]=Asistencia_hidden>
+                    <ion-button color="danger" class="btn-borrar p-2 border border-danger rounded"  size="small" fill="clear" (click)="btnmarcarSalida()" style="height: 40%;" block>
+                        Marcar Salida
+                    </ion-button>
+                </div> -->
+
                 
-                <ion-item class="custom-item" [hidden]=PosCencos_hidden>
-                    <ion-label class="ws" label="Default input" >{{geoloc_cencos}}</ion-label >
-                </ion-item>
+                <div class="col-12 text-center pt-2" [hidden]=Salida_hidden>
+                    <ion-label class="py-0 my-0 ws ms-auto" style="color: #1b9e0f; font-weight: bolder; font-size: 1.2rem;" >&#x2713; {{hora_salida}}</ion-label>
+                </div>
+                <div class="col-12 text-center" [hidden]=Salida_hidden>
+                    <ion-label class="py-0 my-0 ws ms-auto" style="color: #1b9e0f; font-weight: bolder; font-size: 1.1rem;" >{{fecha_salida}}</ion-label>
+                </div>
+
+                <div class="col-12 text-center " [hidden]=Salida_hidden>
+                    <ion-label class="py-0 my-0 ws ms-auto" style="color: #1b9e0f; font-weight: bolder; font-size: 1.4rem;">{{texto_salida}}</ion-label>
+                </div>
             </div>
+
+            <div class="border-top my-3"></div>
+
+            <div class="row justify-content-md-center pb-3" style="justify-content: center" [hidden]=!UbicacionPersonal>
+                <div class="col-auto text-center"  [hidden]=ActivarPosTReal>
+                    <ion-button shape="round" (click)="envposTiempoReal()" >
+                        Enviar Ubicación
+                    </ion-button>
+                </div>
+                <div class="col-auto text-center"  [hidden]=!ActivarPosTReal>
+                    <ion-button shape="round" color="danger" (click)="stopposTiempoReal()">
+                        Detener
+                    </ion-button>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center " style="justify-content: center" [hidden]=UbicacionPersonal >
+                <div class="col-auto text-center ">
+                    <ion-button shape="round" (click)="verposTiempoReal()">
+                        Ubicar Personal
+                    </ion-button>
+                </div>
+            </div>
+            
+            <div class="row pt-4 icon_bottom" style=" height: 70px" >
+                <div class="col align-self-end " style="height: 100%; text-align: right">
+                    <ion-button color="primary" class="btn-borrar"  size="small" fill="clear" (click)="verMiPosicion()" style="height: 100%;" block>
+                        <img class="rounded-circle rounded" src="https://erp-solutionsperu.com/img/mapa1.png" style="width : 100% ; height : 100%;" >
+                    </ion-button>
+                </div>
+            </div>
+
+            <ion-modal [isOpen]="isModalPosicion" (willDismiss)="closeModalPosicion()">
+                <ng-template>
+                  <ion-header >
+                    <ion-toolbar >
+                      <ion-title style="font-size: 18px;" color="light"></ion-title>
+                      <ion-buttons slot="end">
+                        <ion-button (click)="closeModalPosicion()" color="light">X</ion-button>
+                      </ion-buttons>
+                    </ion-toolbar>
+                  </ion-header>
+                  <ion-content >
+                        <div id="leafletMap" ></div>
+                  </ion-content>
+                </ng-template>
+            </ion-modal>
         </form>        
     </ion-card-header>
     <ion-card-header class="p-2" [hidden]=!ishidden>
