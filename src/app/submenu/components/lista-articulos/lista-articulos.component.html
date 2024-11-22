@@ -82,21 +82,33 @@
           </div>
         </div>
         <div class="row mb-1">
-          <div class="col-6">
+          <div class="col-4 pe-0">
             <ion-img [src]="articulo.imagen_1 | imagen:'articulos'" class="img-thumbnail rounded "
               (click)="abrirImagenesModal(articulo)"></ion-img>
-            <div class="row mt-0 titulos d-flex align-items-center">
-              <div class="col-auto color-azul pe-0">Stock:</div>
-              <div class="col-auto color-azul pe-1">
-                <select class="form-select  moneda border-0 color-azul " [value]="articulo.cunidad">
-                  <option *ngFor="let lista of articulo.listaPrecios  " [value]="articulo.cunidad">
-                    {{articulo.Stock/lista.factor| number: '1.0-2'}} {{lista.unidad}}
-                  </option>
-                </select>
+            
+              <div class="row mt-1">
+                <div class="col pe-0">
+                  <ion-item class="ion-no-padding m-0 p-0" style="--min-height: 25px;">
+                    <ion-label class="text-black my-0 py-0" style="font-size: 12px; padding-left: 5px;">Bonificación
+                    </ion-label>
+                    <ion-checkbox justify="end" class="checkbox-sm my-0 py-0" (ionChange)="valorPromocion($event, articulo)">
+                    </ion-checkbox>
+                  </ion-item>
+                </div>
               </div>
-            </div>
+              <div class="row mt-1">
+                <div class="col-9 px-0">
+                  <button type="button" style="font-size: 12px; padding-left: 15px;" class="btn btn-link py-0 my-0 color-azul btn-ver-lista  d-flex align-items-center" (click)="mostrarModalPromociones(articulo)">
+                    Promociones
+                  </button>
+                </div>
+                <div class="col-3 px-0">
+                  <ion-icon name="menu"></ion-icon>
+                </div>
+              </div>
+  
           </div>
-          <div class="col-6 d-flex flex-column">
+          <div class="col-8 d-flex flex-column">
             <div class="row align-self-end d-flex">
               <div class="col-auto align-self-end d-flex">
                 <div class="row align-self-end d-flex align-items-center">
@@ -141,6 +153,18 @@
               </div>
             </div>
 
+
+            <div class="row align-self-end mt-1 titulos d-flex align-items-center">
+              <div class="col-auto color-azul pe-0">Stock:</div>
+              <div class="col-auto color-azul pe-1">
+                <select class="form-select  moneda border-0 color-azul " [value]="articulo.cunidad">
+                  <option *ngFor="let lista of articulo.listaPrecios  " [value]="articulo.cunidad">
+                    {{articulo.Stock/lista.factor| number: '1.0-2'}} {{lista.unidad}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
             <div class="row mt-2">
               <div class="col-auto ms-auto p-0 d-flex flex-column">
                 <select class="form-select  moneda border-0 color-azul" [value]="articulo.moneda">
@@ -159,32 +183,14 @@
                     </tr>
                     <tr>
                       <td class="p-custom align-middle text-center " *ngFor="let lista of articulo.listaPrecios ; let i = index;">
-                        <ion-button type="button" color="" (click)="agregarCarrito(articulo, lista)" class="btnPrecio "> {{ articulo.check_bonificacion == true ? '0.00' : lista.monto |number:'1.2-2' }} </ion-button>
+                        <ion-button type="button"(click)="agregarCarrito(articulo, lista)" class="btnPrecioListaArticulos "> {{ articulo.check_bonificacion == true ? '0.00' : lista.monto |number:'1.2-2' }} </ion-button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-            <div class="row mt-1">
-              <div class="col pe-0">
-                <ion-item class="ion-no-padding m-0 p-0" style="--min-height: 25px;">
-                  <ion-label class="text-black my-0 py-0" style="font-size: 13px; padding-left: 5px;">Bonificación
-                  </ion-label>
-                  <ion-checkbox justify="end" class="checkbox-sm my-0 py-0" (ionChange)="valorPromocion($event, articulo)">
-                  </ion-checkbox>
-                </ion-item>
-              </div>
-            </div>
-            <div class="row mt-1">
-              <div class="col pe-0">
-                <button type="button" class="btn btn-link p-0 ms-auto text-end mb-0 color-azul btn-ver-lista  d-flex align-items-center" (click)="mostrarModalPromociones(articulo)">
-                  Promociones
-                  <ion-icon name="menu"></ion-icon>
-                </button>
-              </div>
-            </div>
-
+            
             <ion-modal trigger="open-modal{{articulo.codigo}}" #modal>
               <ng-template>
                 <ion-header>

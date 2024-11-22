@@ -264,8 +264,9 @@ export class ListaArticulosComponent implements OnInit {
     data.Unidad = index.unidad;
     data.Factor = index.factor;
     data.Unit = index.precioLista;
-    data.Desc1 = articulo.check_bonificacion == true ? 100 : articulo.descuento || 0;
-    data.Desc2 = index.otroDesc || 0;
+    data.Desc1 = 0;
+    data.Desc2 = articulo.check_bonificacion == true ? 100 : articulo.descuento || 0;
+    data.Desc3 = index.otroDesc || 0;
     data.Igv_Art = articulo.nigv;
     data.Peso = articulo.peso;
     data.imagen_1 = articulo.imagen_1;

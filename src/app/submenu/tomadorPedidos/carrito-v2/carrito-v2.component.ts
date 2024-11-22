@@ -407,7 +407,7 @@ export class CarritoV2Component implements OnInit {
         Nombre_presentacion: element.Nombre,
         Precio_presentacion: this.toolsService.redondear(element.Unit, 2),
         Codigo_Almacen: this.loginService.ccod_almacen,
-        Desc3: 0,
+        Desc3: element.Desc3,
         Percepcion_sn: '',
         Percepcion_uni: 0,
         Perpecion_porc: 0,

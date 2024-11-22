@@ -100,6 +100,34 @@ ion-item.list {
     font-size: 12px;
 }
 
+.btnPrecioListaArticulos {
+    margin-left: 2px;
+    margin-right: 2px;
+    --padding-start: 4px;
+    --padding-end: 4px;
+    height: 20px;
+    font-size: 12px;
+    
+  --background: #fd821a;
+  --background-hover: #9ce0be;
+  --background-activated: #88f4be;
+  --background-focused: #88f4be;
+
+  --color: white;
+
+  --border-radius: 10px;
+  --border-color: #fd821a;
+  --border-style: solid;
+  --border-width: 1px;
+
+  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+
+  --ripple-color: #9ce0be;
+
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+}
+
 .color_descuento {
     color: #44ac6d;
     margin-top: 4px;
