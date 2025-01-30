@@ -160,14 +160,20 @@
 
         <ion-card-content class="p-2">
           <div class="row mb-auto ">
+            <div class="col-12" *ngIf="listaPrecio.LP1 == 0 && listaPrecio.LP2 == 0 && listaPrecio.LP3 == 0 && listaPrecio.LP4 == 0 && listaPrecio.LP5 == 0 && listaPrecio.LP6 == 0">
+              <div class="row m-0" >
+                <div class="col-12 p-0  text-dark">Todas las listas de precio estan en 0.00 .</div>
+              </div>
+            </div>
+
             <div class="col">
-              <div class="row m-0">
+              <div class="row m-0" *ngIf="listaPrecio.LP1 != 0">
                 <div class="col-7 p-0  text-dark">L. Precio 01: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP1 == null ? 0 : listaPrecio.LP1  |number:'1.2-2' }}</div>
               </div>
             </div>
             <div class="col">
-              <div class="row m-0">
+              <div class="row m-0" *ngIf="listaPrecio.LP4 != 0">
                 <div class="col-7 p-0  text-dark">L. Precio 04: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP4 == null ? 0 : listaPrecio.LP4  |number:'1.2-2' }}</div>
               </div>
@@ -175,13 +181,13 @@
           </div>
           <div class="row mb-auto ">
             <div class="col">
-              <div class="row m-0">
+              <div class="row m-0" *ngIf="listaPrecio.LP2 != 0">
                 <div class="col-7 p-0  text-dark">L. Precio 02: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP2 == null ? 0 : listaPrecio.LP2  |number:'1.2-2' }}</div>
               </div>
             </div>
             <div class="col">
-              <div class="row m-0">
+              <div class="row m-0" *ngIf="listaPrecio.LP5 != 0">
                 <div class="col-7 p-0  text-dark">L. Precio 05: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP5 == null ? 0 : listaPrecio.LP5  |number:'1.2-2' }}</div>
               </div>
@@ -189,13 +195,13 @@
           </div>
           <div class="row mb-auto ">
             <div class="col">
-              <div class="row m-0">
+              <div class="row m-0" *ngIf="listaPrecio.LP3 != 0">
                 <div class="col-7 p-0  text-dark">L. Precio 03: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP3 == null ? 0 : listaPrecio.LP3  |number:'1.2-2' }}</div>
               </div>
             </div>
             <div class="col">
-              <div class="row m-0">
+              <div class="row m-0" *ngIf="listaPrecio.LP6 != 0">
                 <div class="col-7 p-0  text-dark">L. Precio 06: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP6 == null ? 0 : listaPrecio.LP6  |number:'1.2-2' }}</div>
               </div>

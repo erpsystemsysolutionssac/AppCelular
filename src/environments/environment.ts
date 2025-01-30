@@ -28,7 +28,7 @@ export const environment = {
     urlArchivos : 'https://erp-solutionsperu.com/movil', 
   },
 
-  limiteArticulos: 50,
+  limiteArticulos: 30,
   limitePromocioes: 500
 };
 

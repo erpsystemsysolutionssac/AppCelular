@@ -26,6 +26,9 @@ export interface Articulo {
     total_articulo?:      number|undefined;
     check_bonificacion?: boolean|undefined;
     nItemReferencia?: number|undefined;
+    tipo_vista_precio_producto?:     string|null;
+    mas_igv_precio_producto?:     string|null;
+    estado_rango?: string|null;
 }
 
 export interface ListaPrecio {

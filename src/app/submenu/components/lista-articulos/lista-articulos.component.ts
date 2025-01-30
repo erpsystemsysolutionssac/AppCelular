@@ -186,7 +186,7 @@ export class ListaArticulosComponent implements OnInit {
 
   calcularValores(codigoArticulo: string, articulo: Articulo) {
 
-    var lstaprecios_calcular = this.formulario.value.listaprecios
+    const lstaprecios_calcular = this.formulario.value.listaprecios
 
     articulo.listaPrecios.forEach((lista) => {
       lista.precioOriginal = lista.precioLista;
@@ -214,17 +214,19 @@ export class ListaArticulosComponent implements OnInit {
         }
       }
 
-
       if (lstaprecios_calcular == "lista_precios_provincia") {
-        articulo.listaPreciosRango.forEach(element => {
-          if (element.codigo == lista.codigo && element.unidad == lista.unidad) {
-            if (articulo.cantidad >= element.minimo && articulo.cantidad <= element.maximo) {
-              lista.precioOriginal = element.precioOriginal;
+        if (articulo.estado_rango == '1') {
+          articulo.listaPreciosRango.forEach(element => {
+            if (element.codigo == lista.codigo && element.unidad == lista.unidad) {
+              if (articulo.cantidad >= element.minimo && articulo.cantidad <= element.maximo) {
+                lista.precioOriginal = element.precioOriginal;
+              }
             }
-          }
-        });
+          });
+        }
       }
-
+      // console.log(lista.precioOriginal);
+ 
       if (articulo.descuento > 0) {
         if (articulo.descuento_monto_porcentaje == "P") {
           lista.monto = this.toolsService.redondear(lista.precioOriginal) * articulo.cantidad * ((100 - articulo.descuento) / 100)
@@ -245,12 +247,20 @@ export class ListaArticulosComponent implements OnInit {
 
       articulo.descuentoPromo = articulo.descuento
 
+      // CONFIGURACION PARA VISUALIZAR EL PRECIO DEL PRODUCTO MAS IGV SEGUN LA CONFIGURACION VISTA PRECIO APP MOVIL
+      if (articulo.tipo_vista_precio_producto == 'MASIGV') {
+        if (articulo.mas_igv_precio_producto == 'S') {
+          lista.monto = lista.monto * 1.18;
+        }
+      }
     })
 
   }
 
   async agregarCarrito(articulo: Articulo, index: any) {
     console.log(articulo, index);
+    const lstaprecios_calcular = this.formulario.value.listaprecios
+
     if (articulo.check_bonificacion == undefined) {
       articulo.check_bonificacion = false;
     }
@@ -263,7 +273,21 @@ export class ListaArticulosComponent implements OnInit {
     data.Codigo_Unidad = index.unidad;
     data.Unidad = index.unidad;
     data.Factor = index.factor;
+
     data.Unit = index.precioLista;
+
+    if (lstaprecios_calcular == "lista_precios_provincia") {
+      if (articulo.estado_rango == '1') {
+        articulo.listaPreciosRango.forEach(element => {
+          if (element.codigo == index.codigo && element.unidad == index.unidad) {
+            if (articulo.cantidad >= element.minimo && articulo.cantidad <= element.maximo) {
+              data.Unit = element.precioOriginal;
+            }
+          }
+        });
+      } 
+    }
+
     data.Desc1 = 0;
     data.Desc2 = articulo.check_bonificacion == true ? 100 : articulo.descuento || 0;
     data.Desc3 = index.otroDesc || 0;

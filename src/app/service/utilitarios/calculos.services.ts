@@ -64,7 +64,7 @@ export class CalculosService {
     SubTotal_Sin_Descuentos = Unit * cantidad;
 
     SubTotal_Con_Descuentos = SubTotal_Sin_Descuentos;
-
+    console.log(SubTotal_Sin_Descuentos, _descuento_bc_bi, Unit, cantidad, agregar_igv);
     if (_descuento_bc_bi == "TO") {
 
         Igv = SubTotal_Sin_Descuentos * igv_articulo;

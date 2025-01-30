@@ -210,9 +210,9 @@ export class CarritoV2Component implements OnInit {
   valorPromocion(event: any, detalleVenta: DetalleVenta) {
     detalleVenta.check_bonificacion = (event.detail).checked;
     if (detalleVenta.check_bonificacion) {
-      detalleVenta.Desc1 = 100;
+      detalleVenta.Desc2 = 100;
     } else {
-      detalleVenta.Desc1 = 0;
+      detalleVenta.Desc2 = 0;
     }
 
     this.carritoService.calcularDetalleVenta();

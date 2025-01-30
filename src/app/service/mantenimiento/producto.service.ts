@@ -64,7 +64,7 @@ export class ProductoService {
                 }
                 break;
         }
-
+        console.log('codigo_empresa: '+ this.loginService.codigo_empresa, limite, inicio, punto_venta, texto, filtro, tipo, 'Lista Precio: '+ codLista,' codigo_usuario: '+ this.loginService.codigo_usuario)
         return this.http.post<Articulo[]>(this.ruta + '/lista_articulo_detalle_v2',{ codigo_empresa: this.loginService.codigo_empresa, limite, inicio, punto_venta, texto, filtro, tipo, codLista, codigo_usuario: this.loginService.codigo_usuario }, this.customHeaders);
     }
 
