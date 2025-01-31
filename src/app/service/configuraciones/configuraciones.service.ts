@@ -51,10 +51,13 @@ export class ConfiguracionesService {
     return this.http.post(this.rutaApi + '/configuraciones/formato_impresion/' + this.globalService.calcularNumeroRandomUrl(), body, { responseType: 'text' }).toPromise()
   }
 
-  async downloadPDF(nombreCarpeta: string, nombreArchivo: string) {
+  async downloadPDF(rucEmpresa: string, yearCarpeta: string, monthCarpeta: string, nombreCarpeta: string, nombreArchivo: string) {
     let body = {
       codigo_empresa: this.loginService.codigo_empresa,
       ruc_empresa: this.loginService.ruc_empresa_usuario,
+      rucEmpresa,
+      yearCarpeta,
+      monthCarpeta,
       nombreCarpeta: nombreCarpeta,
       nombreArchivo: nombreArchivo,
     };

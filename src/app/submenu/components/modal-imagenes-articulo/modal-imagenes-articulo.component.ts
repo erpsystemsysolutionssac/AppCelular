@@ -64,7 +64,7 @@ export class ModalImagenesArticuloComponent implements OnInit {
   }
 
   cerrarImagenesModal() {
-    return this.modalCtrl.dismiss({actualizar: this.actulizarListaArticulos}, 'cancel');
+    return this.modalCtrl.dismiss({ actualizar: this.actulizarListaArticulos }, 'cancel');
   }
 
   async borrarImagen() {
@@ -105,9 +105,13 @@ export class ModalImagenesArticuloComponent implements OnInit {
     let idLoading = await this.toolsService.mostrarCargando()
 
     await this.subirImagenes().then(async (resp) => {
-
+      console.log(resp);
       await this.toolsService.ocultarCargando(idLoading)
-      this.toolsService.mostrarAlerta('Foto Editada')
+      if (resp.status) {
+        this.toolsService.mostrarAlerta('Foto Editada')
+      } else {
+        this.toolsService.mostrarAlerta(resp.msg)
+      }
       this.actulizarListaArticulos = true;
     })
   }
@@ -150,7 +154,56 @@ export class ModalImagenesArticuloComponent implements OnInit {
     await this.cropperModal.dismiss();
   }
 
-  subirImagenes() {
+  async subirImagenes() {
+
+    let cambiarImg: boolean = false
+    let arrayImagenBody = { imgBase64: '', imgNombre: '', imgNombreAnterior: '', carpeta: 'articulos' };
+    let arrayArtImagenBody = { imgNombre: '', codigoArticulo: '', fecha: '', usuario: '', ordenImagen: '' };
+
+    for (const imagen of this.sliederArr) {
+      if (imagen.change) {
+        cambiarImg = true;
+        const nombreOriginal = imagen.name;
+        imagen.name = nombreOriginal.replace(/\.png$/, ".jpeg");
+
+        const imgBase64 = await this.blobToBase64(imagen.blob);
+
+        arrayImagenBody.imgBase64 = imgBase64.split(',')[1];
+        arrayImagenBody.imgNombre = imagen.name;
+        arrayImagenBody.imgNombreAnterior = imagen.namePrev;
+
+        arrayArtImagenBody.imgNombre = imagen.name;
+        arrayArtImagenBody.ordenImagen = imagen.nro;
+      }
+    }
+
+    if (cambiarImg) {
+      arrayArtImagenBody.codigoArticulo = this.codigoArticulo;
+      arrayArtImagenBody.fecha = this.toolsService.fechaYHora();
+      // console.log(arrayImagenBody, arrayArtImagenBody);
+      
+      const resp = await this.productoService.cambiarImagen(arrayImagenBody, this.toolsService.fechaYHora());
+      if (!resp.status) {
+        return resp;
+      }
+
+      return this.productoService.actualizarImagen(arrayArtImagenBody);
+    } else {
+      return new Promise((resolve) => { resolve('todo ok') })
+    }
+  }
+
+  async blobToBase64(blob: Blob): Promise<string> {
+    const reader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+      reader.readAsDataURL(blob); // Convierte a Base64
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  subirImagenesAntiguo() {
     const formImagenes: FormData = new FormData();
     let arrBorrar: any[] = []
     let cambiarImg: boolean = false
@@ -160,10 +213,12 @@ export class ModalImagenesArticuloComponent implements OnInit {
     for (const imagen of this.sliederArr) {
       if (imagen.change) {
         cambiarImg = true;
+
         formImagenes.append('imagenes', imagen.blob, imagen.name);
         arrNombrePrev.push(imagen.namePrev)
         arrOrden.push(imagen.nro)
       }
+
       if (imagen.borrar) {
         cambiarImg = true
         arrBorrar.push({ name: imagen.name, ordenBor: imagen.nro, namePrev: imagen.namePrev })

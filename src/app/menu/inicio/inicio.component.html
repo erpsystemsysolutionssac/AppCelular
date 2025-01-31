@@ -135,7 +135,7 @@
           <div class="ion-padding px-0" slot="content">
 
             <div class="row m-0" *ngIf="loginService.permisosUsu.pedidos == 'si'" >
-              <div class="col-6" routerLink="/requerimiento">
+              <div class="col-6" (click)="irModulo('requerimiento')" >
                 <div class="row m-0">
                   <div class="col-12 p-0 app-card app-br-green">
                     <div class="row m-0 px-1 app-card-header app-bgd-green">

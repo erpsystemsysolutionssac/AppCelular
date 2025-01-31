@@ -27,7 +27,8 @@
 
           <div  *ngIf="articulo.Desc3 != 0 || articulo.Desc2 != 0">
             <ion-card-title class="mt-0 fw-bold text-muted text-decoration-line-through textos">
-              {{articulo.moneda}} {{articulo.Unit * articulo.Cantidad | number: '1.0-2'}}
+              {{articulo.moneda}} {{articulo.Importe_mas_desc | number: '1.0-2'}}
+              <!-- {{articulo.moneda}} {{articulo.Unit * articulo.Cantidad | number: '1.0-2'}} -->
             </ion-card-title>
             <ion-card-title class="mt-0 fw-bold text-danger ">
               {{articulo.moneda}} {{ articulo.Importe | number: '1.0-2'}}
@@ -35,7 +36,7 @@
             
             <ion-card-subtitle *ngIf="articulo.tipo_descuento == 'P'" class="mt-0 text-primary ">
               <ion-icon name="gift-outline"></ion-icon>
-              -{{ articulo.Desc3 || articulo.Desc2 }}% 
+              {{ articulo.Desc3 == 0 ? '' : (articulo.Desc3 +'%') }}  {{ articulo.Desc2 == 0 ? '' : (articulo.Desc2 +'%') }}  
             </ion-card-subtitle>
             <ion-card-subtitle *ngIf="articulo.tipo_descuento == 'M'" class="mt-0 text-primary ">
               <ion-icon name="gift-outline"></ion-icon>

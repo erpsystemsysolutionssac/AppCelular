@@ -117,10 +117,11 @@ export class ModalRequerimientoComponent implements OnInit, OnDestroy {
     let idLoading: string
     idLoading = await this.toolsService.mostrarCargando('Descargando PDF');
 
-    const nombreArchivo = (this.requerimiento[0].empresa_ruc + "-" + this.requerimiento[0].documento_tipo_movimiento + "-" + this.requerimiento[0].documento_motivo_venta_codigo + "-" + this.requerimiento[0].documento_numero);
+    const req = this.requerimiento[0];
+    const nombreArchivo = this.requerimiento[0].nombre_pdf;
 
     try {
-      const pdfBlob = await this.configuracionesService.downloadPDF('requerimiento', nombreArchivo);
+      const pdfBlob = await this.configuracionesService.downloadPDF(req.empresa_ruc, req.documento_ejercicio, req.documento_periodo, req.carpeta_pdf, nombreArchivo);
 
       this.toolsService.mostrarAlerta(`Consulta Pdf: ${pdfBlob.mensaje}`, 'success', 5000)
 

@@ -92,7 +92,7 @@ export class CarritoService {
     this.arrayCarrito.forEach(element => {
       // console.log(this.calculosService.calcular_totales_ventas(false, 1000, 0.51, 18, 0, 0, 33.97, 0, 0, false, 'P', 'BC'))
       // console.log(this.calculosService.calcular_totales_ventas(false, 1000, 0.51, 18, 0, 0, 33.97, 0, 0, false, 'P', 'TO'))
-      let calculos = this.calculosService.calcular_totales_ventas(isMasIgv, element.Cantidad, element.Unit, element.Igv_Art, 0, element.Desc1, element.Desc2, element.Desc3, element.Desc4, false, element.tipo_descuento, 'BC');
+      const calculos = this.calculosService.calcular_totales_ventas(isMasIgv, element.Cantidad, element.Unit, element.Igv_Art, 0, element.Desc1, element.Desc2, element.Desc3, element.Desc4, false, element.tipo_descuento, 'BC');
       percepcion = calculos.Total * element.Perpecion_porc / 100
       // console.log(calculos);
       element.Base_Calculada = this.toolsService.redondear(calculos.SubTotal_Sin_Descuentos, 2);
@@ -107,6 +107,7 @@ export class CarritoService {
       element.Monto_Descuento = this.toolsService.redondear(calculos.Descuentos_SubTotal, 2);
       element.Cantidad_Kardex = element.Cantidad * element.Factor;
       element.PesoTotal = element.Peso * element.Cantidad * element.Factor;
+      element.Importe_mas_desc = this.toolsService.redondear(calculos.Total_Con_Desc, 2);
 
       this.montoTotalesVenta.SubTotal_Sin_Descuentos += this.toolsService.redondear(calculos.SubTotal_Sin_Descuentos, 2);
       this.montoTotalesVenta.SubTotal_Con_Descuentos += this.toolsService.redondear(calculos.SubTotal_Con_Descuentos, 2);

@@ -64,10 +64,10 @@
 
       <div class="row my-2">
         <div class="col-5 mx-auto">
-          <ion-button (click)="savePdf()" expand="block"  shape="round" color="danger">
+          <ion-button  expand="block"  shape="round" color="danger" (click)="downloadAndSharePDF()">
+          <!-- <ion-button (click)="savePdf()" expand="block"  shape="round" color="danger"> -->
             Pedido
             <ion-icon slot="end" src="./../../../../assets/iconos/png.svg" ></ion-icon>
-            <!-- <ion-icon slot="end" src="./../../../../assets/iconos/pdf.svg" ></ion-icon> -->
           </ion-button>
         </div>
         <div class="col-5 mx-auto">
@@ -133,10 +133,10 @@
       <div style="padding: 15px">
         <div class="row mt-2">
           <div class="col-4 d-flex align-items-center px-0"> 
-            <img src="./../../../../assets/empresas/{{loginS.ruc_empresa_usuario}}/small_logo.png" alt="" class="img-fluid" height="90">
+            <img src="./../../../../assets/empresas/{{loginService.ruc_empresa_usuario}}/small_logo.png" alt="" class="img-fluid" height="90">
           </div>
           <div class="col-4 border border-dark rounded bg-color-pdf ms-auto pdf-header-fs pb-0 fw-bold" >
-            <p class="mb-0 mt-0 text-center" > RUC :{{ loginS.ruc_empresa_usuario }}</p>
+            <p class="mb-0 mt-0 text-center" > RUC :{{ loginService.ruc_empresa_usuario }}</p>
             <p class="mt-0 text-center" style="margin-bottom: 2px; margin-top: 2px;"> PEDIDO</p>
             <p class="mt-0 text-center " style="margin-bottom: 3px;"> {{ pedidoCabecera.cnum_doc }}</p>
           </div>
@@ -374,15 +374,15 @@
     
         <div class="row mt-0 border-top pdf-border-color fw-bold">
           <div class="col ps-1 pe-0">
-            {{loginS.crazonsocial }}
-            <!-- {{loginS.crazonsocial | capitalizar}} -->
+            {{loginService.crazonsocial }}
+            <!-- {{loginService.crazonsocial | capitalizar}} -->
             <br>
-            {{loginS.cdireccion}}
+            {{loginService.cdireccion}}
           </div>
           <div class="col px-0">
-            {{loginS.ctelefono}}
+            {{loginService.ctelefono}}
             <br>
-            {{loginS.cpag_web}}
+            {{loginService.cpag_web}}
     
           </div>
           <div class="col text-end ps-0 pe-1">

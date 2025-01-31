@@ -58,6 +58,7 @@ export interface DetalleVenta {
     Base_imp_dec?: number,
     Igv_dec?: number,
     Importe_dec?: number,
+    Importe_mas_desc?: number,
     Stock_SN?: string,
     Lote_SN?: string,
     Serie_SN?: string,

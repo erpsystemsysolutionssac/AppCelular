@@ -16,7 +16,7 @@ export class PedidosService {
 
   private ruta = this.toolsService.obtenerUrl('url') + '/pedidos'
   private urlArchivos = this.toolsService.obtenerUrl('urlArchivos') + '/pedidos'
-  private rutaApi = this.toolsService.obtenerUrl('urlApi');
+  private rutaApi = this.toolsService.obtenerUrl('urlApi') + '/pedido/app/v1';
 
   public pedidoCabecera: PedidoCabecera = {}
   public _refresh$ = new Subject<any>();
@@ -68,7 +68,7 @@ export class PedidosService {
       codigo_punto_venta: this.loginService.datosUsu.punto_venta
     };
 
-    return this.http.post<any[]>(this.rutaApi + '/pedido/app/v1/lista_documentos_pendientes/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+    return this.http.post<any[]>(this.rutaApi + '/lista_documentos_pendientes/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 
   consultarDetallePedidioPendiente(codigoPuntoVenta: string, codigoMotivo: string, numero: string) {
@@ -80,7 +80,7 @@ export class PedidosService {
       numero: numero,
     };
 
-    return this.http.post<any[]>(this.rutaApi + '/pedido/app/v1/lista_detalle_pendientes/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+    return this.http.post<any[]>(this.rutaApi + '/lista_detalle_pendientes/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 
   consultarPedidioPendiente(codigoPuntoVenta: string, codigoMotivo: string, numero: string) {
@@ -92,6 +92,18 @@ export class PedidosService {
       numero_documento: numero,
     };
 
-    return this.http.post<any[]>(this.rutaApi + '/pedido/app/v1/consular_documento_pendiente/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+    return this.http.post<any[]>(this.rutaApi + '/consular_documento_pendiente/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+  }
+
+  consultarPedido(motivo_documento: string, numero_documento: string, codigo_punto_venta: string) {
+   
+    const body = {
+      codigo_empresa: this.loginService.codigo_empresa,
+      motivo_documento,
+      numero_documento,
+      codigo_punto_venta,
+    };
+
+    return this.http.post<any[]>(this.rutaApi + '/consultar/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 }

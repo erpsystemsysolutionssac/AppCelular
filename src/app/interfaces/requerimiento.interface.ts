@@ -74,6 +74,12 @@ export interface RequerimientoDetallado {
     documento_numero:                          string;
     Documento_Ejercicio:                       string;
     Documento_Periodo:                         string;
+    carpeta_formato:                           string;
+    documento_formato:                         string;
+    documento_ejercicio:                       string;
+    documento_periodo:                         string;
+    carpeta_pdf:                               string;
+    nombre_pdf:                                string;
     documento_fecha:                           string;
     documento_fecha_limite:                    Date;
     documento_fecha_validez:                   Date;

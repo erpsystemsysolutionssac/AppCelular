@@ -48,7 +48,7 @@ const routes: Routes = [
         component: PedidosComponent
       },
       {
-        path: 'pedidos/:cod/:motivo',
+        path: 'pedidos/:puntoVenta/:motivo/:cod',
         component: PedidoComponent
       },
       {

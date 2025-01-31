@@ -16,6 +16,8 @@ export class ProductoService {
     public arrayProductos: Articulo[] = []
 
     private ruta = this.toolsService.obtenerUrl('urlApi') + '/productos/app/v1';
+    private rutaCambiarImagen = 'https://erp-solutionsperu.com/formato_impresion/cambiarImagen/';
+    // private rutaCambiarImagen = 'http://localhost:5000/formato_impresion/cambiarImagen/';
 
     private customHeaders = {
         headers: new HttpHeaders({
@@ -73,7 +75,18 @@ export class ProductoService {
         return this.http.post<any[]>(this.ruta + '/lista_bonificaciones/' + this.globalService.calcularNumeroRandomUrl(), { codigo_empresa: this.loginService.codigo_empresa, codigo_articulo: articulo.codigo, fecha}, this.customHeaders).toPromise();
     }
 
-    cambiarImagen(imagen: FormData, fecha: string) {
+    cambiarImagen(arrayBody: any, fecha: string) {
+        arrayBody = Object.assign({}, arrayBody, { codigoEmpresa: this.loginService.codigo_empresa, usuario: this.loginService.codigo_usuario })
+        return this.http.post<any>(this.rutaCambiarImagen + this.globalService.calcularNumeroRandomUrl(), arrayBody).toPromise();
+    }
+
+    actualizarImagen(arrayBody: any) {
+        arrayBody = Object.assign({}, arrayBody, { codigoEmpresa: this.loginService.codigo_empresa })
+        return this.http.post<any>(this.ruta + '/actualizarImagen/' + this.globalService.calcularNumeroRandomUrl(), arrayBody).toPromise();
+    }
+
+    cambiarImagenAntiguo(imagen: FormData, fecha: string) {
+
         imagen.append('ccod_empresa', this.loginService.codigo_empresa);
         imagen.append('usuario', this.loginService.codigo_usuario);
         imagen.append('fecha', fecha);

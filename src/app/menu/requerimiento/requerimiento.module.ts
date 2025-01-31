@@ -32,7 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     IonicModule,
     RequerimientoRoutingModule,
-    // SharedModule,
+    SharedModule,
     ComponentesModule
   ]
 })

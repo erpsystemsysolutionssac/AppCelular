@@ -36,10 +36,12 @@ export class CalculosService {
         SubTotal_Con_Descuentos: 0,
         Igv: 0,
         ICBPER: 0,
-        Total: 0
+        Total: 0,
+        Igv_Desc: 0,
+        Total_Con_Desc: 0
     };
 
-    var Unit = 0, SubTotal_Sin_Descuentos = 0, descuento, Descuentos_SubTotal = 0, SubTotal_Con_Descuentos = 0, Igv = 0, ICBPER = 0, Total = 0;
+    var Unit = 0, SubTotal_Sin_Descuentos = 0, descuento, Descuentos_SubTotal = 0, SubTotal_Con_Descuentos = 0, Igv = 0, ICBPER = 0, Total = 0, Igv_Desc = 0, Total_Con_Desc = 0;
 
     if (_tipo_descuento == "P") {
         descuento1 = descuento1 / 100;
@@ -169,6 +171,7 @@ export class CalculosService {
         }
 
         Igv = SubTotal_Con_Descuentos * igv_articulo;
+        Igv_Desc = Descuentos_SubTotal * igv_articulo;
 
         if (Igv < 0) {
             Igv = 0;
@@ -187,6 +190,7 @@ export class CalculosService {
         }
 
         Total = SubTotal_Con_Descuentos + Igv + ICBPER;
+        Total_Con_Desc = SubTotal_Con_Descuentos + Descuentos_SubTotal + Igv + Igv_Desc + ICBPER;
     }
 
     calcular_totales.Precio_Sin_Igv = Unit;
@@ -196,6 +200,7 @@ export class CalculosService {
     calcular_totales.Igv = Igv;
     calcular_totales.ICBPER = ICBPER;
     calcular_totales.Total = Total;
+    calcular_totales.Total_Con_Desc = Total_Con_Desc;
 
     return calcular_totales;
 }
