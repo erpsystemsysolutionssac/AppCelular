@@ -178,10 +178,22 @@ export class PedidoComponent implements OnInit {
     const pedidoD = this.pedidoDetallado[0];
     const nombreArchivo = this.pedidoDetallado[0].nombre_pdf;
 
-    try {
-      const pdfBlob = await this.configuracionesService.downloadPDF(pedidoD.empresa_ruc, pedidoD.documento_ejercicio, pedidoD.documento_periodo, pedidoD.carpeta_pdf, nombreArchivo);
+    const pdfBlob = await this.configuracionesService.downloadPDF(pedidoD.empresa_ruc, pedidoD.documento_ejercicio, pedidoD.documento_periodo, pedidoD.carpeta_pdf, nombreArchivo);
 
+    console.log(pdfBlob);
+    if (pdfBlob.status) {
+      this.toolsService.mostrarAlerta(`Consulta Pdf: ${pdfBlob.mensaje}`, 'error', 5000)
+    } else {
       this.toolsService.mostrarAlerta(`Consulta Pdf: ${pdfBlob.mensaje}`, 'success', 5000)
+      await this.toolsService.ocultarCargando(idLoading)
+      return;
+    }
+
+    try {
+
+      await Filesystem.requestPermissions();
+
+      await this.deleteDocumento(nombreArchivo)
 
       const { uri } = await Filesystem.writeFile({
         path: nombreArchivo + '.pdf',
@@ -198,6 +210,20 @@ export class PedidoComponent implements OnInit {
 
       await this.toolsService.ocultarCargando(idLoading)
       this.toolsService.mostrarAlerta(`Error al descargar el PDF: ${error}`, 'error', 4000)
+    }
+  }
+
+  async deleteDocumento(nombreArchivo: string) {
+    try {
+      await Filesystem.requestPermissions();
+
+      await Filesystem.deleteFile({
+        path: nombreArchivo + '.pdf',
+        directory: Directory.Documents
+      });
+    } catch (error) {
+      console.log("El archivo no existía, se procederá a crearlo.");
+      this.toolsService.mostrarAlerta(`El archivo no existía, se procederá a crearlo.`, 'success', 5000)
     }
   }
 
@@ -225,8 +251,8 @@ export class PedidoComponent implements OnInit {
 
   async cargarScripts02() {
     const urls = [
-      { url: 'https://erp-solutionsperu.com/js/formato_impresion/' + this.loginService.codigo_empresa + '/ventas/pedido.js?v1', ejecutar: false },
-      { url: 'https://erp-solutionsperu.com/js/mantenimientos/formato_impresion_jspdf.js?v4', ejecutar: true }
+      { url: 'https://erp-solutionsperu.com/js/formato_impresion/' + this.loginService.codigo_empresa + '/ventas/pedido.js?v4', ejecutar: false },
+      { url: 'https://erp-solutionsperu.com/js/mantenimientos/formato_impresion_jspdf.js?v6', ejecutar: true }
     ]
 
     const promises = urls.map(({ url, ejecutar }) => this.loadScript(url, ejecutar));

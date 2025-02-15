@@ -13,7 +13,7 @@ export class RequerimientoService {
 
   public arrCarrito: Articulo[];
   public reqSeleccionado: any;
-  private ruta = this.toolsService.obtenerUrl('urlApi') + '/requerimientos/app/v1';
+  private rutaApi = this.toolsService.obtenerUrl('urlApi') + '/requerimientos/app/v1';
 
   private customHeaders = {
     headers: new HttpHeaders({
@@ -37,7 +37,7 @@ export class RequerimientoService {
   }
 
   guardarRequerimiento(dataRequerimiento: any) {
-    return this.http.post<any>(this.ruta + '/guardar/' + this.globalService.calcularNumeroRandomUrl(), dataRequerimiento, this.customHeaders).toPromise()
+    return this.http.post<any>(this.rutaApi + '/guardar/' + this.globalService.calcularNumeroRandomUrl(), dataRequerimiento, this.customHeaders).toPromise()
   }
 
   listaRequerimientos(inicio: number, limite: number, texto: string, fechaInicio: string, fechaFinal: string, busqueda: string) {
@@ -54,7 +54,7 @@ export class RequerimientoService {
       codigo_punto_venta: this.loginService.datosUsu.punto_venta
     };
 
-    return this.http.post<any[]>(this.ruta + '/lista/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+    return this.http.post<any[]>(this.rutaApi + '/lista/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 
   consultarRequerimiento(motivo_documento: string, numero_documento: string, codigo_punto_venta: string) {
@@ -66,7 +66,7 @@ export class RequerimientoService {
       codigo_punto_venta,
     };
 
-    return this.http.post<any[]>(this.ruta + '/consultar/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+    return this.http.post<any[]>(this.rutaApi + '/consultar/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 
   actualizarArchivo(numero_correlativo: string, motivo_documento: string, ruta_pdf: string) {
@@ -78,7 +78,7 @@ export class RequerimientoService {
       ruta_pdf
     }
 
-    return this.http.post<any>(this.ruta + '/actualizarArchivo/' + this.globalService.calcularNumeroRandomUrl(), body, this.customHeaders).toPromise()
+    return this.http.post<any>(this.rutaApi + '/actualizarArchivo/' + this.globalService.calcularNumeroRandomUrl(), body, this.customHeaders).toPromise()
   }
 
   listaReqAprobacion01(inicio: number, limite: number, texto: string, fechaInicio: string, fechaFinal: string, estado: string, prioridad: string, busqueda: string) {
@@ -97,7 +97,7 @@ export class RequerimientoService {
       prioridad
     };
 
-    return this.http.post<any[]>(this.ruta + '/lista_documentos_aprobacion01/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+    return this.http.post<any[]>(this.rutaApi + '/lista_documentos_aprobacion01/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 
   actualizarAprobacion(aprobacion: string, responsable: string, comentario: string, fila: any[]) {
@@ -111,6 +111,6 @@ export class RequerimientoService {
       fila: JSON.stringify(fila),
     };
 
-    return this.http.post<any[]>(this.ruta + '/aprobaciones01/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+    return this.http.post<any[]>(this.rutaApi + '/aprobaciones01/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 }

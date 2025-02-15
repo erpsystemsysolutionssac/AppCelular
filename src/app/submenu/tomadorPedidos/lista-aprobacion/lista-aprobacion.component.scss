@@ -1,0 +1,98 @@
+cdk-virtual-scroll-viewport {
+    height: 100%;
+    width: 100%;
+}
+
+.color-custom{
+    color: #2e6e9e;
+}
+
+.bg-custom{
+    background-color:#dfeffc;
+
+}
+
+.border-custom{
+    border-color:#c5dbec;
+}    
+
+.bg-row-first{
+    border: 1px solid #fad42e;
+    background: #fbec88;
+    color: #363636;
+}
+
+.carta{
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 1px -2px, 
+                rgb(0 0 0 / 14%) -2px -1px 2px 0px;
+}
+
+
+.input-col{
+    border-radius: 30px;
+    --inner-padding-end:0px !important;
+    --min-height:30px;
+}
+.input-buscar{
+    --padding-bottom	:0px;
+    --padding-top	:0px;
+    --padding-end	:0px;
+    --padding-start	:0px;
+    --inner-padding-end:0px !important;
+}
+.btn-buscar{
+    --background: transparent;
+    --color: grey;
+    --box-shadow:none;
+}
+.btn-filtrar{
+    --border-color: #fd821a;
+    --background: white;
+    text-transform: none;
+    --color: grey;
+    --padding-start:4px;
+    --padding-end:4px;
+    --inner-padding-end:0px;
+}
+.col-bg{
+    background-color: #fd821a;
+    --background:#fd821a !important;
+}
+
+.ion-valid{
+    --highlight-color-valid:transparent;
+  }
+
+.btn-fecha{
+    --background:white ;
+    --color: grey;
+}
+
+.ion-color-light {
+    --ion-color-base: #fd821a !important;
+    --ion-color-base-rgb: var(--ion-color-light-rgb, 244, 245, 248) !important;
+    --ion-color-contrast: var(--ion-color-light-contrast, #000) !important;
+    --ion-color-contrast-rgb: var(--ion-color-light-contrast-rgb, 0, 0, 0) !important;
+    --ion-color-shade: var(--ion-color-light-shade, #d7d8da) !important;
+    --ion-color-tint: var(--ion-color-light-tint, #f5f6f9) !important;
+}
+
+.bg-alta{
+    background: #a01320;
+}
+
+.bg-media{
+    background: #0075ff;
+}
+
+.bg-baja{
+    background: #44ab51;
+}
+
+.card {
+    transition: opacity 0.5s ease-out;
+  }
+  
+  .fadeOut {
+    opacity: 0;
+  }

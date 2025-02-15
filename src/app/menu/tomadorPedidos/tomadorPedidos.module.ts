@@ -24,6 +24,7 @@ import { PromocionesComponent } from 'src/app/submenu/tomadorPedidos/promociones
 import { ComponentesModule } from 'src/app/submenu/components/componentes.module';
 import { CarritoV2Component } from 'src/app/submenu/tomadorPedidos/carrito-v2/carrito-v2.component';
 import { MantenimientosModule } from 'src/app/submenu/mantenimientos/mantenimientos.modulo';
+import { ListaAprobacionComponent } from 'src/app/submenu/tomadorPedidos/lista-aprobacion/lista-aprobacion.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { MantenimientosModule } from 'src/app/submenu/mantenimientos/mantenimien
     PedidosComponent,
     PedidoComponent,
     PromocionesComponent,
-    CarritoV2Component
+    CarritoV2Component,
+    ListaAprobacionComponent
   ],
   // exports:[ClientesComponent,ClienteComponent]
 })

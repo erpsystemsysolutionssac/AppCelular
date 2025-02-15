@@ -14,7 +14,6 @@ import { ToolsService } from '../tools.service';
 })
 export class PedidosService {
 
-  private ruta = this.toolsService.obtenerUrl('url') + '/pedidos'
   private urlArchivos = this.toolsService.obtenerUrl('urlArchivos') + '/pedidos'
   private rutaApi = this.toolsService.obtenerUrl('urlApi') + '/pedido/app/v1';
 
@@ -35,11 +34,11 @@ export class PedidosService {
   }
 
   obtenerPedidos(inicio: number, limite: number, filtro: string[], campo: string) {
-    return this.http.post<PedidoCabecera[]>(this.ruta + '/obtener_pedidos', { codigo_empresa: this.loginService.codigo_empresa, inicio, limite, vendedor: this.loginService.objVendedor.ccod_vendedor, filtro, campo }).toPromise()
+    return this.http.post<PedidoCabecera[]>(this.rutaApi + '/obtener_pedidos', { codigo_empresa: this.loginService.codigo_empresa, inicio, limite, vendedor: this.loginService.objVendedor.ccod_vendedor, filtro, campo, codigo_usuario: this.loginService.codigo_usuario }).toPromise()
   }
 
   obtenerPedidoDetalle(cnum_doc: string, motivo: string) {
-    return this.http.post<PedidoDetalle[]>(this.ruta + '/obtener_pedido_detalle_v2', { codigo_empresa: this.loginService.codigo_empresa, cnum_doc, motivo }).toPromise()
+    return this.http.post<PedidoDetalle[]>(this.rutaApi + '/obtener_pedido_detalle_v2', { codigo_empresa: this.loginService.codigo_empresa, cnum_doc, motivo }).toPromise()
   }
 
   subir_archivos(imagen: FormData, fecha: string, motivo_venta: string, numero_pedido: string) {
@@ -106,4 +105,38 @@ export class PedidosService {
 
     return this.http.post<any[]>(this.rutaApi + '/consultar/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
+
+  listaPedAprobacion(inicio: number, limite: number, texto: string, fechaInicio: string, fechaFinal: string, estado: string, busqueda: string) {
+  
+    const body = {
+      codigo_empresa: this.loginService.codigo_empresa,
+      inicio,
+      limite,
+      texto,
+      fecha_inicio: fechaInicio,
+      fecha_final: fechaFinal,
+      busqueda,
+      codigo_punto_venta: this.loginService.datosUsu.punto_venta,
+      codigo_usuario: this.loginService.codigo_usuario,
+      codigo_vendedor: this.loginService.objVendedor.ccod_vendedor,
+      estado_aprobacion: estado,
+    };
+
+    return this.http.post<any[]>(this.rutaApi + '/lista_documentos_aprobacion/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+  }
+
+  actualizarAprobacion(aprobacion: string, responsable: string, comentario: string, fila: any[]) {
+    
+    const body = {
+      codigo_empresa: this.loginService.codigo_empresa,
+      aprobacion,
+      responsable,
+      fecha: this.loginService.datosUsu.fecha_trabajo_sistema,
+      comentario,
+      fila: JSON.stringify(fila),
+    };
+
+    return this.http.post<any[]>(this.rutaApi + '/aprobaciones/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
+  }
+
 }

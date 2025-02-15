@@ -15,6 +15,7 @@ import { ListaAgenciasTransporteComponent } from 'src/app/submenu/components/lis
 import { AgenciaComponent } from 'src/app/submenu/mantenimientos/agencia/agencia.component';
 import { VendedorComponent } from 'src/app/submenu/mantenimientos/vendedor/vendedor.component';
 import { ArticuloComponent } from 'src/app/submenu/mantenimientos/articulo/articulo.component';
+import { ListaAprobacionComponent } from 'src/app/submenu/tomadorPedidos/lista-aprobacion/lista-aprobacion.component';
 
 
 const routes: Routes = [
@@ -78,6 +79,10 @@ const routes: Routes = [
       {
         path: 'verMas/:random',
         component: VerMasComponent
+      },
+      {
+        path: 'aprobacion',
+        component: ListaAprobacionComponent,
       },
       {
         path: '**',

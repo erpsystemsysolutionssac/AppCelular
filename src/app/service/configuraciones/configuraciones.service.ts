@@ -61,8 +61,9 @@ export class ConfiguracionesService {
       nombreCarpeta: nombreCarpeta,
       nombreArchivo: nombreArchivo,
     };
-
-    const response = await this.http.post<any>(this.rutaApi + '/formato_impresion/convertirPDFaBlob/' + this.globalService.calcularNumeroRandomUrl(), body, { responseType: 'json' }).toPromise();
+    
+    const response = await this.http.post<any>('https://erp-solutionsperu.com/formato_impresion/convertirPDFaBlob/' + this.globalService.calcularNumeroRandomUrl(), body, { responseType: 'json' }).toPromise();
+    // const response = await this.http.post<any>(this.rutaApi + '/formato_impresion/convertirPDFaBlob/' + this.globalService.calcularNumeroRandomUrl(), body, { responseType: 'json' }).toPromise();
 
     const pdfBlob = response.dataBlob; 
     const fileName = nombreArchivo+'.pdf';
