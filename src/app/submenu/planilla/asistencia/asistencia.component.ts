@@ -253,8 +253,8 @@ export class MarcarAsistenciaComponent implements OnInit {
                     const respMarcarAsistencia = await this.asistenciaService.marcarAsistencia(dataAsistencia)
                     if(respMarcarAsistencia.estado){
                         this.MarcarAsistencia_hidden = true
-                        this.Asistencia_hidden=false;
-                        this.Salida_hidden=true;
+                        this.Asistencia_hidden = false;
+                        this.Salida_hidden = true;
                         this.fecha_asistencia = fecha_hoy;
                         this.hora_asistencia = hora_hoy;
                         this.texto_asistencia = `¡Hora de ingreso registrada!`

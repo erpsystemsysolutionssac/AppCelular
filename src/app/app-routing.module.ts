@@ -49,6 +49,11 @@ const routes: Routes = [
     loadChildren: () => import('./menu/planilla/asistencia.module').then(m => m.AsistenciaModule)
   },
   {
+    path: 'marcador',
+    canActivate: [LoginGuard],
+    loadChildren: () => import('./menu/marcador/marcador.module').then(m => m.MarcadorModule)
+  },
+  {
     path: '**',
     redirectTo: 'menu'
   }

@@ -9,6 +9,7 @@ export const environment = {
     // url :'http://localhost:5000/movil',
     // urlApi :'http://localhost:5000',
     // urlImagenes : 'http://localhost:5000/erp',
+    // urlArchivos : 'http://localhost:5000/movil',
 
     url :'https://erp-solutionsperu.com/movil',
     urlApi :'https://erp-solutionsperu.com',
@@ -46,12 +47,15 @@ export const rucSystemsMype = [
   '20565333209',
   '20609942941',
   '20419665992',
+  '20600740955',
 ]
 
 export const rucSystemsSoft = [
   '20612242501', //SCHUBERT CORP S.A.C.	
   '20603602723', //TEEN LIFE SAC.	
   '20609898411', //MIAMI TOP S.A.C.	
+  '20613748823', //SCHUBERT S.A.C.	
+  '20606477288', //Hardman
 ]
 /*
  * For easier debugging in development mode, you can import the following file
