@@ -197,7 +197,7 @@
         <ion-button type="button"  size="small" class="custom-button iconos" (click)="restarCantidad(i)">
           <ion-icon name="remove-outline"></ion-icon>
         </ion-button>
-        <ion-input #cantidadProducto  type="number" inputmode="numeric" [value]="articulo.cantidad" class="custom-input text-dark" [id]="i" style="width: 30px; "></ion-input>
+        <ion-input #cantidadProducto  type="number" inputmode="numeric" [(ngModel)]="articulo.cantidad" class="custom-input text-dark" [id]="i" style="width: 30px; "></ion-input>
         <ion-button type="button"  size="small" class="custom-button iconos" (click)="sumarCantidad(i)">
           <ion-icon name="add-outline"></ion-icon>
         </ion-button>

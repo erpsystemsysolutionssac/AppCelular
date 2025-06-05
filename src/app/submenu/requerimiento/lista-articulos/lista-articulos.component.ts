@@ -86,19 +86,19 @@ export class ListaArticulosComponent implements OnInit, OnDestroy {
 
     return new Promise((resolve) => {
 
-      this.articuloService.listaArticulosDetalle(this.limite, this.inicio, this.loginService.punto_venta, texto, this.filtroBuscar,  this.buscarForm.value.listaprecios ).subscribe((resp) => {
-          if (resp.length < this.ionInfi) {
-            this.estadoRecargar = false
-          } else {
-            this.estadoRecargar = true
-          }
+      this.articuloService.listaArticulosDetalle(this.limite, this.inicio, this.loginService.punto_venta, texto, this.filtroBuscar, this.buscarForm.value.listaprecios).subscribe((resp) => {
+        if (resp.length < this.ionInfi) {
+          this.estadoRecargar = false
+        } else {
+          this.estadoRecargar = true
+        }
 
-          this.arrArticulos.push(...resp)
+        this.arrArticulos.push(...resp)
 
-          resolve('acabo')
-        }, (err) => {
-          console.log(err);
-        })
+        resolve('acabo')
+      }, (err) => {
+        console.log(err);
+      })
     })
   }
 
@@ -123,6 +123,14 @@ export class ListaArticulosComponent implements OnInit, OnDestroy {
 
   cambiarFiltro() {
     this.filtroSelect.open()
+  }
+
+  valorInput(articulo: Articulo) {
+    if (isNaN(articulo.cantidad) || articulo.cantidad <= 0) {
+      articulo.cantidad = 1;
+    }
+
+    // this.calcularValores(articulo.codigo, articulo);
   }
 
   sumarCantidad(cod: any) {

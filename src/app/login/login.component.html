@@ -30,52 +30,26 @@
         <form [formGroup]="loginForm" (ngSubmit)="logear(loginForm)">
           <ion-list>
             <ion-item>
-              <ion-select placeholder="Empresas" 
-              formControlName="codigo_empresa" 
-              cancelText="Cancelar"
-              okText="Aceptar"
-              interface="popover"
-              (ionChange)="empresaSelect($event)" 
-              >
-                <ion-select-option 
-                [value]="empresa.ccod_empresa" 
-                *ngFor="let empresa of listaEmpresa; let i =index;"
-               
-                 >
-                  {{empresa.cnum_ruc}}
-                </ion-select-option>
+              <ion-select placeholder="Empresas" formControlName="codigo_empresa" interface="action-sheet" 
+              (ionChange)="empresaSelect($event)" >
+                <ion-select-option [value]="empresa.ccod_empresa" *ngFor="let empresa of listaEmpresa; let i =index;">{{empresa.cnum_ruc}}</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item>
-              <ion-select placeholder="Punto de Venta" formControlName="ptoVenta" cancelText="Cancelar" okText="Aceptar"  interface="popover">
-                <ion-select-option 
-                [value]="punto.ccod_almacen" 
-                *ngFor="let punto of listaPtoVenta; let i =index;"
-                 >
-                  {{punto.cnom_almacen}}
-                </ion-select-option>
+              <ion-select placeholder="Punto de Venta" formControlName="ptoVenta" interface="action-sheet" >
+                <ion-select-option [value]="punto.ccod_almacen" *ngFor="let punto of listaPtoVenta; let i =index;"
+                 >{{punto.cnom_almacen}}</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item>
-              <ion-select placeholder="Unidad de Negocio" formControlName="undNegocio" cancelText="Cancelar" okText="Aceptar" interface="popover" >
-                <ion-select-option 
-                [value]="und.erp_codune" 
-                *ngFor="let und of listaUndNegocio; let i =index;"
-                 >
-                  {{und.erp_nomune}}
-                </ion-select-option>
+              <ion-select placeholder="Unidad de Negocio" formControlName="undNegocio" interface="action-sheet" >
+                <ion-select-option [value]="und.erp_codune" *ngFor="let und of listaUndNegocio; let i =index;"
+                 >{{und.erp_nomune}}</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item>
-              
-
-              <ion-select placeholder="Centros de Costos" formControlName="ctrCostos" cancelText="Cancelar" okText="Aceptar" interface="popover" >
-                <ion-select-option 
-                [value]="centro.ccod_cencos" 
-                *ngFor="let centro of listaCtroCostos; let i =index;"
-                 >
-                  {{centro.cnom_cencos}}
-                </ion-select-option>
+              <ion-select [interfaceOptions]="cencosAlertOptions" placeholder="Centros de Costos" formControlName="ctrCostos" >
+                <ion-select-option [value]="centro.ccod_cencos" *ngFor="let centro of listaCtroCostos; let i =index;">{{centro.cnom_cencos}}</ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>

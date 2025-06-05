@@ -186,10 +186,10 @@ export class GenerarRequerimientoComponent implements OnInit {
             this.formCabRequerimiento.patchValue({
               prioridad: 'M',
               fechaLimite: this.loginService.datosUsu.fecha_trabajo_sistema,
-              codigoCencos: '00',
+              codigoCencos: this.loginService.centro_costo,
               moneda: 'S/',
               tipoCambio: 'VTA',
-              codigoUnidad: '00',
+              codigoUnidad: this.loginService.unidad_negocio,
               codigoOt: '00',
               codigoResponsable: this.arrResponsable[0].Codigo ,
               codigoSolicitante: '00',
@@ -201,10 +201,10 @@ export class GenerarRequerimientoComponent implements OnInit {
       this.formCabRequerimiento.patchValue({
         prioridad: 'M',
         fechaLimite: this.loginService.datosUsu.fecha_trabajo_sistema,
-        codigoCencos: '00',
+        codigoCencos: this.loginService.centro_costo,
         moneda: 'S/',
         tipoCambio: 'VTA',
-        codigoUnidad: '00',
+        codigoUnidad: this.loginService.unidad_negocio,
         codigoOt: '00',
         codigoResponsable: this.arrResponsable[0].Codigo ,
         codigoSolicitante: '00',
@@ -368,7 +368,7 @@ export class GenerarRequerimientoComponent implements OnInit {
     return new Promise((resolve) => {
       this.cencosService.listaCencosNivel3().subscribe((resp) => {
             this.arrCencos = resp;
-            this.formCabRequerimiento.patchValue({codigoCencos: '00'});
+            this.formCabRequerimiento.patchValue({codigoCencos: this.loginService.centro_costo});
             resolve('acabo')
         }, (err) => {
           this.toolsService.mostrarAlerta(err, 'error')
@@ -381,7 +381,7 @@ export class GenerarRequerimientoComponent implements OnInit {
     return new Promise((resolve) => {
       this.unidadNegocioService.listaUnidadNegocio().subscribe((resp) => {
             this.arrUnidadNegocio = resp;
-            this.formCabRequerimiento.patchValue({codigoUnidad: '00'});
+            this.formCabRequerimiento.patchValue({codigoUnidad: this.loginService.unidad_negocio});
             resolve('acabo')
         }, (err) => {
           this.toolsService.mostrarAlerta(err, 'error')

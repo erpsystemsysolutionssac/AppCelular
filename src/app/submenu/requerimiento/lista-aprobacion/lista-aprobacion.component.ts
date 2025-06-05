@@ -165,6 +165,9 @@ export class ListaAprobacionComponent implements OnInit {
         });
 
         this.toolsService.mostrarAlerta(resp.mensaje+' Documento(s) '+tipoEstado+'(s).', 'success')
+      }else{
+        this.toolsService.mostrarAlerta(resp.mensaje, 'error')
+
       }
       
      await this.toolsService.ocultarCargando(idLoading)

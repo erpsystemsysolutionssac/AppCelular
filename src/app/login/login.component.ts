@@ -30,6 +30,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
 
+  cencosAlertOptions = {
+    header: 'Centro de Costo',
+    // subHeader: 'Select your favorite topping',
+    // message: 'Choose only one',
+    translucent: true,
+  };
+
   constructor(
     private loadingCtrl: LoadingController,
     public toastController: ToastController,

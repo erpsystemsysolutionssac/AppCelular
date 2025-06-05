@@ -108,6 +108,7 @@ export class RequerimientoService {
       responsable,
       fecha: this.loginService.datosUsu.fecha_trabajo_sistema,
       comentario,
+      codigo_usuario: this.loginService.codigo_usuario,
       fila: JSON.stringify(fila),
     };
 
