@@ -93,6 +93,8 @@ export class RequerimientoService {
       busqueda,
       usuario_areas: 'N',
       codigo_punto_venta: this.loginService.datosUsu.punto_venta,
+      centro_costos: this.loginService.datosUsu.centro_costos,
+      unidad_negocios: this.loginService.datosUsu.unidad_negocio,
       estado,
       prioridad
     };

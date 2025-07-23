@@ -25,6 +25,11 @@ export class GlobalService {
     return this.http.post(this.rutaLogin + '/editar_vendedor', { ...datos }).toPromise()
   }
 
+  guardarTokenDispositivo(dataBody: any) {
+    console.log('Saving device token with data:', dataBody);
+    return this.http.post(this.rutaLogin + '/guardar_tokens_dispositivo', dataBody ).toPromise()
+  }
+
   calcularNumeroRandomUrl() {
     var random = Math.floor((Math.random() * (1000 - 1 + 1)) + 1);
     var milliseconds = new Date().getMilliseconds()

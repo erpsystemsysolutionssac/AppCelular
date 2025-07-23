@@ -30,7 +30,16 @@ export const environment = {
   },
 
   limiteArticulos: 30,
-  limitePromocioes: 500
+  limitePromocioes: 500,
+  firebaseConfig: {
+    apiKey: "AIzaSyA-DL3BO-rcHVUtryZzKe36TYDKiBUUewo",
+    authDomain: "app-erpsoft.firebaseapp.com",
+    projectId: "app-erpsoft",
+    storageBucket: "app-erpsoft.firebasestorage.app",
+    messagingSenderId: "1089528259760",
+    appId: "1:1089528259760:web:260e953f6f699738154775",
+    measurementId: "G-MC2V79Q3HF"
+  }
 };
 
 export const rucSystemsMype = [

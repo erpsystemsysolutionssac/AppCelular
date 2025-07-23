@@ -101,6 +101,48 @@ export class ToolsService {
     return estado;
   }
 
+
+  async alertaNotificaciones(title: string, msg: string, icono: string = 'error') {
+    let estado: boolean = false;
+    let icon = '';
+    switch (icono) {
+      case 'error':
+        icon = 'close-outline';
+        break;
+      case 'success':
+        icon = 'checkmark-circle-outline';
+        break;
+      case 'warning':
+        icon = 'alert-outline';
+        break;
+    }
+
+    const alert = await this.alertController.create({
+      header: title,
+      subHeader: msg,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            estado = false;
+          },
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {
+            estado = true;
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+    await alert.onDidDismiss();
+    return estado;
+  }
+
   async mostrarCargando(msg = 'Buscando') {
     let id: string;
     let loader: HTMLIonLoadingElement;

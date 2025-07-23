@@ -119,6 +119,8 @@ export class PedidosService {
       codigo_punto_venta: this.loginService.datosUsu.punto_venta,
       codigo_usuario: this.loginService.codigo_usuario,
       codigo_vendedor: this.loginService.objVendedor.ccod_vendedor,
+      centro_costos: this.loginService.datosUsu.centro_costos,
+      unidad_negocios: this.loginService.datosUsu.unidad_negocio,
       estado_aprobacion: estado,
     };
 

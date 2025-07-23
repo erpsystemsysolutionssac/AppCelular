@@ -8,6 +8,7 @@ import { LoginService } from '../service/login.service';
 import { AppComponent } from '../app.component';
 import { ToolsService } from '../service/tools.service';
 import { GlobalService } from '../service/global.service';
+import { NotificationsPushService } from '../service/notifications-push.service';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,8 @@ export class LoginComponent implements OnInit {
     private toolS: ToolsService,
     private main: AppComponent,
     private router: Router,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private notificationsPushService: NotificationsPushService
   ) {
     localStorage.setItem('rucEmpresa', '');
   }
@@ -129,6 +131,7 @@ export class LoginComponent implements OnInit {
 
         let dataUsuario = resp[2];
 
+        this.notificationsPushService.init(dataUsuario);
         this.loginService.datosUsu = dataUsuario;
         this.loginService.datosUsu.permisos = resp[1]
         await this.loginService.obtenerVendedor()
