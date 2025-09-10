@@ -11,11 +11,11 @@ import { ToolsService } from '../tools.service';
 })
 export class ListaPreciosService {
 
-  private ruta = this.toolsService.obtenerUrl('urlApi')+ '/lista_precios/app/v1';
+  private ruta = this.toolsService.obtenerUrl('urlApi') + '/lista_precios/app/v1';
 
   private customHeaders = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     }),
   };
 
@@ -27,12 +27,12 @@ export class ListaPreciosService {
   ) { }
 
   listaPrecios(tipo: string): Observable<any[]> {
-    return this.http.post<any[]>(this.ruta + '/lista/'+this.globalService.calcularNumeroRandomUrl(), {codigo_empresa: this.loginService.codigo_empresa, tipo: tipo},this.customHeaders);
+    return this.http.post<any[]>(this.ruta + '/lista/' + this.globalService.calcularNumeroRandomUrl(), { codigo_empresa: this.loginService.codigo_empresa, tipo: tipo }, this.customHeaders);
   }
 
-  listaGeneralPrecios(codigoPuntoVenta: string, codigoAlmacen: string, tipo: string, moneda: string, textoBusqueda: string, limite: number, inicio: number){
+  listaGeneralPrecios(codigoPuntoVenta: string, codigoAlmacen: string, tipo: string, moneda: string, textoBusqueda: string, limite: number, inicio: number) {
     let body = {
-      codigo_empresa: this.loginService.codigo_empresa, 
+      codigo_empresa: this.loginService.codigo_empresa,
       punto_venta: codigoPuntoVenta,
       almacen: codigoAlmacen,
       tipo: tipo,
@@ -42,6 +42,6 @@ export class ListaPreciosService {
       inicio
     };
 
-    return this.http.post<any[]>(this.ruta + '/lista_generalv2/'+this.globalService.calcularNumeroRandomUrl(), body, this.customHeaders).toPromise();
+    return this.http.post<any[]>(this.ruta + '/lista_generalv2/' + this.globalService.calcularNumeroRandomUrl(), body, this.customHeaders).toPromise();
   }
 }

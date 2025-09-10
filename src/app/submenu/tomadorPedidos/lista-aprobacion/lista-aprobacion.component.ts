@@ -4,6 +4,9 @@ import { IonDatetime, IonModal, IonSelect } from '@ionic/angular';
 import { EmpleadosService } from 'src/app/service/mantenimiento/empleados.service';
 import { PedidosService } from 'src/app/service/tomadorPedidos/pedidos.service';
 import { ToolsService } from 'src/app/service/tools.service';
+import { CencosService } from 'src/app/service/mantenimiento/cencos.service';
+import { LoginService } from 'src/app/service/login.service';
+import { UnidadNegocioService } from 'src/app/service/mantenimiento/unidad-negocio.service';
 
 @Component({
   selector: 'app-lista-aprobacion',
@@ -21,7 +24,11 @@ export class ListaAprobacionComponent implements OnInit {
   private fechaInicio: string = '';
   private fechaFinal: string = '';
   private texto: string = '';
+  public arrCencos: any[] = []
+  public arrUnidadNegocio: any[] = [];
   estado: string = 'Sin Aprobacion';
+  codigoCencos: string = '00';
+  codigoUnidad: string = '00';
 
   public arrPedido: any[] = [];
   public refreshDisabled: boolean = false;
@@ -45,7 +52,10 @@ export class ListaAprobacionComponent implements OnInit {
     private fb: FormBuilder,
     private toolsService: ToolsService,
     private pedidosService: PedidosService,
-    private empleadosService: EmpleadosService
+    private empleadosService: EmpleadosService,
+    private cencosService: CencosService,
+    private loginService: LoginService,
+    private unidadNegocioService: UnidadNegocioService,
   ) {
   }
 
@@ -54,8 +64,11 @@ export class ListaAprobacionComponent implements OnInit {
       buscar: [''],
       filtro: ['nroPedido'],
       estado: 'Sin Aprobacion',
+      codigoCencos: ['00'],
+      codigoUnidad: ['00'],
     })
-
+    this.listarCencos();
+    this.listarUnidadNegocio();
     this.listaPedAprobacion(true);
     this.listarResponsable();
   }
@@ -66,6 +79,9 @@ export class ListaAprobacionComponent implements OnInit {
     let datos = this.buscarForm.value;
     this.busqueda = datos.filtro
     this.estado = datos.estado;
+    this.codigoCencos = datos.codigoCencos;
+    this.codigoUnidad = datos.codigoUnidad;
+
     this.filtro = []
 
     switch (datos.filtro) {
@@ -104,7 +120,7 @@ export class ListaAprobacionComponent implements OnInit {
 
     let idLoading: string
     if (cargar) idLoading = await this.toolsService.mostrarCargando('Cargando Requerimientos');
-    await this.pedidosService.listaPedAprobacion(this.inicio, this.limite, this.texto, this.fechaInicio, this.fechaFinal, this.estado, this.busqueda).then(async (resp) => {
+    await this.pedidosService.listaPedAprobacion(this.inicio, this.limite, this.texto, this.fechaInicio, this.fechaFinal, this.estado, this.codigoCencos, this.codigoUnidad, this.busqueda).then(async (resp) => {
       this.arrPedido.push(...resp)
       if (cargar) await this.toolsService.ocultarCargando(idLoading)
     }).catch(async (err) => {
@@ -197,6 +213,34 @@ export class ListaAprobacionComponent implements OnInit {
     this.modalHasta.dismiss()
   }
 
+
+  async listarCencos() {
+    return new Promise((resolve) => {
+      this.cencosService.listaCencosNivel3().subscribe((resp) => {
+            this.arrCencos = resp;
+            console.log(this.loginService.centro_costo)
+            this.buscarForm.patchValue({codigoCencos: this.loginService.centro_costo});
+            resolve('acabo')
+        }, (err) => {
+          this.toolsService.mostrarAlerta(err, 'error')
+            console.log(err);
+        })
+    })
+  }
+
+  async listarUnidadNegocio() {
+    return new Promise((resolve) => {
+      this.unidadNegocioService.listaUnidadNegocio().subscribe((resp) => {
+            this.arrUnidadNegocio = resp;
+            this.buscarForm.patchValue({codigoUnidad: this.loginService.unidad_negocio});
+            resolve('acabo')
+        }, (err) => {
+          this.toolsService.mostrarAlerta(err, 'error')
+            console.log(err);
+        })
+    })
+  }
+
   async listarResponsable() {
     return new Promise((resolve) => {
       this.empleadosService.listaResponsable().subscribe((resp) => {
@@ -212,4 +256,5 @@ export class ListaAprobacionComponent implements OnInit {
         })
     })
   }
+  
 }

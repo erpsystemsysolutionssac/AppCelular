@@ -9,6 +9,7 @@ import {
 import { GlobalService } from './global.service';
 import { ToolsService } from './tools.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class NotificationsPushService {
   private enable: boolean = false;
 
   constructor(
+    private router: Router,
     private http: HttpClient, 
     private toolsService: ToolsService,
     private globalService: GlobalService,
@@ -82,7 +84,18 @@ export class NotificationsPushService {
     PushNotifications.addListener('pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
         console.log('Push action performed: ' + JSON.stringify(notification));
-        alert('Push action performed: ' + JSON.stringify(notification));
+        const dataNotificacion = notification;
+        const rutaAccion = dataNotificacion.notification.data.accion_ruta || '';
+        switch (rutaAccion) {
+          case 'listaRequermientoAprobacion':
+            this.router.navigateByUrl('/requerimiento/aprobacion')
+            break;
+          case 'listaPedidoAprobacion':
+            this.router.navigateByUrl('/tomadorPedidos/aprobacion')
+            break
+          default:
+            break;
+        }
       }
     );
   }

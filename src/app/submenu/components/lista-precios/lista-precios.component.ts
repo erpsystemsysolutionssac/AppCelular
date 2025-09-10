@@ -21,6 +21,7 @@ export class ListaPreciosComponent implements OnInit {
   public arrPuntoVenta: any[] = []
   public arrAlmacen: any[] = []
   public buscarForm: FormGroup;
+  public confListaPrecios: any[] = [];
 
   public ionInfi = 50;
   public inicio = 0;
@@ -55,7 +56,7 @@ export class ListaPreciosComponent implements OnInit {
     const id = await this.toolsService.mostrarCargando('Cargando')
     await this.listaPuntoVenta();
     await this.listaAlmacen()
-
+    await this.cargarListaPrecios();
     await this.listarListaPrecios()
     this.toolsService.ocultarCargando(id);
   }
@@ -86,19 +87,24 @@ export class ListaPreciosComponent implements OnInit {
 
   async filtrarListaPrecio(){
     const id = await this.toolsService.mostrarCargando('Cargando')
-    // console.log('filtrarListaPrecio')
     this.listaPrecios = [];
     this.inicio = 0;
     await this.listarListaPrecios();
     this.toolsService.ocultarCargando(id);
   }
 
+  async cargarListaPrecios() {
+    this.listaPreciosService.listaPrecios('12').subscribe((resp) => {
+      this.confListaPrecios = resp;
+      console.log(this.confListaPrecios)
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
   async listarListaPrecios() {
    
-    this.listaPreciosService.listaGeneralPrecios(this.puntoVenta, this.almacen, '12', this.moneda, this.buscar, this.limite, this.inicio)
-    .then((resp) => {
-      // console.log(resp);
-      // this.listaPrecios = resp;
+    this.listaPreciosService.listaGeneralPrecios(this.puntoVenta, this.almacen, '12', this.moneda, this.buscar, this.limite, this.inicio).then((resp) => {
       if (resp.length < this.ionInfi) {
         this.estadoRecargar = false
       } else {
@@ -113,15 +119,12 @@ export class ListaPreciosComponent implements OnInit {
   }
 
   recargarListaPrecios(event: any) {
-    // console.log('recargarListaPrecios')
     this.inicio = this.inicio + this.limite
-
     this.listarListaPrecios()
       .then(() => {
         event.target.complete();
       })
   }
-  
 
   async listaPuntoVenta() {
     return new Promise((resolve) => {

@@ -66,62 +66,6 @@
 
   </form>
 
-  <!-- <cdk-virtual-scroll-viewport itemSize="10"  class="ion-content-scroll-host ">
-    <div class="row mb-5">
-      <div class="col">
-        <div class="table-responsive">
-          <table class="table table-bordered border-azul" *ngIf="listaPrecios.length != 0" >
-            <thead>
-              <tr>
-                <th scope="col" ></th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Codigo</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Nombre</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Interno</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Unidad</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Factor </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Stock</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Rango 0-5 Lista Precio 01</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Rango 6-10 Lista Precio 02</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Rango 11-15 Lista Precio 03</th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Lista Precio 04 </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Lista Precio 05 </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Lista Precio 06 </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Lista Precio 07 </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Familia </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">SubFamilia </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Leyenda01 </th>
-                <th scope="col" class="text-center align-middle fw-normal color-azul">Leyenda02 </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let listaPrecio of listaPrecios; let ind=index">
-                <th scope="row" class="color-azul fw-normal text-center"> {{ind+1}}</th>
-                <td style="min-width:60px;max-width: 60px;">{{ listaPrecio.Codigo }}</td>
-                <td style="min-width:200px;max-width: 200px;">{{ listaPrecio.Nombre }}</td>
-                <td style="min-width:50px;max-width: 50px;">{{ listaPrecio.Interno }}</td>
-                <td style="min-width:40px;max-width: 40px;">{{ listaPrecio.Unidad }}</td>
-                <td style="min-width:40px;max-width: 40px; text-align: right">{{ listaPrecio.Factor |number:'1.0-2'}}</td>
-                <td style="min-width:40px;max-width: 40px; text-align: right">{{ listaPrecio.Stock |number:'1.0-2'}}</td>
-                <td style="min-width:95px;max-width: 95px; text-align: right">{{ listaPrecio.LP1 == null ? 0 : listaPrecio.LP1  |number:'1.0-2' }}</td>
-                <td style="min-width:95px;max-width: 95px; text-align: right">{{ listaPrecio.LP2 == null ? 0 : listaPrecio.LP2 |number:'1.0-2'}}</td>
-                <td style="min-width:95px;max-width: 95px; text-align: right">{{ listaPrecio.LP3  == null ? 0 : listaPrecio.LP3|number:'1.0-2'}}</td>
-                <td style="min-width:95px;max-width: 95px; text-align: right">{{ listaPrecio.LP4 == null ? 0 : listaPrecio.LP4 |number:'1.0-2'}}</td>
-                <td style="min-width:95px;max-width: 95px; text-align: right">{{ listaPrecio.LP5 == null ? 0 : listaPrecio.LP5 |number:'1.0-2'}}</td>
-                <td style="min-width:95px;max-width: 95px; text-align: right">{{ listaPrecio.LP6 == null ? 0 : listaPrecio.LP6 |number:'1.0-2'}}</td>
-                <td style="min-width:95px;max-width: 95px; text-align: right">{{ listaPrecio.LP7 == null ? 0 : listaPrecio.LP7 |number:'1.0-2'}}</td>
-                <td style="min-width:90px;max-width: 90px;">{{ listaPrecio.Familia }}</td>
-                <td style="min-width:90px;max-width: 90px;">{{ listaPrecio.Subfamilia }}</td>
-                <td style="min-width:90px;max-width: 90px;">{{ listaPrecio.Leyenda01 }}</td>
-                <td style="min-width:90px;max-width: 90px;">{{ listaPrecio.Leyenda02 }}</td>
-              </tr>
-            
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </cdk-virtual-scroll-viewport> -->
-
   <cdk-virtual-scroll-viewport #elscroll itemSize="10"  class="ion-content-scroll-host" (scroll)="onWindowScroll($event)"> 
     <ion-list class="mb-3 p-0">
       <ion-card *ngFor="let listaPrecio of listaPrecios; let j = index; " class="mb-3 p-0 carta">
@@ -167,13 +111,13 @@
             </div>
 
             <div class="col">
-              <div class="row m-0" *ngIf="listaPrecio.LP1 != 0">
+              <div class="row m-0" *ngIf="listaPrecio.LP1 != 0 && confListaPrecios[0].Visible == '1' ">
                 <div class="col-7 p-0  text-dark">L. Precio 01: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP1 == null ? 0 : listaPrecio.LP1  |number:'1.2-2' }}</div>
               </div>
             </div>
             <div class="col">
-              <div class="row m-0" *ngIf="listaPrecio.LP4 != 0">
+              <div class="row m-0" *ngIf="listaPrecio.LP4 != 0 && confListaPrecios[3].Visible == '1' ">
                 <div class="col-7 p-0  text-dark">L. Precio 04: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP4 == null ? 0 : listaPrecio.LP4  |number:'1.2-2' }}</div>
               </div>
@@ -181,13 +125,13 @@
           </div>
           <div class="row mb-auto ">
             <div class="col">
-              <div class="row m-0" *ngIf="listaPrecio.LP2 != 0">
+              <div class="row m-0" *ngIf="listaPrecio.LP2 != 0 && confListaPrecios[1].Visible == '1' ">
                 <div class="col-7 p-0  text-dark">L. Precio 02: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP2 == null ? 0 : listaPrecio.LP2  |number:'1.2-2' }}</div>
               </div>
             </div>
             <div class="col">
-              <div class="row m-0" *ngIf="listaPrecio.LP5 != 0">
+              <div class="row m-0" *ngIf="listaPrecio.LP5 != 0 && confListaPrecios[4].Visible == '1' ">
                 <div class="col-7 p-0  text-dark">L. Precio 05: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP5 == null ? 0 : listaPrecio.LP5  |number:'1.2-2' }}</div>
               </div>
@@ -195,13 +139,13 @@
           </div>
           <div class="row mb-auto ">
             <div class="col">
-              <div class="row m-0" *ngIf="listaPrecio.LP3 != 0">
+              <div class="row m-0" *ngIf="listaPrecio.LP3 != 0 && confListaPrecios[2].Visible == '1' ">
                 <div class="col-7 p-0  text-dark">L. Precio 03: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP3 == null ? 0 : listaPrecio.LP3  |number:'1.2-2' }}</div>
               </div>
             </div>
             <div class="col">
-              <div class="row m-0" *ngIf="listaPrecio.LP6 != 0">
+              <div class="row m-0" *ngIf="listaPrecio.LP6 != 0 && confListaPrecios[5].Visible == '1' ">
                 <div class="col-7 p-0  text-dark">L. Precio 06: </div>
                 <div class="col-5 px-1">{{ listaPrecio.LP6 == null ? 0 : listaPrecio.LP6  |number:'1.2-2' }}</div>
               </div>

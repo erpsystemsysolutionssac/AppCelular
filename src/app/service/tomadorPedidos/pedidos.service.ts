@@ -106,7 +106,7 @@ export class PedidosService {
     return this.http.post<any[]>(this.rutaApi + '/consultar/' + this.globalService.calcularNumeroRandomUrl(), body).toPromise()
   }
 
-  listaPedAprobacion(inicio: number, limite: number, texto: string, fechaInicio: string, fechaFinal: string, estado: string, busqueda: string) {
+  listaPedAprobacion(inicio: number, limite: number, texto: string, fechaInicio: string, fechaFinal: string, estado: string, codigoCencos: string, codigoUnidad: string, busqueda: string) {
   
     const body = {
       codigo_empresa: this.loginService.codigo_empresa,
@@ -119,8 +119,8 @@ export class PedidosService {
       codigo_punto_venta: this.loginService.datosUsu.punto_venta,
       codigo_usuario: this.loginService.codigo_usuario,
       codigo_vendedor: this.loginService.objVendedor.ccod_vendedor,
-      centro_costos: this.loginService.datosUsu.centro_costos,
-      unidad_negocios: this.loginService.datosUsu.unidad_negocio,
+      centro_costos: codigoCencos,
+      unidad_negocios: codigoUnidad,
       estado_aprobacion: estado,
     };
 

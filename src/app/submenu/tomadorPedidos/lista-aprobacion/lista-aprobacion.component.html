@@ -54,11 +54,24 @@
                 <ion-row>
                   <ion-col class="px-1 py-0">
                     <ion-item class="border rounded" style="--min-height: 32px; font-size: 14px; --border-width: 0 0 0 0;">
-                      <!-- <ion-label class="d-none" >Estado</ion-label> -->
                       <ion-select placeholder="Estado" class="p-0" formControlName="estado">
                         <ion-select-option value="Sin Aprobacion">Sin Aprobacion</ion-select-option>
                         <ion-select-option value="Aprobado">Aprobado</ion-select-option>
                         <ion-select-option value="Desaprobado">Desaprobado</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col class="px-1 py-0">
+                    <ion-item class="border rounded" style="--min-height: 32px; font-size: 14px; --border-width: 0 0 0 0;">
+                      <ion-select placeholder="Centro de Costos" class="p-0" formControlName="codigoCencos" >
+                        <ion-select-option *ngFor="let cencos of arrCencos" [value]="cencos.Codigo">{{cencos.Nombre}}</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col class="px-1 py-0">
+                    <ion-item class="border rounded" style="--min-height: 32px; font-size: 14px; --border-width: 0 0 0 0;">
+                      <ion-select placeholder="Unidad Negocio" class="p-0" formControlName="codigoUnidad" >
+                        <ion-select-option *ngFor="let unidadNegocio of arrUnidadNegocio" [value]="unidadNegocio.Codigo">{{unidadNegocio.Nombre}}</ion-select-option>
                       </ion-select>
                     </ion-item>
                   </ion-col>

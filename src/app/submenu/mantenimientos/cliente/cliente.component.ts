@@ -458,7 +458,7 @@ export class ClienteComponent implements OnInit {
         this.clienteService.verificarDocumento(tipoDocumento.value, nroDocumento.value),
         this.clienteService.consultarDocumento(nroDocumento.value, tipoDoc)])
         .then((resp: any[]) => {
-
+          console.log(resp);
           this.cargando = false
           this.btnDisabled = false
           if (resp[0].length) {

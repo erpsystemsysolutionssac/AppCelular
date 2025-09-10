@@ -60,10 +60,7 @@ export const rucSystemsMype = [
 ]
 
 export const rucSystemsSoft = [
-  '20612242501', //SCHUBERT CORP S.A.C.	
   '20603602723', //TEEN LIFE SAC.	
-  '20609898411', //MIAMI TOP S.A.C.	
-  '20613748823', //SCHUBERT S.A.C.	
   '20606477288', //Hardman
 ]
 /*
