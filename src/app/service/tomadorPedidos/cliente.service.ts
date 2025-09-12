@@ -32,10 +32,6 @@ export class ClienteService {
     return '/' + new Date().getTime()
   }
 
-  listarClientes(limite: number, inicio: number, filtro: string, texto: string) {
-    return this.http.post<Cliente[]>(this.ruta + '/lista_clientes' + this.random(), { ccod_empresa: this.loginsService.codigo_empresa, limite, inicio, filtro, texto }).toPromise()
-  }
-
   listarTipoDocumento() {
     return this.http.post(this.ruta + '/lista_documentos' + this.random(), {}).toPromise()
   }

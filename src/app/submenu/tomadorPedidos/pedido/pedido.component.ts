@@ -239,7 +239,7 @@ export class PedidoComponent implements OnInit {
 
   async consultarPedido(cargar: boolean = true) {
     let idLoading: string
-    if (cargar) idLoading = await this.toolsService.mostrarCargando('Cargando Requerimientos');
+    if (cargar) idLoading = await this.toolsService.mostrarCargando('Cargando Pedido');
 
     await this.pedidosService.consultarPedido(this.motivo, this.cnum_doc, this.codigoPuntoVenta).then(async (resp) => {
       this.pedidoDetallado = resp;

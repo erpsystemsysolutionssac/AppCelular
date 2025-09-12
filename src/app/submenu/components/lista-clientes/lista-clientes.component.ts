@@ -62,12 +62,6 @@ export class ListaClientesComponent implements OnInit {
     let idLoading = await this.toolsService.mostrarCargando()
     await this.listarClientes()
     await this.toolsService.ocultarCargando(idLoading)
-    // this.subscripcion = this.clienteService._refresh$.subscribe(() => {
-    //   this.clientes = []
-    //   this.limite = environment.limiteArticulos
-    //   this.inicio = 0
-    //   this.listarClientes()
-    // })
   }
 
   async buscarClientes(form: FormGroup) {

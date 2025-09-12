@@ -8,7 +8,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SharedModule } from 'src/app/shared.module';
 import { ComponentesModule } from 'src/app/submenu/components/componentes.module';
 import { MarcarAsistenciaComponent } from 'src/app/submenu/planilla/asistencia/asistencia.component';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import {FingerprintAIO} from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 
 @NgModule({
@@ -27,7 +26,6 @@ import {FingerprintAIO} from '@awesome-cordova-plugins/fingerprint-aio/ngx';
     ComponentesModule
   ],
   providers: [
-      AndroidPermissions,
       FingerprintAIO
   ]
   // providers: [

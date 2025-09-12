@@ -39,7 +39,8 @@ export class clienteService {
     }
     
     listarClientes(limite: number, inicio: number, filtro: string, texto: string) {
-        return this.http.post<Cliente[]>(this.ruta + '/lista_clientes' + this.random(), { ccod_empresa: this.loginService.codigo_empresa, limite, inicio, filtro, texto }).toPromise()
+        const codigoVendedor = this.loginService.objVendedor.ccod_vendedor || '';
+        return this.http.post<Cliente[]>(this.ruta + '/lista_clientes' + this.random(), { ccod_empresa: this.loginService.codigo_empresa, limite, inicio, filtro, texto, codigoVendedor }).toPromise()
     }
 
     consultarCliente(codigo_cliente: string) {

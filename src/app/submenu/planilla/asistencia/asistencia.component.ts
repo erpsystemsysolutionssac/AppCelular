@@ -9,7 +9,6 @@ import { CencosService } from 'src/app/service/mantenimiento/cencos.service';
 import { EmpleadosService } from 'src/app/service/mantenimiento/empleados.service';
 import { AsistenciaService } from 'src/app/service/planilla/asistencia.service';
 import { ToolsService } from 'src/app/service/tools.service';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FingerprintAIO } from '@awesome-cordova-plugins/fingerprint-aio/ngx';
 import { Geolocation } from '@capacitor/geolocation';
 import type { Animation } from '@ionic/angular';
@@ -96,7 +95,6 @@ export class MarcarAsistenciaComponent implements OnInit {
     
     
     constructor(
-        private androidPermissions: AndroidPermissions,
         private faio: FingerprintAIO,
         private form: FormBuilder,
         private loginService: LoginService,
