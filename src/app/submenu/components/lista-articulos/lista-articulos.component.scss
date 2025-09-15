@@ -14,6 +14,7 @@ ion-input.custom-input {
     --border-style: none;
     font-size: 17px;
     --padding-start: 0px;
+    min-height: 24px;
 }
 
 ion-button.custom-button {
@@ -107,25 +108,26 @@ ion-item.list {
     --padding-end: 4px;
     height: 20px;
     font-size: 12px;
-    
-  --background: #fd821a;
-  --background-hover: #9ce0be;
-  --background-activated: #88f4be;
-  --background-focused: #88f4be;
 
-  --color: white;
+    --background: #fd821a;
+    --background-hover: #9ce0be;
+    --background-activated: #88f4be;
+    --background-focused: #88f4be;
 
-  --border-radius: 10px;
-  --border-color: #fd821a;
-  --border-style: solid;
-  --border-width: 1px;
+    --color: white;
 
-  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+    --border-radius: 10px;
+    --border-color: #fd821a;
+    --border-style: solid;
+    --border-width: 1px;
 
-  --ripple-color: #9ce0be;
+    --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
 
-  --padding-top: 10px;
-  --padding-bottom: 10px;
+    --ripple-color: #9ce0be;
+
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+        min-height: 21px;
 }
 
 .color_descuento {
@@ -183,6 +185,7 @@ image-cropper {
     --padding-end: 0px;
     --padding-start: 0px;
     --inner-padding-end: 0px !important;
+    min-height: 34px;
 }
 
 .btn-buscar {

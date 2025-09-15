@@ -35,7 +35,7 @@ export class clienteService {
     ) { }
 
     refresh() {
-        this._refresh$.next()
+        this._refresh$.next(true);
     }
     
     listarClientes(limite: number, inicio: number, filtro: string, texto: string) {

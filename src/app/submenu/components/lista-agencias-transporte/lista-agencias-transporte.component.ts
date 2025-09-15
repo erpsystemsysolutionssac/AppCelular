@@ -42,7 +42,7 @@ export class ListaAgenciasTransporteComponent implements OnInit {
       this.buscarForm = this.fb.group({
           buscar: ['']
       });
-      let idLoading = await this.toolsService.mostrarCargando('Cargando Articulos')
+      let idLoading = await this.toolsService.mostrarCargando('Cargando Agencias')
 
       await this.listaAgenciasTransportes('');
 

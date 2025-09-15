@@ -8,11 +8,11 @@
 
     <ion-grid fixed class="p-0">
       <ion-row class="">
-        <ion-col size="" class="p-0 px-1 col-bg d-flex align-items-center">
+        <ion-col size="" class="pt-1 px-1 col-bg">
           <ion-item class="input-col w-100">
             <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar"></ion-input>
             <!-- CAMBIO PARA LUBRICANTES -->
-            <ion-button type="button" expand="block" (click)="buscarArticulos(formulario)" class="btn-buscar p-0">
+            <ion-button slot="end" type="button" (click)="buscarArticulos(formulario)" class="btn-buscar p-0">
               <ion-icon slot="icon-only" name="search-outline"></ion-icon>
             </ion-button>
           </ion-item>

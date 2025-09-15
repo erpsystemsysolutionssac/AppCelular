@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { ModalController } from '@ionic/angular';
-import { IonModal } from '@ionic/core/components';
+import { ModalController, IonModal } from '@ionic/angular';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { Articulo } from 'src/app/interfaces/articulo';
 import { ProductoService } from 'src/app/service/mantenimiento/producto.service';

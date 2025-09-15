@@ -27,7 +27,7 @@ export class FacturacionService {
   ) { }
 
   refresh() {
-    this._refresh$.next()
+    this._refresh$.next(true);
   }
 
   obtenerFacturas(inicio: number, limite: number, filtro: string[], campo: string) {

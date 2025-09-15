@@ -30,7 +30,7 @@ export class AgenciaTransporteService {
     ) { }
 
     refrescar() {
-        this.subject.next();
+        this.subject.next(true);;
     }
 
     listaAgenciasTransportes(texto: string): Observable<Articulo[]> {

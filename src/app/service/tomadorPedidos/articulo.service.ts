@@ -43,7 +43,7 @@ export class ArticuloService {
    }
 
   refrescar() {
-    this.subject.next();
+    this.subject.next(true);;
   }
 
   listaArticulosDetalle(

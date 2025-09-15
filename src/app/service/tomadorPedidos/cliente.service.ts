@@ -25,7 +25,7 @@ export class ClienteService {
   ) { }
 
   refresh() {
-    this._refresh$.next()
+    this._refresh$.next(true);
   }
 
   random() {

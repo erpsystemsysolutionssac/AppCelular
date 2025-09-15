@@ -25,7 +25,7 @@ export class PromocionesService {
 
   
   refrescar(){
-    this.subject.next()
+    this.subject.next(true);
   }
 
   obtenerPromociones(){

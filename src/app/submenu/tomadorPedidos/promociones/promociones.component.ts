@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit,OnDestroy, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IonInfiniteScroll, IonModal } from '@ionic/angular';
-import { IonChip } from '@ionic/core/components';
 import { Subscription } from 'rxjs';
 import { Articulo } from 'src/app/interfaces/interfases';
 import { Promociones, PromocionDetalle } from 'src/app/interfaces/promociones';

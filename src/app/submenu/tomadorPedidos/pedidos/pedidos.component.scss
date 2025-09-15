@@ -28,7 +28,7 @@
 .input-col{
     border-radius: 30px;
     --inner-padding-end:0px !important;
-    --min-height:30px;
+    --min-height: 33px;
 }
 .input-buscar{
     --padding-bottom	:0px;
@@ -36,6 +36,7 @@
     --padding-end	:0px;
     --padding-start	:0px;
     --inner-padding-end:0px !important;
+    min-height: 33px;
 }
 .btn-buscar{
     --background: transparent;

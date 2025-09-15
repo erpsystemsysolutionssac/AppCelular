@@ -30,7 +30,7 @@ export class PedidosService {
   ) { }
 
   refresh() {
-    this._refresh$.next()
+    this._refresh$.next(true);
   }
 
   obtenerPedidos(inicio: number, limite: number, filtro: string[], campo: string) {

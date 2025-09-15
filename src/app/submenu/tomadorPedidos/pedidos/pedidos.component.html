@@ -29,7 +29,7 @@
 
           <ion-item *ngIf="!fechasOn" class="input-col w-100">
             <ion-input placeholder="Buscar" formControlName="buscar" class="input-buscar "></ion-input>
-            <ion-button type="button" expand="block" class="btn-buscar p-0" (click)="filtrarPedido()">
+            <ion-button slot="end" type="button" expand="block" class="btn-buscar p-0" (click)="filtrarPedido()">
               <ion-icon slot="icon-only" name="search-outline"></ion-icon>
             </ion-button>
           </ion-item>

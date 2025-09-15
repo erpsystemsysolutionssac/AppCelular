@@ -4,17 +4,20 @@ ion-thumbnail {
   margin-top: 8px;
 }
 
-ion-icon{
+ion-icon {
   font-size: 20px;
 }
-.icono-erp{
-  height:100%;
+
+.icono-erp {
+  height: 100%;
+  max-height: 40px;
+  /* altura estándar del toolbar */
+  object-fit: contain;
+  /* para que no se deforme */
 }
 
-.cerrar-sesion{
+.cerrar-sesion {
   text-transform: none;
   font-size: 13px;
   color: rgb(0, 0, 128);
 }
-
-

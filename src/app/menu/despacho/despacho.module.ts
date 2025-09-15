@@ -16,9 +16,6 @@ import { ListaDespachosComponent } from 'src/app/submenu/despacho/lista-despacho
 import { ModalPedidoComponent } from 'src/app/submenu/despacho/modal-pedido/modal-pedido.component';
 
 @NgModule({
-    entryComponents: [
-        ModalPedidoComponent
-    ],
     imports: [
         CommonModule,
         FormsModule,

@@ -3,68 +3,73 @@ cdk-virtual-scroll-viewport {
     width: 100%;
 }
 
-.color-custom{
+.color-custom {
     color: #2e6e9e;
 }
 
-.bg-custom{
-    background-color:#dfeffc;
+.bg-custom {
+    background-color: #dfeffc;
 
 }
 
-.border-custom{
-    border-color:#c5dbec;
-}    
+.border-custom {
+    border-color: #c5dbec;
+}
 
-.bg-row-first{
+.bg-row-first {
     border: 1px solid #fad42e;
     background: #fbec88;
     color: #363636;
 }
 
-.carta{
-    box-shadow: rgb(0 0 0 / 20%) 0px 6px 1px -2px, 
-                rgb(0 0 0 / 14%) -2px -1px 2px 0px;
+.carta {
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 1px -2px,
+        rgb(0 0 0 / 14%) -2px -1px 2px 0px;
 }
 
 
-.input-col{
+.input-col {
     border-radius: 30px;
-    --inner-padding-end:0px !important;
-    --min-height:30px;
+    --inner-padding-end: 0px !important;
+    --min-height: 30px;
 }
-.input-buscar{
-    --padding-bottom	:0px;
-    --padding-top	:0px;
-    --padding-end	:0px;
-    --padding-start	:0px;
-    --inner-padding-end:0px !important;
+
+.input-buscar {
+    --padding-bottom: 0px;
+    --padding-top: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --inner-padding-end: 0px !important;
+    min-height: 34px;
 }
-.btn-buscar{
+
+.btn-buscar {
     --background: transparent;
     --color: grey;
-    --box-shadow:none;
+    --box-shadow: none;
 }
-.btn-filtrar{
+
+.btn-filtrar {
     --border-color: #fd821a;
     --background: white;
     text-transform: none;
     --color: grey;
-    --padding-start:4px;
-    --padding-end:4px;
-    --inner-padding-end:0px;
+    --padding-start: 4px;
+    --padding-end: 4px;
+    --inner-padding-end: 0px;
 }
-.col-bg{
+
+.col-bg {
     background-color: #fd821a;
-    --background:#fd821a !important;
+    --background: #fd821a !important;
 }
 
-.ion-valid{
-    --highlight-color-valid:transparent;
-  }
+.ion-valid {
+    --highlight-color-valid: transparent;
+}
 
-.btn-fecha{
-    --background:white ;
+.btn-fecha {
+    --background: white;
     --color: grey;
 }
 
@@ -77,22 +82,22 @@ cdk-virtual-scroll-viewport {
     --ion-color-tint: var(--ion-color-light-tint, #f5f6f9) !important;
 }
 
-.bg-alta{
+.bg-alta {
     background: #a01320;
 }
 
-.bg-media{
+.bg-media {
     background: #0075ff;
 }
 
-.bg-baja{
+.bg-baja {
     background: #44ab51;
 }
 
 .card {
     transition: opacity 0.5s ease-out;
-  }
-  
-  .fadeOut {
+}
+
+.fadeOut {
     opacity: 0;
-  }
+}

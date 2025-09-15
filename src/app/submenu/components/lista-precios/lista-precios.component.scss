@@ -1,46 +1,52 @@
-
 cdk-virtual-scroll-viewport {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 table {
   font-size: 10px;
 }
-th, td{
+
+th,
+td {
   padding: 3px;
 }
 
 //#region
-.input-col{
+.input-col {
   border-radius: 30px;
-  --inner-padding-end:0px !important;
-  --min-height:30px;
+  --inner-padding-end: 0px !important;
+  --min-height: 30px;
 }
-.input-buscar{
-  --padding-bottom	:0px;
-  --padding-top	:0px;
-  --padding-end	:0px;
-  --padding-start	:0px;
-  --inner-padding-end:0px !important;
+
+.input-buscar {
+  --padding-bottom: 0px;
+  --padding-top: 0px;
+  --padding-end: 0px;
+  --padding-start: 0px;
+  --inner-padding-end: 0px !important;
+  min-height: 34px;
 }
-.btn-buscar{
+
+.btn-buscar {
   --background: transparent;
   --color: grey;
-  --box-shadow:none;
+  --box-shadow: none;
 }
-.btn-filtrar{
+
+.btn-filtrar {
   --border-color: #fd821a;
   --background: white;
   text-transform: none;
   --color: grey;
-  --padding-start:4px;
-  --padding-end:4px;
-  --inner-padding-end:0px;
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --inner-padding-end: 0px;
 }
-.col-bg{
+
+.col-bg {
   background-color: #fd821a;
-  --background:#fd821a !important;
+  --background: #fd821a !important;
 }
 
 
@@ -52,18 +58,18 @@ th, td{
   --ion-color-shade: var(--ion-color-light-shade, #d7d8da) !important;
   --ion-color-tint: var(--ion-color-light-tint, #f5f6f9) !important;
 }
+
 //#endregion
 
-th.from, th.date {
-    width: 100px;
+th.from,
+th.date {
+  width: 100px;
 }
 
-.color-azul{
-  color:var(--colorAzul)
+.color-azul {
+  color: var(--colorAzul)
 }
 
-.border-azul{
+.border-azul {
   border-color: rgb(117, 117, 174);
 }
-
-

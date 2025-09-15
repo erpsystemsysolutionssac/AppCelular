@@ -1,8 +1,7 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
-import { IonSelect } from '@ionic/core/components';
+import { ModalController, IonSelect } from '@ionic/angular';
 import { Articulo } from 'src/app/interfaces/articulo';
 import { DetalleVenta } from 'src/app/interfaces/detalle-venta';
 import { LoginService } from 'src/app/service/login.service';

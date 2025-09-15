@@ -104,6 +104,6 @@ export class ProductoService {
       }
 
     refrescar() {
-        this.subject.next();
+        this.subject.next(true);;
     }
 }
