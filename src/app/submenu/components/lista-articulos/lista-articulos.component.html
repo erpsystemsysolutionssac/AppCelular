@@ -103,7 +103,7 @@
                   </button>
                 </div>
                 <div class="col-3 px-0">
-                  <ion-icon name="menu"></ion-icon>
+                  <ion-icon name="eye"></ion-icon>
                 </div>
               </div>
   
@@ -115,9 +115,7 @@
                   <div class="col-auto">
                     <ion-label class="py-0 my-0  ms-auto">Cantidad</ion-label>
                   </div>
-                  <div
-                    class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center"
-                    style="width: 90px; ">
+                  <div class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center" style="width: 90px; ">
                     <ion-button type="button" (click)="restarCantidad(articulo)" size="small"class="custom-button iconos-pequeño">
                       <ion-icon name="remove-outline"></ion-icon>
                     </ion-button>
@@ -132,12 +130,12 @@
                 </div>
               </div>
             </div>
-            <div class="row d-flex  mt-2 align-self-end">
+            <div class="row d-flex  mt-1 align-self-end">
               <div class="col-auto align-self-end d-flex">
                 <div class="row align-self-end d-flex align-items-center">
                   <div class="col-auto">
                     <div *ngIf="articulo.descuento_monto_porcentaje == 'P'">
-                      <ion-label class="py-0 my-0 color_descuento">Dscto %</ion-label>
+                      <ion-label class="py-0 my-0 color_descuento">Dscto. 02 %</ion-label>
                     </div>
                     <div *ngIf="articulo.descuento_monto_porcentaje == 'M'">
                       <ion-label class="py-0 my-0 color_descuento">Dscto</ion-label>
@@ -147,12 +145,32 @@
                     class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center "
                     style="width: 90px; text-align-last:right">
                     <ion-input [(ngModel)]="articulo.descuento" class="color_descuento custom-input textos-pequeño text-right" [id]="articulo.codigo"
-                      (ionChange)="valorDescuento(articulo)"></ion-input>
+                      (ionChange)="valorDescuento(articulo, 'desc02')" [disabled]="descuentoVendedor == 0? false : true"></ion-input>
                   </div>
                 </div>
               </div>
             </div>
 
+            <div class="row d-flex  mt-1 align-self-end">
+              <div class="col-auto align-self-end d-flex">
+                <div class="row align-self-end d-flex align-items-center">
+                  <div class="col-auto pt-1 px-1">
+                    <ion-checkbox justify="end" class="checkbox-sm my-0 py-0" (ionChange)="activarDescuento3($event, articulo)">
+                    </ion-checkbox>
+                  </div>
+                  <div class="col-auto">
+                    <div>
+                      <ion-label class="py-0 my-0 color_descuento">Dscto. 03 %</ion-label>
+                    </div>
+                  </div>
+                  <div class="col-auto align-self-end d-flex border border-suma px-2 py-0 ms-auto textos-pequeño align-items-center "
+                    style="width: 90px; text-align-last:right">
+                    <ion-input [(ngModel)]="articulo.descuento3" class="color_descuento custom-input textos-pequeño text-right" [id]="articulo.codigo" (ionChange)="valorDescuento(articulo, 'desc03')" [disabled]="!articulo.check_descuento3"></ion-input>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
 
             <div class="row align-self-end mt-1 titulos d-flex align-items-center">
               <div class="col-auto color-azul pe-0">Stock:</div>
@@ -167,10 +185,16 @@
 
             <div class="row mt-2">
               <div class="col-auto ms-auto p-0 d-flex flex-column">
-                <select class="form-select  moneda border-0 color-azul" [value]="articulo.moneda">
-                  <option value="S/">S/</option>
-                  <option value="$">$</option>
-                </select>
+                <div class="row" style="height: 21px;">
+                  <select class="form-select  moneda border-0 color-azul" style="text-align: end; padding-right: 13px;" [value]="articulo.moneda">
+                    <option value="S/">S/</option>
+                    <option value="$">$</option>
+                  </select>
+                </div>
+                <div class="row" style="height: 21px;"></div>
+                <div class="row" style="height: 21px;">
+                  <span>Precio Venta: </span>
+                </div>
               </div>
               <div class="col-auto pe-0 table-responsive">
                 <table class="table table-bordered table-fs mb-0 ">
@@ -191,7 +215,7 @@
               </div>
             </div>
             
-            <ion-modal trigger="open-modal{{articulo.codigo}}" #modal>
+            <ion-modal #modal>
               <ng-template>
                 <ion-header>
                   <ion-toolbar>
@@ -230,8 +254,6 @@
                 </ion-footer>
 
               </ng-template>
-
-
             </ion-modal>
 
           </div>

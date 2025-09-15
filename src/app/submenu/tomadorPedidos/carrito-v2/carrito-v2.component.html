@@ -27,8 +27,7 @@
 
           <div  *ngIf="articulo.Desc3 != 0 || articulo.Desc2 != 0">
             <ion-card-title class="mt-0 fw-bold text-muted text-decoration-line-through textos">
-              {{articulo.moneda}} {{articulo.Importe_mas_desc | number: '1.0-2'}}
-              <!-- {{articulo.moneda}} {{articulo.Unit * articulo.Cantidad | number: '1.0-2'}} -->
+              {{articulo.moneda}} {{articulo.Importe_mas_desc | number: '1.0-2'}} <span style="font-size: 11px;">Total mas IGV</span> 
             </ion-card-title>
             <ion-card-title class="mt-0 fw-bold text-danger ">
               {{articulo.moneda}} {{ articulo.Importe | number: '1.0-2'}}

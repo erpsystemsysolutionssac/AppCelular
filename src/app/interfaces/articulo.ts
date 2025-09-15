@@ -29,6 +29,8 @@ export interface Articulo {
     tipo_vista_precio_producto?:     string|null;
     mas_igv_precio_producto?:     string|null;
     estado_rango?: string|null;
+    descuento3?: number|null;
+    check_descuento3?: boolean|undefined;
 }
 
 export interface ListaPrecio {

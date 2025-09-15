@@ -168,6 +168,7 @@ export interface Vendedor {
     email?:         string;
     celular?:       string;
     telefono1?:     string;
+    porcentaje_descuento?: number;
 }
 
 export interface filtroListaPrecio {

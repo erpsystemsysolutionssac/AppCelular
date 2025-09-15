@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1089528259760",
+    "project_id": "app-erpsoft",
+    "storage_bucket": "app-erpsoft.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089528259760:android:af17274b8bb5053d154775",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiunmcxMmZacg9E7FOvczw9O8GHzhLi5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

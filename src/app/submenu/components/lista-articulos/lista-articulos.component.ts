@@ -38,6 +38,8 @@ export class ListaArticulosComponent implements OnInit {
   private subscricion: Subscription = null;
   public modulo: string;
 
+  descuentoVendedor: number = 0;
+
   constructor(
     private form: FormBuilder,
     private router: Router,
@@ -63,7 +65,7 @@ export class ListaArticulosComponent implements OnInit {
     });
 
     let idLoading = await this.toolsService.mostrarCargando('Cargando Articulos')
-
+    this.descuentoVendedor = this.loginService.objVendedor.porcentaje_descuento || 0;
     // var lstaprecios_calcular = this.formulario.value.listaprecios
     // this.arrfiltroListaPrecio = []
     // this.arrfiltroListaPrecio.push(lstaprecios_calcular)
@@ -119,7 +121,6 @@ export class ListaArticulosComponent implements OnInit {
   async consultarArticulos(texto: string) {
 
     this.listaPrecioCliente = await this.productoService.getListaPrecioCliente();
-    console.log(this.listaPrecioCliente, this.formulario.value.listaprecios);
     return new Promise((resolve) => {
 
       this.productoService.listaArticulosDetalle(this.limite, this.inicio, this.loginService.punto_venta, texto, this.filtroBuscar, this.listaPrecioCliente == "" ? this.formulario.value.listaprecios : this.listaPrecioCliente)
@@ -129,6 +130,12 @@ export class ListaArticulosComponent implements OnInit {
           } else {
             this.estadoRecargar = true
           }
+
+          resp.forEach(element => {
+            element.descuento = this.descuentoVendedor == 0 ? 0 : this.descuentoVendedor;
+            element.descuento3 = 0;
+            element.check_descuento3 = false;
+          });
 
           this.listaArticulos.push(...resp)
 
@@ -164,17 +171,28 @@ export class ListaArticulosComponent implements OnInit {
     this.calcularValores(articulo.codigo, articulo);
   }
 
-  valorDescuento(articulo: Articulo) {
+  valorDescuento(articulo: Articulo, tipoDescuento: string) {
 
-    if (isNaN(articulo.descuento) || articulo.descuento <= 0) {
-      articulo.descuento = 0
-    }
+    switch (tipoDescuento) {
+      case 'desc02':
+        if (isNaN(articulo.descuento) || articulo.descuento <= 0) {
+          articulo.descuento = 0
+        }
 
-    if (articulo.verificar_descuentos == "S") {
-      if (articulo.descuento > articulo.descuento_maximo) {
-        articulo.descuento = articulo.descuento_maximo
-
-      }
+        if (articulo.verificar_descuentos == "S") {
+          if (articulo.descuento > articulo.descuento_maximo) {
+            articulo.descuento = articulo.descuento_maximo
+          }
+        }
+        break;
+      case 'desc03':
+        if (isNaN(articulo.descuento3) || articulo.descuento3 <= 0) {
+          articulo.descuento3 = 0
+        }
+        articulo.descuento3 = Math.round(articulo.descuento3 * 100) / 100;
+        break;
+      default:
+        break;
     }
 
     this.calcularValores(articulo.codigo, articulo);
@@ -184,64 +202,75 @@ export class ListaArticulosComponent implements OnInit {
     articulo.check_bonificacion = (event.detail).checked;
   }
 
+  activarDescuento3(event: any, articulo: Articulo) {
+    articulo.check_descuento3 = (event.detail).checked;
+    // this.calcularValores(articulo.codigo, articulo);
+  }
+
   calcularValores(codigoArticulo: string, articulo: Articulo) {
 
     const lstaprecios_calcular = this.formulario.value.listaprecios
 
     articulo.listaPrecios.forEach((lista) => {
+      // Restablece valores base
       lista.precioOriginal = lista.precioLista;
-      var porc_descuento = 0;
-      var monto_descuento = 0;
+      lista.otroDesc = 0;
+      let porc_descuento = 0;
+      let monto_descuento = 0;
 
-      for (let i = 0; i < articulo.listaDescuentos.length; i++) {
-        const element = articulo.listaDescuentos[i];
-        if (element.codigo == lista.codigo && element.unidad == lista.unidad) {
-          if (articulo.cantidad >= element.minimo && articulo.cantidad <= element.maximo) {
-            if (articulo.descuento_monto_porcentaje == "P") {
-              porc_descuento = element.descuento / 100
-              monto_descuento = lista.precioLista * porc_descuento;
-              
-            } else {
-              porc_descuento = element.descuento
-              monto_descuento = porc_descuento
-            }
-            lista.precioOriginal = lista.precioLista;
-            lista.otroDesc = element.descuento;
-            break;
-          }else{
-            lista.otroDesc = 0;
+      // Aplica descuento de promocion si existe
+      if (!articulo.check_descuento3 && articulo.listaDescuentos?.length) {
+        const descuentoAplicable = articulo.listaDescuentos.find(element => 
+          element.codigo == lista.codigo && 
+          element.unidad == lista.unidad && 
+          articulo.cantidad >= element.minimo && 
+          articulo.cantidad <= element.maximo
+        );
+
+        if (descuentoAplicable) {
+          if (articulo.descuento_monto_porcentaje == "P") {
+            porc_descuento = descuentoAplicable.descuento / 100;
+            monto_descuento = lista.precioLista * porc_descuento;
+          } else {
+            monto_descuento = descuentoAplicable.descuento;
           }
+          lista.otroDesc = descuentoAplicable.descuento;
+          articulo.descuento3 = lista.otroDesc;
+        } else {
+          lista.otroDesc = 0;
+          articulo.descuento3 = 0;
         }
       }
 
-      if (lstaprecios_calcular == "lista_precios_provincia") {
-        if (articulo.estado_rango == '1') {
-          articulo.listaPreciosRango.forEach(element => {
-            if (element.codigo == lista.codigo && element.unidad == lista.unidad) {
-              if (articulo.cantidad >= element.minimo && articulo.cantidad <= element.maximo) {
-                lista.precioOriginal = element.precioOriginal;
-              }
+      // Ajusta precio por rango si aplica
+      if (lstaprecios_calcular == "lista_precios_provincia" && articulo.estado_rango == '1') {
+        articulo.listaPreciosRango.forEach(element => {
+          if (element.codigo == lista.codigo && element.unidad == lista.unidad) {
+            if (articulo.cantidad >= element.minimo && articulo.cantidad <= element.maximo) {
+              lista.precioOriginal = element.precioOriginal;
             }
-          });
-        }
+          }
+        });
       }
-      // console.log(lista.precioOriginal);
- 
+
+      // Ajusta precio por rango si aplica
+      let monto = this.toolsService.redondear(lista.precioOriginal) * articulo.cantidad;
+      
       if (articulo.descuento > 0) {
         if (articulo.descuento_monto_porcentaje == "P") {
-          lista.monto = this.toolsService.redondear(lista.precioOriginal) * articulo.cantidad * ((100 - articulo.descuento) / 100)
+          lista.monto = monto * ((100 - articulo.descuento) / 100)
         } else {
-          lista.monto = (this.toolsService.redondear(lista.precioOriginal) * articulo.cantidad) - articulo.descuento
+          lista.monto = monto - articulo.descuento
         }
       } else {
-        lista.monto = this.toolsService.redondear(lista.precioOriginal) * articulo.cantidad
+        lista.monto = monto
       }
 
-      if (porc_descuento > 0) {
+      if (articulo.descuento3 > 0) {
         if (articulo.descuento_monto_porcentaje == "P") {
-          lista.monto = lista.monto - (lista.monto * porc_descuento)
+          lista.monto = lista.monto - (lista.monto * (articulo.descuento3 / 100))
         } else {
-          lista.monto = lista.monto - porc_descuento
+          lista.monto = lista.monto - articulo.descuento3
         }
       }
 
@@ -290,7 +319,7 @@ export class ListaArticulosComponent implements OnInit {
 
     data.Desc1 = 0;
     data.Desc2 = articulo.check_bonificacion == true ? 100 : articulo.descuento || 0;
-    data.Desc3 = index.otroDesc || 0;
+    data.Desc3 = articulo.descuento3 || 0 //index.otroDesc || 0;
     data.Igv_Art = articulo.nigv;
     data.Peso = articulo.peso;
     data.imagen_1 = articulo.imagen_1;
