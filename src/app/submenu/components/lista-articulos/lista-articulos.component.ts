@@ -155,11 +155,14 @@ export class ListaArticulosComponent implements OnInit {
 
   sumarCantidad(articulo: Articulo) {
     articulo.cantidad += 1;
+    this.calcularValores(articulo.codigo, articulo);
   }
 
   restarCantidad(articulo: Articulo) {
     if(articulo.cantidad > 0)
     articulo.cantidad -= 1;
+
+    this.calcularValores(articulo.codigo, articulo);
   }
 
   valorInput(articulo: Articulo) {

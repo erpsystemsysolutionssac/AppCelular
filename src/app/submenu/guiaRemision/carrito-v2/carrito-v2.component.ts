@@ -183,12 +183,14 @@ export class CarritoV2Component implements OnInit {
 
   sumarCantidad(detalleVenta: DetalleVenta) {
     detalleVenta.Cantidad += 1;
+    this.carritoService.calcularDetalleVenta();
   }
 
   restarCantidad(detalleVenta: DetalleVenta) {
     if(detalleVenta.Cantidad > 0){
       detalleVenta.Cantidad -= 1;
     }
+    this.carritoService.calcularDetalleVenta();
   }
 
   valorInput(detalleVenta: DetalleVenta) {

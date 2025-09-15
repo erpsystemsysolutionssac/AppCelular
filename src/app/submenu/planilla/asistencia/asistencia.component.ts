@@ -350,7 +350,7 @@ export class MarcarAsistenciaComponent implements OnInit {
     }
 
     async showFingerprintAuth() {
-        this.faio.isAvailable()
+        this.faio.isAvailable({ requireStrongBiometrics: true })
           .then(available => {
             if (available) {
               this.faio.show({
