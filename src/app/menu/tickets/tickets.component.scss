@@ -1,0 +1,141 @@
+ion-menu-button {
+    color: var(--ion-color-primary);
+}
+
+#container {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#container strong {
+    font-size: 20px;
+    line-height: 26px;
+}
+
+#container p {
+    font-size: 16px;
+    line-height: 22px;
+    color: #8c8c8c;
+    margin: 0;
+}
+
+#container a {
+    text-decoration: none;
+}
+
+.custom-bg-primary {
+    background-color: #5260ff;
+}
+
+
+
+.fs-badge {
+    font-size: 13px;
+}
+
+
+.tab-bar-custom {
+    height: 45px;
+    margin-bottom: 0px;
+    --border: 2.5px solid var(--ion-tab-bar-border-color, var(--ion-border-color, var(--ion-color-step-150, rgba(0, 0, 0, 0.07))));
+    ;
+}
+
+.button-erp {
+    // --background : #6c757d;
+    --box-shadow: none;
+    --ion-color-base: transparent !important;
+    --border-style: none;
+    --box-shadow: none;
+    margin: 0px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+}
+
+
+.bg-tertiary {
+    background-color: #6a64ff;
+}
+
+.bg-1 {
+    --color: rgb(255, 255, 255);
+    --background: #6a64ff;
+    --color-selected: rgb(45, 23, 23);
+}
+
+.bg-1.tab-selected {
+    --background: #7d78fb;
+}
+
+.bg-2 {
+    --color: rgb(255, 255, 255);
+    --background: #0dcaf0;
+    --color-selected: rgb(45, 23, 23);
+
+}
+
+.bg-2.tab-selected {
+    --background: #50dcf8;
+}
+
+.bg-3 {
+    --color: rgb(255, 255, 255);
+    --background: #198754;
+    --color-selected: rgb(45, 23, 23);
+}
+
+.bg-3.tab-selected {
+    --background: #439770;
+}
+
+.bg-4 {
+    --color: rgb(255, 255, 255);
+    --background: #0d6efd;
+}
+
+.bg-4.tab-selected {
+    --background: #408cff;
+}
+
+.menu {
+    --padding-start: 1px;
+    --padding-end: 1px;
+}
+
+
+.icon-custom {
+    font-size: 25px;
+}
+
+.text-custom {
+    --color: rgb(0, 0, 128);
+    --ion-text-color-rgb: rgb(0, 0, 128);
+    --color-selected: #fd821a;
+}
+
+.icon-color-erp {
+    --color: rgb(0, 0, 128);
+    --background: #fff;
+    --box-shadow: none;
+    --color-selected: #fd821a;
+}
+
+.icon-color-erp2 {
+    --color: rgb(0, 0, 128);
+    --background: #fff;
+    --box-shadow: none;
+    --color-selected: rgb(0, 0, 128);
+}
+
+.erp-color {
+    --ion-color-base: rgb(0, 0, 128);
+    color: rgb(0, 0, 128);
+}
+
+.border-color {
+    border-color: rgb(0, 0, 128) !important;
+}

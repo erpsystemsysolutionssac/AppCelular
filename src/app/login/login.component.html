@@ -15,9 +15,7 @@
   
     <ion-card-content *ngIf="!rucInicioValido">
       <ion-item>
-        <ion-label position="floating">RUC</ion-label>
-        <ion-input placeholder="Ingrese su Ruc" type="number" max="13" #rucInicio value=""></ion-input>
-
+        <ion-input label="RUC" labelPlacement="floating" placeholder="Ingrese su Ruc" type="number" max="13" #rucInicio ></ion-input>
       </ion-item>
       <ion-button expand="block"  shape="round" class="my-3" (click)="verificarRuc()"  >
           Iniciar Sesion
@@ -55,14 +53,12 @@
           </ion-list>
         
           <ion-item>
-            <ion-label position="floating">Usuario</ion-label>
-            <ion-input formControlName="usuario" placeholder="Ingrese su Usuario" type="text"></ion-input>
+            <ion-input label="Usuario" labelPlacement="floating" formControlName="usuario" placeholder="Ingrese su Usuario" type="text"></ion-input>
             <ion-note *ngIf="usuario.invalid && (usuario.dirty || usuario.touched || submited) " color="danger">Ingrese un usuario</ion-note>
           </ion-item>
           
           <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input  formControlName="password" placeholder="Ingrese su Contraseña" type="password"></ion-input>
+            <ion-input label="Contraseña" labelPlacement="floating" formControlName="password" placeholder="Ingrese su Contraseña" type="password"></ion-input>
             <ion-note *ngIf="password.invalid &&  (password.dirty || password.touched || submited) " color="danger">Ingrese una contraseña</ion-note>
           </ion-item>
           

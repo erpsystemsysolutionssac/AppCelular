@@ -59,7 +59,7 @@
       
           <div class="d-flex mt-2" style="align-items: center">
             <ion-item class="ion-no-padding m-0 p-0">
-              <ion-checkbox  class="checkbox-sm my-0 py-0"  (ionChange)="valorPromocion($event, articulo)" [checked]="articulo.check_bonificacion"></ion-checkbox>
+              <ion-checkbox  class="checkbox-sm my-0 py-0"  (ionChange)="valorPromocion($event, articulo)" [checked]="articulo.check_bonificacion" aria-label="Check Bonificacion" ></ion-checkbox>
               <ion-label  class="text-black my-0 py-0">Bonificación</ion-label>
             </ion-item>
           </div>
@@ -111,7 +111,7 @@
           <ion-item class="custom-item h-auto">
             <ion-label position="stacked" class="selects-grande">Dirección alternativa</ion-label>
 
-            <ion-input  (keyup)="modificarDireccion()" placeholder="Dirección alternativa"  formControlName="direcciones" (dblclick)="eventoAbrirModal($event)" >
+            <ion-input  (keyup)="modificarDireccion()" placeholder="Dirección alternativa"  formControlName="direcciones" (dblclick)="eventoAbrirModal($event)" aria-label="Direccion alternativa" >
 
             </ion-input>
 
@@ -120,14 +120,14 @@
 
           <ion-item class="custom-item h-auto">
             <ion-label position="stacked" class="selects-grande">Agencia de Transporte</ion-label>
-            <ion-select placeholder="Seleccione" interface="action-sheet"  formControlName="agencias">
+            <ion-select placeholder="Seleccione" interface="action-sheet"  formControlName="agencias" label="Agencia">
               <ion-select-option *ngFor="let agen of carritoService.arrAgencias" [value]="agen.codigo" >{{agen.nombre}} </ion-select-option>
             </ion-select>
           </ion-item>
           
           <ion-item class="custom-item h-auto">
             <ion-label position="stacked" class="selects-grande">Tipo Documento</ion-label>
-            <ion-select placeholder="Seleccione" interface="action-sheet" formControlName="tipoDocumento" (ionChange)="cambiarTalonar($event)">
+            <ion-select placeholder="Seleccione" interface="action-sheet" formControlName="tipoDocumento" (ionChange)="cambiarTalonar($event)" label="Tipo Documento">
               <ion-select-option [value]="docu.ctip_doc" *ngFor="let docu of arrTipoDocu">{{docu.cnom_doc}} </ion-select-option>
             </ion-select>
           </ion-item>
@@ -139,7 +139,7 @@
           </ion-item> -->
           <ion-item class="custom-item h-auto">
             <ion-label position="stacked" class="selects-grande">Forma de Pago</ion-label>
-            <ion-select placeholder="Seleccione" interface="action-sheet" formControlName="formaPago" class="custom-select"
+            <ion-select placeholder="Seleccione" interface="action-sheet" formControlName="formaPago" class="custom-select" label="Forma Pago"
               (ionChange)="formaPagoChange($event)">
               <ion-select-option [value]="forma.ccod_forpago" *ngFor="let forma of carritoService.arrFormasPago" >{{forma.cnom_forpago}} </ion-select-option>
             </ion-select>
@@ -156,7 +156,7 @@
 
           <ion-item class="custom-item h-auto">
             <ion-label position="stacked" class="selects-grande mb-2">Glosa</ion-label>
-            <ion-textarea  formControlName="glosa"></ion-textarea>
+            <ion-textarea  formControlName="glosa" aria-label="Glosa"></ion-textarea>
           </ion-item>
 
         </ion-list>

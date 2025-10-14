@@ -20,98 +20,89 @@
 
     <ion-list class="pt-0 mb-3 ">
       <ion-item>
-        <ion-label  position="stacked"  class=" label-grande">Tipo Documento</ion-label>
-        <ion-select  formControlName="tipoDocumento" (ionChange)="limiteDocu($event)" placeholder="Seleccione" class="textos" >
+        <!-- <ion-label  position="stacked"  class="label-grande">Tipo Documento</ion-label> -->
+        <ion-select label="Tipo Documento" labelPlacement="stacked" formControlName="tipoDocumento" (ionChange)="limiteDocu($event)" placeholder="Seleccione" class="textos" >
           <ion-select-option *ngFor="let tipo of arrTipDocumento" [value]="tipo.ccod_tdid" >{{tipo.Codigo}}-{{tipo.Nombre}}</ion-select-option>
         </ion-select>
       </ion-item>
       
       <ion-item  class="ion-align-self-center">
-        <ion-label position="floating" class=" label-grande">N° Documento</ion-label>
-        <ion-input type="number" formControlName="nroDocumento" (ionChange)="maxNroDocumento($event)" class="textos"></ion-input>
-        <ion-button 
-        (click)="verificarDocumento(clienteForm)" 
-        slot="end" 
-        type="button" 
-        expand="full" 
-        color="primary" 
-        class="ion-align-self-end custom-button"
-        [disabled]="btnDisabled"
-        >
+        <!-- <ion-label position="floating" class=" label-grande">N° Documento</ion-label> -->
+        <ion-input label="N° Documento" labelPlacement="floating" type="number" formControlName="nroDocumento" (ionChange)="maxNroDocumento($event)" class="textos"></ion-input>
+        <ion-button (click)="verificarDocumento(clienteForm)" slot="end" type="button" expand="full" color="primary" class="ion-align-self-end custom-button" [disabled]="btnDisabled" >
           <ion-icon *ngIf="!cargando" slot="icon-only" name="search" class="iconos"></ion-icon>
           <ion-spinner *ngIf="cargando" name="bubbles" class="iconos"></ion-spinner>
         </ion-button>
       </ion-item>
 
       <ion-item class="d-none">
-        <ion-label  position="stacked"  class="label-grande">Tipo Cliente</ion-label>
-        <ion-select formControlName="tipoCliente" placeholder="Seleccione" class="textos">
+        <!-- <ion-label  position="stacked"  class="label-grande">Tipo Cliente</ion-label> -->
+        <ion-select label="Tipo Cliente" labelPlacement="stacked" formControlName="tipoCliente" placeholder="Seleccione" class="textos">
           <ion-select-option [value]="grupo.grupo" *ngFor="let grupo of arrGrupoCliente">{{grupo.nombre}} </ion-select-option>
-        
         </ion-select>
       </ion-item>
 
         <ion-item *ngIf="!estadoRuc">
-          <ion-label position="stacked" class="label-grande">Nombres</ion-label>
-          <ion-input formControlName="nombres" type="text" class="textos" ></ion-input>
+          <!-- <ion-label position="stacked" class="label-grande">Nombres</ion-label> -->
+          <ion-input label="Nombres" labelPlacement="stacked" formControlName="nombres" type="text" class="textos" ></ion-input>
         </ion-item>
     
         <ion-item *ngIf="!estadoRuc">
-          <ion-label position="stacked" class="label-grande">Apellido Paterno</ion-label>
-          <ion-input formControlName="apellidoP" type="text" class="textos"></ion-input>
+          <!-- <ion-label position="stacked" class="label-grande">Apellido Paterno</ion-label> -->
+          <ion-input label="Apellido Paterno" labelPlacement="stacked" formControlName="apellidoP" type="text" class="textos"></ion-input>
         </ion-item>
         <ion-item *ngIf="!estadoRuc">
-          <ion-label position="stacked" class="label-grande">Apellido Materno</ion-label>
-          <ion-input formControlName="apellidoM" type="text" class="textos"></ion-input>
+          <!-- <ion-label position="stacked" class="label-grande">Apellido Materno</ion-label> -->
+          <ion-input label="Apellido Materno" labelPlacement="stacked" formControlName="apellidoM" type="text" class="textos"></ion-input>
         </ion-item>
 
       
 
       <ion-item *ngIf="estadoRuc">
-        <ion-label position="stacked" class="label-grande">Nombre Comercial</ion-label>
-        <ion-input formControlName="nombreComercial" type="text" class="textos"></ion-input>
+        <!-- <ion-label position="stacked" class="label-grande">Nombre Comercial</ion-label> -->
+        <ion-input label="Nombre Comercial" labelPlacement="stacked" formControlName="nombreComercial" type="text" class="textos"></ion-input>
 
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked" class="label-grande">Pais</ion-label>
-        <ion-select formControlName="pais"  placeholder="Pais" class="textos">
+        <!-- <ion-label position="stacked" class="label-grande">Pais</ion-label> -->
+        <ion-select label="Pais" labelPlacement="stacked" formControlName="pais"  placeholder="Pais" class="textos">
           <ion-select-option *ngFor="let pais of arrPais" [value]="pais.Codigo">{{pais.Nombre}}</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked" class="label-grande">Departamento</ion-label>
-        <ion-select formControlName="departamento"  placeholder="Departamento" (ionChange)="listaCiudad($event)"  class="textos">
+        <!-- <ion-label position="stacked" class="label-grande">Departamento</ion-label> -->
+        <ion-select label="Departamento" labelPlacement="stacked" formControlName="departamento"  placeholder="Departamento" (ionChange)="listaCiudad($event)"  class="textos">
           <ion-select-option *ngFor="let depart of arrDepartamento" [value]="depart.Codigo">{{depart.Nombre}} </ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked" class="label-grande">Ciudad</ion-label>
-        <ion-select formControlName="ciudad"  placeholder="Ciudad" (ionChange)="listaDistrito($event)" class="textos">
+        <!-- <ion-label position="stacked" class="label-grande">Ciudad</ion-label> -->
+        <ion-select label="Ciudad" labelPlacement="stacked" formControlName="ciudad"  placeholder="Ciudad" (ionChange)="listaDistrito($event)" class="textos">
           <ion-select-option *ngFor="let ciudad of arrCiudad" [value]="ciudad.Codigo">{{ciudad.Nombre}} </ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked" class="label-grande">Distrito</ion-label>
-        <ion-select formControlName="distrito"  placeholder="Distrito" class="textos">
+        <!-- <ion-label position="stacked" class="label-grande">Distrito</ion-label> -->
+        <ion-select label="Distrito" labelPlacement="stacked" formControlName="distrito"  placeholder="Distrito" class="textos">
           <ion-select-option *ngFor="let distrito of arrDistrito" [value]="distrito.Codigo">{{distrito.Nombre}} </ion-select-option>
         </ion-select>
       </ion-item>
   
       <ion-item>
-        <ion-label position="stacked" class="label-grande">Dirección</ion-label>
-        <ion-textarea formControlName="direccion" maxlength="255" class="textos"></ion-textarea>
+        <!-- <ion-label position="stacked" class="label-grande">Dirección</ion-label> -->
+        <ion-textarea label="Dirección" labelPlacement="stacked" formControlName="direccion" maxlength="255" class="textos"></ion-textarea>
 
       </ion-item>
       <ion-item>
-        <ion-label position="stacked" class="label-grande">Telefono</ion-label>
-        <ion-input formControlName="telefono" type="tel" class="textos"></ion-input>
+        <!-- <ion-label position="stacked" class="label-grande">Telefono</ion-label> -->
+        <ion-input label="Telefono" labelPlacement="stacked" formControlName="telefono" type="tel" class="textos"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked" class="label-grande">Email</ion-label>
-        <ion-input formControlName="email" type="email" class="textos"></ion-input>
+        <!-- <ion-label position="stacked" class="label-grande">Email</ion-label> -->
+        <ion-input label="Email" labelPlacement="stacked" formControlName="email" type="email" class="textos"></ion-input>
       </ion-item>
 
       
@@ -125,22 +116,22 @@
             </ion-item>
             <div class="ion-padding p-0" slot="content">
               <ion-item>
-                <ion-label position="stacked" class="label-grande">Lista Precio</ion-label>
-                <ion-select formControlName="listaPrecio"  placeholder="Lista Precio" class="textos">
+                <!-- <ion-label position="stacked" class="label-grande">Lista Precio</ion-label> -->
+                <ion-select label="Lista Precio" labelPlacement="stacked" formControlName="listaPrecio"  placeholder="Lista Precio" class="textos">
                   <ion-select-option *ngFor="let listaPrecio of arrListaPrecios" [value]="listaPrecio.Codigo">{{listaPrecio.Nombre}} </ion-select-option>
                 </ion-select>
               </ion-item>
         
               <ion-item>
-                <ion-label position="stacked" class="label-grande">Zona</ion-label>
-                <ion-select formControlName="zona01"  placeholder="Zona" class="textos">
+                <!-- <ion-label position="stacked" class="label-grande">Zona</ion-label> -->
+                <ion-select label="Zona" labelPlacement="stacked" formControlName="zona01"  placeholder="Zona" class="textos">
                   <ion-select-option *ngFor="let zona01 of arrZona01" [value]="zona01.Codigo">{{zona01.Nombre}} </ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
-                <ion-label position="stacked" class="label-grande">Situacion</ion-label>
-                <ion-select formControlName="situacion01"  placeholder="Situacion" class="textos">
+                <!-- <ion-label position="stacked" class="label-grande">Situacion</ion-label> -->
+                <ion-select label="Situacion" labelPlacement="stacked" formControlName="situacion01"  placeholder="Situacion" class="textos">
                   <ion-select-option *ngFor="let situacion01 of arrSituacion01" [value]="situacion01.Codigo">{{situacion01.Nombre}} </ion-select-option>
                 </ion-select>
               </ion-item>

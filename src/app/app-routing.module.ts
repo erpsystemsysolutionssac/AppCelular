@@ -39,6 +39,11 @@ const routes: Routes = [
     loadChildren: () => import('./menu/despacho/despacho.module').then(m => m.DespachoModule)
   },
   {
+    path: 'tickets',
+    canActivate: [LoginGuard],
+    loadChildren: () => import('./menu/tickets/tickets.module').then(m => m.TicketsModule)
+  },
+  {
     path: 'requerimiento',
     canActivate: [LoginGuard],
     loadChildren: () => import('./menu/requerimiento/requerimiento.module').then(m => m.RequerimientoModule)

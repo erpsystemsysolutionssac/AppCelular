@@ -1,0 +1,34 @@
+<p class="titulos-grande text-center my-1">Atencion de Tickets</p>
+
+<ion-content fullscreen>
+  <div class="scanner-bg">
+    <div class="scanner-card">
+      <div class="scanner-frame">
+        <div class="scanner-line"></div>
+      </div>
+
+      <div class="scanner-info">
+        <ion-icon name="qr-code-outline" class="scanner-icon"></ion-icon>
+        <h2>Apunta tu cámara al código QR</h2>
+        <p>El sistema detectará automáticamente el código.</p>
+      </div>
+
+      <ion-button expand="block" color="success" shape="round" (click)="startScan()">
+        <ion-icon slot="start" name="camera-outline"></ion-icon>
+        Iniciar Escaneo
+      </ion-button>
+
+      <ion-button expand="block" color="medium" fill="outline" shape="round" (click)="stopScan()">
+        <ion-icon slot="start" name="stop-outline"></ion-icon>
+        Detener
+      </ion-button>
+
+      <!-- <div *ngIf="scannedResult" class="result-box animate-fade-in">
+        <ion-text color="dark">
+          <h3>Resultado:</h3>
+          <p>{{ scannedResult }}</p>
+        </ion-text>
+      </div> -->
+    </div>
+  </div>
+</ion-content>
