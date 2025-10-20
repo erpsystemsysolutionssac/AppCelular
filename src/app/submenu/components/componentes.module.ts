@@ -20,6 +20,7 @@ import { TypeaheadComponent } from './typeahead/typeahead.component';
 import { ModalImagenesClienteComponent } from './modal-imagenes-cliente/modal-imagenes-cliente.component';
 import { ListaAgenciasTransporteComponent } from './lista-agencias-transporte/lista-agencias-transporte.component';
 import { ListaPreciosComponent } from './lista-precios/lista-precios.component';
+import { CustomToastComponent } from './custom-toast/custom-toast.component';
 
 
 
@@ -35,7 +36,8 @@ import { ListaPreciosComponent } from './lista-precios/lista-precios.component';
     ModalDireccionComponent,
     ModalImagenesClienteComponent,
     ListaAgenciasTransporteComponent,
-    ListaPreciosComponent
+    ListaPreciosComponent,
+    CustomToastComponent
   ],
   imports: [
     CommonModule,

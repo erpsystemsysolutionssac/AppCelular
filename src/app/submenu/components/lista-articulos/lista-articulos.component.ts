@@ -175,6 +175,7 @@ export class ListaArticulosComponent implements OnInit {
 
   valorDescuento(articulo: Articulo, tipoDescuento: string) {
 
+    ///Código original
     switch (tipoDescuento) {
       case 'desc02':
         if (isNaN(articulo.descuento) || articulo.descuento <= 0) {
@@ -197,6 +198,37 @@ export class ListaArticulosComponent implements OnInit {
         break;
     }
 
+    //Código editado
+    console.log(articulo)
+    let descuento_maximo=100
+    switch (tipoDescuento) {
+      case 'desc02':
+        if (isNaN(articulo.descuento) || articulo.descuento <= 0) {
+          articulo.descuento = 0
+        }
+
+        if (articulo.verificar_descuentos == "S") {
+          descuento_maximo = articulo.descuento_maximo
+        }
+        if (articulo.descuento > articulo.descuento_maximo) {
+          articulo.descuento = articulo.descuento_maximo
+        }
+        break;
+      case 'desc03':
+        if (isNaN(articulo.descuento3) || articulo.descuento3 <= 0) {
+          articulo.descuento3 = 0
+        }
+        if (articulo.verificar_descuentos == "S") {
+          descuento_maximo = articulo.descuento_maximo
+        }
+        if (articulo.descuento3 > articulo.descuento_maximo) {
+          articulo.descuento3 = articulo.descuento_maximo
+        }
+        articulo.descuento3 = Math.round(articulo.descuento3 * 100) / 100;
+        break;
+      default:
+        break;
+    }
     this.calcularValores(articulo.codigo, articulo);
   }
 

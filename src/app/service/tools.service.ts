@@ -1,5 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
 import {
   LoadingController,
   ToastController,
@@ -7,6 +7,7 @@ import {
 } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { environment, rucSystemsMype, rucSystemsSoft } from 'src/environments/environment';
+import { CustomToastComponent } from '../submenu/components/custom-toast/custom-toast.component';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,11 @@ export class ToolsService {
   constructor(
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
-    private alertController: AlertController  ) {}
+    private alertController: AlertController,
+    private appRef: ApplicationRef,
+    private injector: Injector,
+    private resolver: ComponentFactoryResolver
+  ) {}
 
   async mostrarAlerta(msg: string, icono = 'error', duracion: number = 2000) {
     let icon = '';
@@ -59,6 +64,26 @@ export class ToolsService {
       // ]
     });
     await toast.present();
+  }
+
+  mostrarAlerta02(mensaje: string, tipo: 'success' | 'error' | 'info' = 'info', duracion = 4000) {
+    const factory = this.resolver.resolveComponentFactory(CustomToastComponent);
+    const componentRef = factory.create(this.injector);
+
+    componentRef.instance.mensaje = mensaje;
+    componentRef.instance.tipo = tipo;
+    componentRef.instance.duracion = duracion;
+
+    this.appRef.attachView(componentRef.hostView);
+
+    const domElem = (componentRef.hostView as any).rootNodes[0] as HTMLElement;
+    document.body.appendChild(domElem);
+
+    // Eliminar después de que desaparezca
+    setTimeout(() => {
+      this.appRef.detachView(componentRef.hostView);
+      componentRef.destroy();
+    }, duracion + 500);
   }
 
   async confirmarAlerta(msg: string, icono: string = 'error') {

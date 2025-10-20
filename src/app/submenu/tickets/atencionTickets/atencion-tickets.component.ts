@@ -97,6 +97,7 @@ export class AtencionTicketsComponent implements OnInit {
 
     stopScan() {
         // this.registrarTicket('9999999903B0010000038536-0010');
+        // this.toolsService.mostrarAlerta02('No se pudo registrar el ticket.', 'success', 4000);
         BarcodeScanner.stopScan();
         this.isScanning = false;
     }
@@ -106,11 +107,11 @@ export class AtencionTicketsComponent implements OnInit {
             const response: any = await this.ticketsService.registrarTicket(numero_ticket);
 
             console.log('Respuesta del backend:', response);
-            this.toolsService.mostrarAlerta(response.mensaje, response.estado == true ? 'success' : 'error', 4000)
+            this.toolsService.mostrarAlerta02(response.mensaje, response.estado == true ? 'success' : 'error', 4000);
 
         } catch (error) {
             console.error('Error al registrar ticket:', error);
-            this.toolsService.mostrarAlerta('No se pudo registrar el ticket.', 'error', 4000)
+            this.toolsService.mostrarAlerta02('No se pudo registrar el ticket.', 'error', 4000);
         }
     }
 }

@@ -28,7 +28,7 @@ import { TicketsComponent } from './tickets.component';
     SwiperModule,
     ImageCropperModule,
     ComponentesModule,
-    MantenimientosModule
+    MantenimientosModule,
   ],
   declarations: [
     TicketsComponent,

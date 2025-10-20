@@ -1,0 +1,11 @@
+<div *ngIf="visible" class="toast-container" [ngClass]="tipo">
+  <div class="toast-content">
+    <ion-icon [name]="icono" class="toast-icon"></ion-icon>
+    <div class="toast-text">
+      <strong class="toast-title">
+        {{ tipo === 'success' ? 'Éxito' : tipo === 'error' ? 'Error' : 'Información' }}
+      </strong>
+      <p class="toast-message">{{ mensaje }}</p>
+    </div>
+  </div>
+</div>
