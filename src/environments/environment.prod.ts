@@ -1,14 +1,36 @@
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+
 export const environment = {
-  production: true,
-  // url :'http://localhost:5005',
-  // url :'https://erp-movil-4wc7.onrender.com',
-  url :'https://erp-solutionsperu.com/movil',
-  urlApi :'https://erp-solutionsperu.com',
-  urlImagenes : 'https://erp-solutionsperu.com/erp',
-  // url :'https://erp-solutionsperu-mype.com/movil',
-  // urlImagenes : 'https://erp-solutionsperu-mype.com/erp',
-  limiteArticulos:100,
-  limitePromocioes:500,
+  production: false,
+
+  erpSolutions: {
+    // url :'http://localhost:5000/movil',
+    // urlApi :'http://localhost:5000',
+    // urlImagenes : 'http://localhost:5000/erp',
+    // urlArchivos : 'http://localhost:5000/movil',
+
+    url :'https://erp-solutionsperu.com/movil',
+    urlApi :'https://erp-solutionsperu.com',
+    urlImagenes : 'https://erp-solutionsperu.com/erp',
+    urlArchivos : 'https://erp-solutionsperu.com/movil',
+  },
+  erpSystemsMype: {
+    url :'https://erp-systemsperu-mype.com/movil',
+    urlApi :'https://erp-systemsperu-mype.com',
+    urlImagenes : 'https://erp-systemsperu-mype.com/erp',
+    urlArchivos : 'https://erp-systemsperu-mype.com/movil',
+  },
+  erpSystemsSoft: {
+    url :'https://erp-systemssoft.com/movil',
+    urlApi :'https://erp-systemssoft.com',
+    urlImagenes : 'https://erp-solutionsperu.com/erp',
+    urlArchivos : 'https://erp-solutionsperu.com/movil', 
+  },
+
+  limiteArticulos: 30,
+  limitePromocioes: 500,
   firebaseConfig: {
     apiKey: "AIzaSyA-DL3BO-rcHVUtryZzKe36TYDKiBUUewo",
     authDomain: "app-erpsoft.firebaseapp.com",
@@ -19,3 +41,38 @@ export const environment = {
     measurementId: "G-MC2V79Q3HF"
   }
 };
+
+export const rucSystemsMype = [
+  '20601877717',
+  '20485988468',
+  '20501625672',
+  '20602123112',
+  '20515125290',
+  '20511093172',
+  '20605405526',
+  '20538335861',
+  '20508280000',
+  '20600059794',
+  '20565333209',
+  '20609942941',
+  '20419665992',
+  '20600740955',
+  '20139501994',
+]
+
+export const rucSystemsSoft = [
+  '20603602723', //TEEN LIFE SAC.	
+  '20606477288', //Hardman
+]
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ *
+ * This import should be commented out in production mode because it will have a negative impact
+ * on performance if an error is thrown.
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+
+// ionic cap copy
+// ionic cap sync
+// npm run ng build

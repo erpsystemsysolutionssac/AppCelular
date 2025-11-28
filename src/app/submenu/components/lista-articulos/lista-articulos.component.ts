@@ -506,9 +506,14 @@ export class ListaArticulosComponent implements OnInit {
     }
   }
 
-  @HostListener("window:scroll") onWindowScroll(event) {
-    const top = event.srcElement.scrollTop
-    if (top == 0) this.refreshDisabled = false
-    else this.refreshDisabled = true
+  // @HostListener("window:scroll") onWindowScroll(event) {
+  //   const top = event.srcElement.scrollTop
+  //   if (top == 0) this.refreshDisabled = false
+  //   else this.refreshDisabled = true
+  // }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: any) {
+    const top = event?.srcElement?.scrollTop;
   }
 }

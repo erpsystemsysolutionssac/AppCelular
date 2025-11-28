@@ -1,127 +1,191 @@
 :host {
-    --ion-background-color: transparent;
+  --ion-background-color: transparent;
 }
 
-.header-toolbar {
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    text-align: center;
-    font-weight: 600;
-}
-
+/* =========================
+   FONDO Y CONTENEDOR GENERAL
+   ========================= */
 .scanner-bg {
-    position: relative;
-    height: 100%;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  position: relative;
+  height: 100%;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
 }
 
+/* =========================
+   CARDS DE ESTADÍSTICAS
+   ========================= */
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 25px;
+}
+
+.stats-card {
+  flex: 1;
+  text-align: center;
+  border-radius: 18px;
+  color: #fff;
+  padding: 10px 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* --- CARD ATENDIDOS --- */
+.stats-card.attended {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.8), rgba(72, 255, 132, 0.35));
+  border: 1px solid rgba(72, 255, 132, 0.6);
+}
+
+/* --- CARD PENDIENTES --- */
+.stats-card.pending {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.85), rgba(255, 230, 150, 0.4));
+  border: 1px solid rgba(255, 230, 150, 0.6);
+}
+
+/* --- TEXTO DE LAS TARJETAS --- */
+.stats-card ion-card-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.stats-card ion-card-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+/* =========================
+   TARJETA DEL ESCÁNER
+   ========================= */
 .scanner-card {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    padding: 25px;
-    width: 95%;
-    max-width: 400px;
-    text-align: center;
-    color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  width: 95%;
+  max-width: 400px;
+  text-align: center;
+  color: #fff;
 }
 
+/* =========================
+   INPUT DEL CÓDIGO DE BARRAS
+   ========================= */
+.barcode-input {
+  margin-bottom: 15px;
+  --background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+.barcode-input ion-label {
+  color: #d6e4f0;
+  font-weight: 500;
+}
+
+.barcode-input ion-input {
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+/* BOTÓN DE ENVÍO MANUAL */
+.send-btn {
+  margin-bottom: 20px;
+  --background: linear-gradient(90deg, #007bff, #33b5e5);
+  --box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* =========================
+   MARCO DE ESCÁNER ANIMADO
+   ========================= */
 .scanner-frame {
-    position: relative;
-    width: 240px;
-    height: 240px;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    border-radius: 20px;
-    margin: 0 auto 25px;
-    overflow: hidden;
+  position: relative;
+  width: 240px;
+  height: 240px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  margin: 0 auto 25px;
+  overflow: hidden;
 }
 
 .scanner-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #00c6ff, #0072ff);
-    animation: scan 2s infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  animation: scan 2s infinite;
 }
 
 @keyframes scan {
-    0% {
-        top: 0;
-        opacity: 0.8;
-    }
-
-    50% {
-        top: calc(100% - 4px);
-        opacity: 1;
-    }
-
-    100% {
-        top: 0;
-        opacity: 0.8;
-    }
+  0% { top: 0; opacity: 0.8; }
+  50% { top: calc(100% - 4px); opacity: 1; }
+  100% { top: 0; opacity: 0.8; }
 }
 
+/* =========================
+   INFORMACIÓN DEL ESCÁNER
+   ========================= */
 .scanner-info h2 {
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
 }
 
 .scanner-info p {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    margin-bottom: 25px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 25px;
 }
 
 .scanner-icon {
-    font-size: 50px;
-    margin-bottom: 10px;
-    color: #00d4ff;
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: #00d4ff;
 }
 
-.result-box {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 15px;
-    color: #fff;
-    text-align: left;
-}
-
-.result-box h3 {
-    font-size: 1rem;
-    margin-bottom: 8px;
-}
-
-.result-box p {
-    font-size: 0.9rem;
-    word-break: break-all;
-}
-
+/* =========================
+   ANIMACIONES GENERALES
+   ========================= */
 .animate-fade-in {
-    animation: fadeIn 0.8s ease-in-out;
+  animation: fadeIn 0.8s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* =========================
+   TOAST PERSONALIZADOS
+   ========================= */
 .custom-toast {
   --border-radius: 14px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);

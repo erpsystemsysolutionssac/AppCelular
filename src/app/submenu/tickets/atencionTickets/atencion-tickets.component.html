@@ -1,11 +1,44 @@
-<p class="titulos-grande text-center my-1">Atencion de Tickets</p>
+<p class="titulos-grande text-center my-1">Atención de Tickets</p>
 
 <ion-content fullscreen>
   <div class="scanner-bg">
-    <div class="scanner-card">
-      <div class="scanner-frame">
-        <div class="scanner-line"></div>
-      </div>
+
+    <!-- ====== CARDS DE ESTADÍSTICAS ====== -->
+    <div class="stats-container">
+      <ion-card class="stats-card attended animate-fade-in">
+        <ion-card-header>
+          <ion-card-subtitle>Tickets Atendidos</ion-card-subtitle>
+          <ion-card-title>{{ ticketsAtendidos }}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card class="stats-card pending animate-fade-in">
+        <ion-card-header>
+          <ion-card-subtitle>Tickets Pendientes</ion-card-subtitle>
+          <ion-card-title>{{ ticketsPendientes }}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </div>
+
+    <!-- ====== CARD PRINCIPAL DEL ESCÁNER ====== -->
+    <div class="scanner-card animate-fade-in">
+
+      <!-- INPUT DE CÓDIGO DE BARRAS -->
+      <ion-item lines="none" class="barcode-input">
+        <ion-label position="stacked" color="light">Escanea o ingresa el número de ticket</ion-label>
+        <ion-input type="text" placeholder="Escanea aquí..."
+          [(ngModel)]="ticketNumero"
+          (keyup.enter)="procesarTicket()"
+          #ticketInput
+        ></ion-input>
+      </ion-item>
+
+      <!-- BOTÓN PARA ENVIAR MANUALMENTE -->
+      <ion-button expand="block" color="primary" shape="round" class="send-btn" (click)="procesarTicket()">
+        <ion-icon slot="start" name="send-outline"></ion-icon>
+        Enviar Código
+      </ion-button>
+
 
       <div class="scanner-info">
         <ion-icon name="qr-code-outline" class="scanner-icon"></ion-icon>

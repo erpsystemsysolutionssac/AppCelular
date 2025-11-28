@@ -7,12 +7,12 @@ export const environment = {
 
   erpSolutions: {
     // url :'http://localhost:5000/movil',
-    // urlApi :'http://localhost:5000',
+    urlApi :'http://localhost:5000',
     // urlImagenes : 'http://localhost:5000/erp',
     // urlArchivos : 'http://localhost:5000/movil',
 
     url :'https://erp-solutionsperu.com/movil',
-    urlApi :'https://erp-solutionsperu.com',
+    // urlApi :'https://erp-solutionsperu.com',
     urlImagenes : 'https://erp-solutionsperu.com/erp',
     urlArchivos : 'https://erp-solutionsperu.com/movil',
   },
@@ -57,6 +57,7 @@ export const rucSystemsMype = [
   '20609942941',
   '20419665992',
   '20600740955',
+  '20139501994',
 ]
 
 export const rucSystemsSoft = [

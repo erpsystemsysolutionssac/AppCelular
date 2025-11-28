@@ -23,5 +23,9 @@ export class TicketsService {
   registrarTicket(numero_ticket: string) {
     return this.http.post<FacturaCabecera[]>(this.rutaApi + '/generacion_tickets/consumir_ticket/1', { codigo_empresa: this.loginService.codigo_empresa, numero_ticket: numero_ticket }).toPromise()
   }
+  
+  registrarTicketPrueba(numero_ticket: string) {
+    return this.http.post<FacturaCabecera[]>(this.rutaApi + '/generacion_tickets/consumir_ticket/1', { codigo_empresa: this.loginService.codigo_empresa, numero_ticket: numero_ticket }).toPromise()
+  }
 
 }

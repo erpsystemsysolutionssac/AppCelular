@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { IonDatetime, IonModal, IonSelect, Platform } from '@ionic/angular';
+import { IonDatetime, IonInput, IonModal, IonSelect, Platform } from '@ionic/angular';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { TicketsService } from 'src/app/service/tickets/tickets.service';
 import { ToolsService } from 'src/app/service/tools.service';
@@ -15,6 +15,12 @@ export class AtencionTicketsComponent implements OnInit {
     scannedResult: string | null = 'true';
     isScanning = false;
 
+    ticketNumero: string = '';
+    ticketsAtendidos: number = 0; // Ejemplo, puedes traerlos del backend
+    ticketsPendientes: number = 0;
+
+    @ViewChild('ticketInput', { static: false }) ticketInput!: IonInput;
+
     constructor(
         private platform: Platform,
         private toolsService: ToolsService,
@@ -22,9 +28,16 @@ export class AtencionTicketsComponent implements OnInit {
     ) {
     }
 
-    ngOnInit() {
+    ngOnInit() {}
 
+    ionViewDidEnter() {
+        // Se ejecuta cuando la vista ya está activa
+        setTimeout(() => {
+            this.ticketInput.setFocus(); // Da focus automático al input
+            console.log('Focus establecido en el input');
+        }, 400);
     }
+
 
 
     async startScan() {
@@ -107,11 +120,33 @@ export class AtencionTicketsComponent implements OnInit {
             const response: any = await this.ticketsService.registrarTicket(numero_ticket);
 
             console.log('Respuesta del backend:', response);
+            if (response.estado && response.ticketsConsumidos) {
+                this.procesarTickets(response.ticketsConsumidos);
+            }
+
             this.toolsService.mostrarAlerta02(response.mensaje, response.estado == true ? 'success' : 'error', 4000);
 
         } catch (error) {
             console.error('Error al registrar ticket:', error);
             this.toolsService.mostrarAlerta02('No se pudo registrar el ticket.', 'error', 4000);
         }
+    }
+
+    procesarTicket() {
+        this.registrarTicket(this.ticketNumero);
+        this.ticketNumero = '';
+        this.ticketInput.setFocus(); // Volver a enfocar el input
+    }
+
+
+    procesarTickets(datosTickets: any[]) {
+        const atendido = datosTickets.find(t => t.consumido === 'S');
+        const pendiente = datosTickets.find(t => t.consumido === 'N');
+
+        this.ticketsAtendidos = atendido ? atendido.tickets : 0;
+        this.ticketsPendientes = pendiente ? pendiente.tickets : 0;
+
+        console.log('Atendidos:', this.ticketsAtendidos);
+        console.log('Pendientes:', this.ticketsPendientes);
     }
 }
