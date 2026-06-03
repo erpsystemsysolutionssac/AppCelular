@@ -6,6 +6,13 @@
         {{ tipo === 'success' ? 'Éxito' : tipo === 'error' ? 'Error' : 'Información' }}
       </strong>
       <p class="toast-message">{{ mensaje }}</p>
+
+      <ul class="toast-list" *ngIf="data && data.length > 0">
+        <li *ngFor="let item of data">
+          {{ item.Cantidad }} × {{ item.Nombre_Articulo }}
+        </li>
+      </ul>
+
     </div>
   </div>
 </div>

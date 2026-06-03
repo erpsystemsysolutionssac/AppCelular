@@ -10,6 +10,7 @@ export class CustomToastComponent implements OnInit {
   @Input() mensaje = '';
   @Input() tipo: 'success' | 'error' | 'info' = 'info';
   @Input() duracion = 4000;
+  @Input() data = [];
 
   visible = true;
 

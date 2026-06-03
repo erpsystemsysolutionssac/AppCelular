@@ -19,6 +19,9 @@ export class AtencionTicketsComponent implements OnInit {
     ticketsAtendidos: number = 0; // Ejemplo, puedes traerlos del backend
     ticketsPendientes: number = 0;
 
+    fechaTicketConsumido: string = '';
+    horaTicketConsumido: string = '';
+
     @ViewChild('ticketInput', { static: false }) ticketInput!: IonInput;
 
     constructor(
@@ -117,6 +120,7 @@ export class AtencionTicketsComponent implements OnInit {
 
     async registrarTicket(numero_ticket: string) {
         try {
+            this.fechaTicketConsumido = '';
             const response: any = await this.ticketsService.registrarTicket(numero_ticket);
 
             console.log('Respuesta del backend:', response);
@@ -124,7 +128,12 @@ export class AtencionTicketsComponent implements OnInit {
                 this.procesarTickets(response.ticketsConsumidos);
             }
 
-            this.toolsService.mostrarAlerta02(response.mensaje, response.estado == true ? 'success' : 'error', 4000);
+            if (!response.estado && response.data) {
+                this.fechaTicketConsumido = response.data[0].fecha || '';
+                this.horaTicketConsumido = response.data[0].hora || '';
+            }
+
+            this.toolsService.mostrarAlerta02(response.mensaje, response.estado == true ? 'success' : 'error', 10000, response.datosDocumento);
 
         } catch (error) {
             console.error('Error al registrar ticket:', error);

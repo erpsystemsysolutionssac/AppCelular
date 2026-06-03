@@ -164,7 +164,7 @@ export class ArticuloService {
       .toPromise();
   }
 
-  setListaPrecioCliente(listaPrecioCliente) {
+  setListaPrecioCliente(listaPrecioCliente: any) {
     this.listaPrecioCliente = listaPrecioCliente;
   }
 

@@ -20,6 +20,28 @@
       </ion-card>
     </div>
 
+    <div class="scanner-card mb-2 p-2" *ngIf="fechaTicketConsumido">
+      <div class="col-12">
+        <div class="ticket-card">
+          <div class="ticket-item">
+            <span class="icon">📅</span>
+            <div>
+              <div class="label">Fecha de consumo</div>
+              <div class="value">{{ fechaTicketConsumido }}</div>
+            </div>
+          </div>
+
+          <div class="ticket-item">
+            <span class="icon">⏰</span>
+            <div>
+              <div class="label">Hora de consumo</div>
+              <div class="value">{{ horaTicketConsumido }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ====== CARD PRINCIPAL DEL ESCÁNER ====== -->
     <div class="scanner-card animate-fade-in">
 

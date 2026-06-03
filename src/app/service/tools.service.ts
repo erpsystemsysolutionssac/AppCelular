@@ -66,13 +66,14 @@ export class ToolsService {
     await toast.present();
   }
 
-  mostrarAlerta02(mensaje: string, tipo: 'success' | 'error' | 'info' = 'info', duracion = 4000) {
+  mostrarAlerta02(mensaje: string, tipo: 'success' | 'error' | 'info' = 'info', duracion = 4000, data = []) {
     const factory = this.resolver.resolveComponentFactory(CustomToastComponent);
     const componentRef = factory.create(this.injector);
 
     componentRef.instance.mensaje = mensaje;
     componentRef.instance.tipo = tipo;
     componentRef.instance.duracion = duracion;
+    componentRef.instance.data = data;
 
     this.appRef.attachView(componentRef.hostView);
 

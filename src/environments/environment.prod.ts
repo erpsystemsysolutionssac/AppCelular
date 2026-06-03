@@ -58,11 +58,13 @@ export const rucSystemsMype = [
   '20419665992',
   '20600740955',
   '20139501994',
+  '20615283330',
 ]
 
 export const rucSystemsSoft = [
   '20603602723', //TEEN LIFE SAC.	
   '20606477288', //Hardman
+  '20516292998', //JAfines
 ]
 /*
  * For easier debugging in development mode, you can import the following file
